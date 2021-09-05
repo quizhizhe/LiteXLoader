@@ -56,7 +56,7 @@ std::string Raw_GetEntityTypeName(Actor* actor)
         return "minecraft:player";
     else
     {
-        HashedString hash = dAccess<HashedString>(actor, 896);      //IDA Actor::Actor
+        HashedString hash = dAccess<HashedString>(actor, 864);      //IDA Actor::Actor
         return hash.getString();
     }
 }

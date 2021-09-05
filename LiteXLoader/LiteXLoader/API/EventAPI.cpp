@@ -449,8 +449,8 @@ THook(bool, "?setLocalPlayerAsInitialized@ServerPlayer@@QEAAXXZ",
 }
 
 // ===== onAttack =====
-THook(bool, "?attack@Player@@UEAA_NAEAVActor@@AEBW4ActorDamageCause@@@Z",
-    Player* _this, Actor* ac, int *damageCause)
+THook(bool, "?attack@Player@@UEAA_NAEAVActor@@@Z",
+    Player* _this, Actor* ac)
 {
     IF_LISTENED(EVENT_TYPES::onAttack)
     {
@@ -460,7 +460,7 @@ THook(bool, "?attack@Player@@UEAA_NAEAVActor@@AEBW4ActorDamageCause@@@Z",
         }
     }
     IF_LISTENED_END(EVENT_TYPES::onAttack);
-    return original(_this, ac, damageCause);
+    return original(_this, ac);
 }
 
 // ===== onEat =====
