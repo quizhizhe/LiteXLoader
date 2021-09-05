@@ -38,12 +38,9 @@ Actor* Raw_SpawnMob(std::string name, const FloatVec4& pos)
 
 string Raw_GetEntityName(Actor* actor)
 {
-    string name = actor->getNameTag();
-    if(name.empty())
-        name = Raw_GetEntityTypeName(actor);
-    if (StartsWith(name, "minecraft:"))
-        name = name.substr(10);
-    return name;
+    string name;
+    return SymCall("?getActorName@CommandUtils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVActor@@@Z",
+        std::string&, std::string*, Actor * actor)(&name, actor);
 }
 
 std::string Raw_GetEntityTypeName(Actor* actor)

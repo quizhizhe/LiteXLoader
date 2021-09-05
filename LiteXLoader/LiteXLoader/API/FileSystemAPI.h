@@ -45,6 +45,7 @@ public:
     static Local<Object> newFile(std::fstream&& f, const std::string& path, bool isBinary);
 
     Local<Value> getPath();
+    Local<Value> getAbsolutePath();
     Local<Value> getSize();
     
     Local<Value> readSync(const Arguments& args);

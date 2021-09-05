@@ -2,7 +2,10 @@
 #include "APIHelp.h"
 #include <Kernel/System.h>
 #include <Engine/EngineOwnData.h>
+#include <Engine/LocalShareData.h>
+#include <Engine/GlobalShareData.h>
 #include <Engine/TimeTaskSystem.h>
+#include <sstream>
 #include <windows.h>
 #include <chrono>
 #include <map>
@@ -15,7 +18,7 @@ using namespace std;
 
 Local<Value> Log(const Arguments& args)
 {
-    CHECK_ARGS_COUNT(args, 1)
+    CHECK_ARGS_COUNT(args, 1);
 
     try {
         for (int i = 0; i < args.size(); ++i)
@@ -23,12 +26,12 @@ Local<Value> Log(const Arguments& args)
         std::cout << std::endl;
         return Boolean::newBoolean(true);
     }
-    CATCH("Fail in Log!")
+    CATCH("Fail in Log!");
 }
 
 Local<Value> ColorLog(const Arguments& args)
 {
-    CHECK_ARGS_COUNT(args, 1)
+    CHECK_ARGS_COUNT(args, 1);
 
     try {
         char color = 15;
@@ -58,7 +61,27 @@ Local<Value> ColorLog(const Arguments& args)
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
         return Boolean::newBoolean(true);
     }
-    CATCH("Fail in Log!")
+    CATCH("Fail in Log!");
+}
+
+Local<Value> FastLog(const Arguments& args)
+{
+    CHECK_ARGS_COUNT(args, 1);
+
+    try {
+        ostringstream sout;
+        for (int i = 0; i < args.size(); ++i)
+            PrintValue(sout, args[i]);
+        sout << endl;
+
+        pool.enqueue([str{ sout.str() }]() {
+            lock_guard<mutex> lock(globalShareData->fastlogLock);
+            cout.write(str.c_str(), str.size());
+            cout.flush();
+        });
+        return Boolean::newBoolean(true);
+    }
+    CATCH("Fail in FastLog!");
 }
 
 Local<Value> GetTimeStr(const Arguments& args)

@@ -48,6 +48,9 @@ struct GlobalDataType
 
 	//插件热管理多线程锁
 	std::mutex hotManageLock;
+
+	//fastlog多线程锁
+	std::mutex fastlogLock;
 };
 
 

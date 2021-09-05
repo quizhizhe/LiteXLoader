@@ -29,6 +29,7 @@ void BindAPIs(ScriptEngine *engine)
 
 	engine->set("log", Function::newFunction(Log));
 	engine->set("colorLog", Function::newFunction(ColorLog));
+    engine->set("fastLog", Function::newFunction(FastLog));
 
     engine->set("setTimeout",Function::newFunction(SetTimeout));
     engine->set("setInterval",Function::newFunction(SetInterval));

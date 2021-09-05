@@ -36,7 +36,16 @@ void HandleTimeTaskMessage(utils::Message& msg)
     try
     {
         int id = msg.TIMETASK_ID;
-        TimeTaskData* data = timeTaskMap.at(id);
+        TimeTaskData* data;
+        
+        try
+        {
+            data = timeTaskMap.at(id);
+        }
+        catch (const out_of_range& e)
+        {
+            return;
+        }
     
         int nextInterval = data->interval;
         bool isInterval = (nextInterval != 0);
