@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "System.h"
 #include <Engine/LocalShareData.h>

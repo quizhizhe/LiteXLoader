@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PacketAPI.h"
 #include <LiteXLoader/API/APIHelp.h>
 

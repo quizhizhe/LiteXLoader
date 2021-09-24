@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "i18n.h"
 #include "Global.h"
 #include <string>

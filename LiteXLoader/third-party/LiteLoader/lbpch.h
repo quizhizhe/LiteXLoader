@@ -1,4 +1,4 @@
-﻿#ifndef LIPCH_H
+#ifndef LIPCH_H
 #define LIPCH_H
 #include <stl/Logger.h>
 

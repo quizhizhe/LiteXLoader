@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "Server.h"
 #include "Global.h"

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifdef LLMONEY_EXPORTS
 #define LLMONEY_API __declspec(dllexport)

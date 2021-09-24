@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(disable : 4251)
 #include <iostream>
 #include <unordered_map>

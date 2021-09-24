@@ -1,4 +1,6 @@
-﻿#include "Global.h"
+#include "pch.h"
+
+#include "Global.h"
 #include "NBT.h"
 #include "Data.h"
 #include "Entity.h"

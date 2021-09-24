@@ -375,6 +375,18 @@
     <ClInclude Include="API\GameUtilsAPI.h">
       <Filter>API</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="API\pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel\pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\third-party\Lua\lib\lua.lib">

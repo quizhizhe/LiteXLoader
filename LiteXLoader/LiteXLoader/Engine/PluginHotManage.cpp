@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PluginHotManage.h"
 #include <API/APIHelp.h>
 #include <Kernel/Utils.h>

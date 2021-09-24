@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "Item.h"
 #include "NBT.h"

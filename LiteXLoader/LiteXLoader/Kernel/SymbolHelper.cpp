@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "SymbolHelper.h"
 using namespace std;

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "Packet.h"
 #include "SymbolHelper.h"

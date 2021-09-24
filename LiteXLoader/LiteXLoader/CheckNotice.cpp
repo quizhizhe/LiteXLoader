@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #define LXL_UPDATE_CHECK "https://lxl-upgrade.amd.rocks/LXL/LXL.json"
 
 #include "CheckNotice.h"

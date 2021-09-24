@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <liteloader.h>
 #include <functional>
 #include <string_view>

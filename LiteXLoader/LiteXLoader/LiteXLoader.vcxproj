@@ -93,7 +93,16 @@
     <ClCompile Include="Kernel\UnlockCmd.cpp" />
     <ClCompile Include="Kernel\Utils.cpp" />
     <ClCompile Include="LiteXLoader.cpp" />
-    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="Loader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Lua|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Js|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Lua|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Js|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="API\BaseAPI.h" />
@@ -106,6 +115,7 @@
     <ClInclude Include="API\EntityAPI.h" />
     <ClInclude Include="API\EventAPI.h" />
     <ClInclude Include="API\FileSystemAPI.h" />
+    <ClInclude Include="API\pch.h" />
     <ClInclude Include="API\ScoreboardAPI.h" />
     <ClInclude Include="API\GameUtilsAPI.h" />
     <ClInclude Include="API\GuiAPI.h" />
@@ -129,6 +139,7 @@
     <ClInclude Include="Engine\LoaderHelper.h" />
     <ClInclude Include="Engine\LocalShareData.h" />
     <ClInclude Include="Engine\MessageSystem.h" />
+    <ClInclude Include="Engine\pch.h" />
     <ClInclude Include="Engine\PluginHotManage.h" />
     <ClInclude Include="Engine\RemoteCall.h" />
     <ClInclude Include="Engine\TimeTaskSystem.h" />
@@ -146,6 +157,7 @@
     <ClInclude Include="Kernel\NBT.h" />
     <ClInclude Include="Kernel\Packet.h" />
     <ClInclude Include="Kernel\Global.h" />
+    <ClInclude Include="Kernel\pch.h" />
     <ClInclude Include="Kernel\Player.h" />
     <ClInclude Include="Kernel\Scoreboard.h" />
     <ClInclude Include="Kernel\Server.h" />
@@ -154,6 +166,7 @@
     <ClInclude Include="Kernel\ThirdParty.h" />
     <ClInclude Include="Kernel\Utils.h" />
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +322,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -325,6 +341,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -343,6 +362,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -361,6 +383,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -375,6 +400,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -392,6 +420,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include\ScriptX\src\include\ScriptX;$(SolutionDir)include\ScriptX\src\include;$(SolutionDir)include\LiteLoader;$(SolutionDir)include;$(SolutionDir)src;$(SolutionDir)engine\Lua\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -411,7 +441,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -439,7 +469,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
