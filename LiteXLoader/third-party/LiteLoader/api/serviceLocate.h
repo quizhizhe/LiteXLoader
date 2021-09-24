@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <liteloader.h>
 template <typename T>
 struct LocateS {

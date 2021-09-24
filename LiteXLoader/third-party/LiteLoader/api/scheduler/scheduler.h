@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <lbpch.h>
 #include <liteloader.h>
 #include "../serviceLocate.h"

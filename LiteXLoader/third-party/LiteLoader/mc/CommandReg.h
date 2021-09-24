@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <loader\Loader.h>
 #include <unordered_map>
 #include "Command.h"

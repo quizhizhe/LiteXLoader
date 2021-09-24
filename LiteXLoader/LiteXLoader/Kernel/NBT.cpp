@@ -1,4 +1,4 @@
-﻿#include "Global.h"
+#include "Global.h"
 #include "NBT.h"
 #include "Data.h"
 #include "Entity.h"

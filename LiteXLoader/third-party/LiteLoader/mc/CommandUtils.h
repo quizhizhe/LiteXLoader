@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #error "dont use this broken header directly,CommandUtils is a namespace"
 #include "Core.h"
 namespace CommandUtils {

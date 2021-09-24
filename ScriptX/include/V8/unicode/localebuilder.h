@@ -1,4 +1,4 @@
-// © 2018 and later: Unicode, Inc. and others.
+// Â© 2018 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html#License
 #ifndef __LOCALEBUILDER_H__
 #define __LOCALEBUILDER_H__

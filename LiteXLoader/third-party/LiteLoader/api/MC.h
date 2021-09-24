@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <mc/Actor.h>
 #include <mc/Block.h>
 #include <mc/BlockSource.h>

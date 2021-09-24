@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <stl/optional.h>
 #include <functional>
 #include <string>

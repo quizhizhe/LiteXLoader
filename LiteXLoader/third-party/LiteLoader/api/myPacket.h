@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "loader/Loader.h"
 #include <stl/useful.h>
 #include <string>

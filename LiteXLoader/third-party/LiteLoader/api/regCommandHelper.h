@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <mc/CommandReg.h>
 #include <stl/optional.h>
 #include <tuple>

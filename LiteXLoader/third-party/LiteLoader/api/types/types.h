@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 //#include<lbpch.h>
 //#include <api/MC.h>
 #include <api/LiteLoaderApi.h>

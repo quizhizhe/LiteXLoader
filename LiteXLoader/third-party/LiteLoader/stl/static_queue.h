@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <initializer_list>
 #include "views.h"
 

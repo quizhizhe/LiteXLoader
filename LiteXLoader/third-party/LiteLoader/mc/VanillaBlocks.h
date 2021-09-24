@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Loader\Loader.h>
 class Block;
 namespace VanillaBlocks {

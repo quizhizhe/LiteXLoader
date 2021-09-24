@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <api\types\types.h>
 #include <lbpch.h>
 #include <rapidjson/document.h>

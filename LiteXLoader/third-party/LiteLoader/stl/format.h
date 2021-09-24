@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <stl\useful.h>
 #include <sstream>
 #include <string>

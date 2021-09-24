@@ -1,4 +1,4 @@
-﻿#include "APIHelp.h"
+#include "APIHelp.h"
 #include "NbtAPI.h"
 #include <Kernel/NBT.h>
 #include <vector>
