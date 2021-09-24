@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include <API/APIHelp.h>
 #include "TimeTaskSystem.h"
 #include <Kernel/System.h>

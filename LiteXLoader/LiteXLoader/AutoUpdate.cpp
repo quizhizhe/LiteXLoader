@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #define LXL_UPDATE_DOMAIN "https://lxl-upgrade.amd.rocks"
 #define LXL_UPDATE_INFO_REMOTE "/LXL/LXL.json"
 

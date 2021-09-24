@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "LocalShareData.h"
 #include <Configs.h>
 

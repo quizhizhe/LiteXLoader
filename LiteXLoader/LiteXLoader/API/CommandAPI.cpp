@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "CommandAPI.h"
 #include "APIHelp.h"
 #include "McAPI.h"

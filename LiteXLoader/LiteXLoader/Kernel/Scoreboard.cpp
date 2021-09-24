@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Scoreboard.h"
 #include "SymbolHelper.h"
 #define H do_hash

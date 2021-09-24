@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "APIHelp.h"
 #include <Kernel/Scoreboard.h>
 #include <Kernel/Player.h>

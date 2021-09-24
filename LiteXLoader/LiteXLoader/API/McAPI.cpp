@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "McAPI.h"
 
 ClassDefine<void> McClassBuilder =

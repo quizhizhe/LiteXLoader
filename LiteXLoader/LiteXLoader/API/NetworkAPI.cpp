@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "APIHelp.h"
 #include <Kernel/ThirdParty.h>
 #include <Kernel/System.h>

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "APIHelp.h"
 #include "NbtAPI.h"
 #include <Kernel/NBT.h>

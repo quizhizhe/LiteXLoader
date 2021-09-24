@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include <API/APIHelp.h>
 #include <Engine/GlobalShareData.h>
 #include <ScriptX/ScriptX.h>

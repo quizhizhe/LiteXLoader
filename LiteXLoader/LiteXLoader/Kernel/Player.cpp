@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Global.h"
 #include "Player.h"
 #include "Packet.h"

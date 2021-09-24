@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "ScriptAPI.h"
 #include "APIHelp.h"
 #include <Kernel/System.h>

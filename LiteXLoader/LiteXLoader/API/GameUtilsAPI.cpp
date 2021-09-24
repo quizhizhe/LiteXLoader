@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "APIHelp.h"
 #include "GameUtilsAPI.h"
 using namespace script;
