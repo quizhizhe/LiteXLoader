@@ -1037,7 +1037,7 @@ THook(void, "?onRedstoneUpdate@RedStoneWireBlock@@UEBAXAEAVBlockSource@@AEBVBloc
     IF_LISTENED(EVENT_TYPES::onRedStoneUpdate)
     {
         CallEventRtnVoid(EVENT_TYPES::onRedStoneUpdate, BlockClass::newBlock(Raw_GetBlockByPos(bp,bs), bp, bs), 
-            Number::newNumber(level),Boolean::newBoolean(isActive));
+            Number::newNumber(level),Boolean::newBoolean(level != 0));
     }
     IF_LISTENED_END(EVENT_TYPES::onRedStoneUpdate);
     return original(_this, bs, bp, level, isActive);
@@ -1050,7 +1050,7 @@ THook(void, "?onRedstoneUpdate@RedstoneTorchBlock@@UEBAXAEAVBlockSource@@AEBVBlo
     IF_LISTENED(EVENT_TYPES::onRedStoneUpdate)
     {
         CallEventRtnVoid(EVENT_TYPES::onRedStoneUpdate, BlockClass::newBlock(Raw_GetBlockByPos(bp, bs), bp, bs),
-            Number::newNumber(level), Boolean::newBoolean(isActive));
+            Number::newNumber(level), Boolean::newBoolean(level != 0));
     }
     IF_LISTENED_END(EVENT_TYPES::onRedStoneUpdate);
     return original(_this, bs, bp, level, isActive);
@@ -1063,7 +1063,7 @@ THook(void, "?onRedstoneUpdate@DiodeBlock@@UEBAXAEAVBlockSource@@AEBVBlockPos@@H
     IF_LISTENED(EVENT_TYPES::onRedStoneUpdate)
     {
         CallEventRtnVoid(EVENT_TYPES::onRedStoneUpdate, BlockClass::newBlock(Raw_GetBlockByPos(bp, bs), bp, bs),
-            Number::newNumber(level), Boolean::newBoolean(isActive));
+            Number::newNumber(level), Boolean::newBoolean(level != 0));
     }
     IF_LISTENED_END(EVENT_TYPES::onRedStoneUpdate);
     return original(_this, bs, bp, level, isActive);
@@ -1076,7 +1076,7 @@ THook(void, "?onRedstoneUpdate@ComparatorBlock@@UEBAXAEAVBlockSource@@AEBVBlockP
     IF_LISTENED(EVENT_TYPES::onRedStoneUpdate)
     {
         CallEventRtnVoid(EVENT_TYPES::onRedStoneUpdate, BlockClass::newBlock(Raw_GetBlockByPos(bp, bs), bp, bs),
-            Number::newNumber(level), Boolean::newBoolean(isActive));
+            Number::newNumber(level), Boolean::newBoolean(level != 0));
     }
     IF_LISTENED_END(EVENT_TYPES::onRedStoneUpdate);
     return original(_this, bs, bp, level, isActive);
