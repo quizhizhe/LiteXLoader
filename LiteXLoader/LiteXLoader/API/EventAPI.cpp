@@ -1184,7 +1184,8 @@ THook(bool, "?_tryPullInItemsFromAboveContainer@Hopper@@IEAA_NAEAVBlockSource@@A
 {
     IF_LISTENED(EVENT_TYPES::onHopperSearchItem)
     {
-        CallEventRtnBool(EVENT_TYPES::onHopperSearchItem, FloatPos::newPos(*pos, Raw_GetBlockDimensionId(bs)));
+        bool isMinecart = dAccess<bool>(_this, 5); // IDA Hopper::Hopper
+        CallEventRtnBool(EVENT_TYPES::onHopperSearchItem, FloatPos::newPos(*pos, Raw_GetBlockDimensionId(bs)), isMinecart);
     }
     IF_LISTENED_END(EVENT_TYPES::onHopperSearchItem);
     return original(_this, bs, container, pos);

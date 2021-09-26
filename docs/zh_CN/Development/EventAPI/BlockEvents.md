@@ -147,10 +147,12 @@
 #### `"onHopperSearchItem"` - 漏斗（漏斗矿车）检测可否吸取物品
 
 - 监听函数原型
-  `function(pos)`
+  `function(pos,isMinecart)`
 - 参数：
   - pos : `FloatPos`  
     漏斗（漏斗矿车）所在的位置
+  - isMinecart : `bool`  
+    是否为漏斗矿车
 - 拦截事件：函数返回`false`
 
 注：在放置漏斗之后，会在服务端反复不断触发这个事件  
@@ -158,13 +160,13 @@
 
 <br>
 
-#### `"onHopperPushOut"` - 漏斗（漏斗矿车）输出物品
+#### `"onHopperPushOut"` - 漏斗输出物品
 
 - 监听函数原型
   `function(pos)`
 - 参数：
   - pos : `FloatPos`  
-    漏斗（漏斗矿车）所在的位置
+    漏斗所在的位置
 - 拦截事件：函数返回`false`
 
 <br>
