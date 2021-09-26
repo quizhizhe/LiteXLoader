@@ -989,8 +989,9 @@ THook(bool, "?_performCommand@BaseCommandBlock@@AEAA_NAEAVBlockSource@@AEBVComma
     IF_LISTENED(EVENT_TYPES::onCmdBlockExecute)
     {
         string cmd = offBaseCommandBlock::getCMD(_this);
-        BlockPos bpos = offBaseCommandBlock::getPos(_this);
-
+        //BlockPos bpos = offBaseCommandBlock::getPos(_this);
+        BlockPos bpos;
+        VirtualCall<BlockPos*>(a3, 0x18, &bpos); //IDA BlockCommandOrigin::`vftable'
         CallEventRtnBool(EVENT_TYPES::onCmdBlockExecute, String::newString(cmd), IntPos::newPos(&bpos,a2));
     }
     IF_LISTENED_END(EVENT_TYPES::onCmdBlockExecute);
