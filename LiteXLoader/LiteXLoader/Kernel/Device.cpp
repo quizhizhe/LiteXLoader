@@ -18,7 +18,7 @@ int Raw_GetAvgPing(Player* player)
 
 float Raw_GetAvgPacketloss(Player* player)
 {
-    return liteloader::getAvgPacketloss(player);
+    return 0;// liteloader::getAvgPacketloss(player);
 }
 
 std::string Raw_GetOs(Player* player)
