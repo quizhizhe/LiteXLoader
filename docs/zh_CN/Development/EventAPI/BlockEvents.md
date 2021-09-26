@@ -69,12 +69,14 @@
 #### `"onCmdBlockExecute"` - 命令方块执行命令
 
 - 监听函数原型
-  `function(cmd,pos)`
+  `function(cmd,pos,isMinecart)`
 - 参数：
   - cmd : `String`  
     执行的命令
   - pos : `IntPos`  
     执行命令的命令方块坐标
+  - isMinecart : `bool`  
+    命令是否由命令方块矿车执行
   
 - 拦截事件：函数返回`false`
 

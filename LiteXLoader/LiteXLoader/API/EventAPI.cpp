@@ -989,10 +989,16 @@ THook(bool, "?_performCommand@BaseCommandBlock@@AEAA_NAEAVBlockSource@@AEBVComma
     IF_LISTENED(EVENT_TYPES::onCmdBlockExecute)
     {
         string cmd = offBaseCommandBlock::getCMD(_this);
-        //BlockPos bpos = offBaseCommandBlock::getPos(_this);
-        BlockPos bpos;
-        VirtualCall<BlockPos*>(a3, 0x18, &bpos); //IDA BlockCommandOrigin::`vftable'
-        CallEventRtnBool(EVENT_TYPES::onCmdBlockExecute, String::newString(cmd), IntPos::newPos(&bpos,a2));
+
+        OriginType type = VirtualCall<OriginType>(a3, 0xB0); //IDA ScriptCommandOrigin::`vftable'
+        bool isMinecart = type == OriginType::MinecartBlock;
+
+        Vec3 pos;
+        VirtualCall<BlockPos*>(a3, 0x20, &pos); //IDA BlockCommandOrigin::`vftable'
+        int dim = Raw_GetBlockDimensionId(a2);
+
+        CallEventRtnBool(EVENT_TYPES::onCmdBlockExecute, String::newString(cmd), 
+            FloatPos::newPos(pos, dim), isMinecart);
     }
     IF_LISTENED_END(EVENT_TYPES::onCmdBlockExecute);
     return original(_this, a2, a3, a4);
