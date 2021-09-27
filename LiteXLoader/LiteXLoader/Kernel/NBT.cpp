@@ -2,6 +2,7 @@
 #include "NBT.h"
 #include "Data.h"
 #include "Entity.h"
+#include "BlockEntity.h"
 #include <vector>
 #include <map>
 #include <sstream>
@@ -287,6 +288,7 @@ bool Tag::setBlockEntity(BlockActor* ble)
 {
     void* vtbl = dlsym("??_7DefaultDataLoadHelper@@6B@");
     VirtualCall(ble, 0x8, mc->getLevel(), this, &vtbl);    //IDA Virtual Table from BlockActor::load
+    Raw_RefreshBlockEntityData(ble);
     return true;
 }
 

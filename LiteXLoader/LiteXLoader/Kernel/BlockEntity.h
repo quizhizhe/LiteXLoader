@@ -11,3 +11,5 @@ int Raw_GetBlockEntityType(Block* bl);
 unsigned int Raw_GetBlockEntityType(BlockActor* ba);
 BlockPos Raw_GetBlockEntityPos(BlockActor* ba);
 bool Raw_RemoveBlockEntity(IntVec4 pos);
+
+void Raw_RefreshBlockEntityData(BlockActor* ba);

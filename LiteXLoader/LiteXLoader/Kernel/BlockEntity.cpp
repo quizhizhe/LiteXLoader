@@ -39,3 +39,8 @@ bool Raw_RemoveBlockEntity(IntVec4 pos)
 		int*, BlockSource*, BlockPos*, int*)(Raw_GetBlockSourceByDim(pos.dim), &bp, &res);
 	return true;
 }
+
+void Raw_RefreshBlockEntityData(BlockActor* ba)
+{
+	SymCall("?setChanged@BlockActor@@QEAAXXZ", void, BlockActor*)(ba);
+}
