@@ -13,12 +13,19 @@ string Raw_GetIP(Player* player)
 
 int Raw_GetAvgPing(Player* player)
 {
-    return liteloader::getAvgPing(player);
+    //return liteloader::getAvgPing(player);
+    auto netid = offPlayer::getNetworkIdentifier(player);
+    auto nwpeer = SymCall("?getPeerForUser@NetworkHandler@@QEAAPEAVNetworkPeer@@AEBVNetworkIdentifier@@@Z"
+        , NetworkPeer*, NetworkHandler*, NetworkIdentifier*)(LocateService<Minecraft>()->getNetworkHandler(), netid);
+    auto nwstatus = nwpeer->getNetworkStatus();
+
+    string res = std::to_string(nwstatus.avgping);      //strange, but better than crash
+    return stoi(res);
 }
 
 float Raw_GetAvgPacketloss(Player* player)
 {
-    return 0;// liteloader::getAvgPacketloss(player);
+    return 0.0f;   // liteloader::getAvgPacketloss(player);
 }
 
 std::string Raw_GetOs(Player* player)
