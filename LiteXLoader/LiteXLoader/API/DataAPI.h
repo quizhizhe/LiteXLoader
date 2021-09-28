@@ -52,7 +52,8 @@ private:
     DB_ROOT kvdb;
 
 public:
-	explicit DbClass(const string &dir);
+	explicit DbClass(const Local<Object>& scriptObj, const string& dir);
+    explicit DbClass(const string& dir);
     ~DbClass();
     static DbClass* constructor(const Arguments& args);
 
@@ -99,6 +100,7 @@ private:
     bool reload() override;
 
 public:
+    explicit ConfJsonClass(const Local<Object>& scriptObj, const string& path, const string& defContent);
     explicit ConfJsonClass(const string& path, const string& defContent);
     ~ConfJsonClass();
     static ConfJsonClass* constructor(const Arguments& args);
@@ -126,6 +128,7 @@ private:
     bool reload() override;
 
 public:
+    explicit ConfIniClass(const Local<Object>& scriptObj, const string& path, const string& defContent);
     explicit ConfIniClass(const string& path, const string& defContent);
     ~ConfIniClass();
     static ConfIniClass* constructor(const Arguments& args);

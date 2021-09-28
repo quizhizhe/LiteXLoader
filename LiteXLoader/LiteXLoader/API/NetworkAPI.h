@@ -43,6 +43,7 @@ private:
     void addListener(const string& event, Local<Function> func);
 
 public:
+    explicit WSClientClass(const Local<Object>& scriptObj);
     explicit WSClientClass();
     ~WSClientClass() { ws.Shutdown(); }
     static WSClientClass* constructor(const Arguments& args);

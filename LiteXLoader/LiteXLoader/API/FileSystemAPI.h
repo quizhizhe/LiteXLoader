@@ -34,6 +34,7 @@ private:
     std::mutex lock;
 
 public:
+    explicit FileClass(const Local<Object>& scriptObj, std::fstream&& f, const std::string& path, bool isBinary);
     explicit FileClass(std::fstream&& f, const std::string& path, bool isBinary);
     static FileClass* constructor(const Arguments& args);
 

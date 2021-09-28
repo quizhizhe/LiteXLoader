@@ -38,6 +38,54 @@ ClassDefine<WSClientClass> WSClientClassBuilder =
 
 
 //生成函数
+WSClientClass::WSClientClass(const Local<Object>& scriptObj)
+    :ScriptClass(scriptObj)
+{
+    ws.OnTextReceived([nowList{ &listeners[int(WSClientEvents::onTextReceived)] }]
+    (WebSocketClient& client, string msg)
+    {
+        if (!nowList->empty())
+            for (auto& listener : *nowList)
+            {
+                EngineScope enter(listener.engine);
+                NewTimeout(listener.func.get(), { String::newString(msg) }, 1);
+            }
+    });
+
+    ws.OnBinaryReceived([nowList{ &listeners[int(WSClientEvents::onBinaryReceived)] }]
+    (WebSocketClient& client, vector<uint8_t> data)
+    {
+        if (!nowList->empty())
+            for (auto& listener : *nowList)
+            {
+                EngineScope enter(listener.engine);
+                NewTimeout(listener.func.get(), { ByteBuffer::newByteBuffer(data.data(),data.size()) }, 1);
+            }
+    });
+
+    ws.OnError([nowList{ &listeners[int(WSClientEvents::onError)] }]
+    (WebSocketClient& client, string msg)
+    {
+        if (!nowList->empty())
+            for (auto& listener : *nowList)
+            {
+                EngineScope enter(listener.engine);
+                NewTimeout(listener.func.get(), { String::newString(msg) }, 1);
+            }
+    });
+
+    ws.OnLostConnection([nowList{ &listeners[int(WSClientEvents::onLostConnection)] }]
+    (WebSocketClient& client, int code)
+    {
+        if (!nowList->empty())
+            for (auto& listener : *nowList)
+            {
+                EngineScope enter(listener.engine);
+                NewTimeout(listener.func.get(), { Number::newNumber(code) }, 1);
+            }
+    });
+}
+
 WSClientClass::WSClientClass()
     :ScriptClass(ScriptClass::ConstructFromCpp<WSClientClass>{})
 {
@@ -88,7 +136,7 @@ WSClientClass::WSClientClass()
 
 WSClientClass* WSClientClass::constructor(const Arguments& args)
 {
-    return new WSClientClass;
+    return new WSClientClass(args.thiz());
 }
 
 //成员函数

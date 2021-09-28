@@ -191,6 +191,13 @@ Local<Value> NbtBase::destroy(const Arguments& args)
 
 //////////////////// Classes NbtEnd ////////////////////
 
+NbtEndClass::NbtEndClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtEndClass::NbtEndClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtEndClass>{})
 {
@@ -209,7 +216,7 @@ NbtEndClass* NbtEndClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of EndTag!");
             }
 
-        return new NbtEndClass(tag, true);
+        return new NbtEndClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create EndTag!");
 }
@@ -257,6 +264,13 @@ Local<Value> NbtEndClass::set(const Arguments& args)
 
 //////////////////// Classes NbtByte ////////////////////
 
+NbtByteClass::NbtByteClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtByteClass::NbtByteClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtByteClass>{})
 {
@@ -275,7 +289,7 @@ NbtByteClass* NbtByteClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of ByteTag!");
             }
 
-        return new NbtByteClass(tag, true);
+        return new NbtByteClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create ByteTag!");
 }
@@ -323,6 +337,13 @@ Local<Value> NbtByteClass::set(const Arguments& args)
 
 //////////////////// Classes NbtInt ////////////////////
 
+NbtIntClass::NbtIntClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtIntClass::NbtIntClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtIntClass>{})
 {
@@ -341,7 +362,7 @@ NbtIntClass* NbtIntClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of IntTag!");
             }
 
-        return new NbtIntClass(tag, true);
+        return new NbtIntClass(args.thiz(),tag, true);
     }
     CATCH_C("Fail in Create IntTag!");
 }
@@ -389,6 +410,13 @@ Local<Value> NbtIntClass::set(const Arguments& args)
 
 //////////////////// Classes NbtShort ////////////////////
 
+NbtShortClass::NbtShortClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtShortClass::NbtShortClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtShortClass>{})
 {
@@ -407,7 +435,7 @@ NbtShortClass* NbtShortClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of ShortTag!");
             }
 
-        return new NbtShortClass(tag, true);
+        return new NbtShortClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create ShortTag!");
 }
@@ -455,6 +483,13 @@ Local<Value> NbtShortClass::set(const Arguments& args)
 
 //////////////////// Classes NbtLong ////////////////////
 
+NbtLongClass::NbtLongClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtLongClass::NbtLongClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtLongClass>{})
 {
@@ -473,7 +508,7 @@ NbtLongClass* NbtLongClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of LongTag!");
             }
 
-        return new NbtLongClass(tag, true);
+        return new NbtLongClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create LongTag!");
 }
@@ -521,6 +556,13 @@ Local<Value> NbtLongClass::set(const Arguments& args)
 
 //////////////////// Classes NbtFloat ////////////////////
 
+NbtFloatClass::NbtFloatClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtFloatClass::NbtFloatClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtFloatClass>{})
 {
@@ -539,7 +581,7 @@ NbtFloatClass* NbtFloatClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of FloatTag!");
             }
 
-        return new NbtFloatClass(tag, true);
+        return new NbtFloatClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create FloatTag!");
 }
@@ -587,6 +629,13 @@ Local<Value> NbtFloatClass::set(const Arguments& args)
 
 //////////////////// Classes NbtDouble ////////////////////
 
+NbtDoubleClass::NbtDoubleClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtDoubleClass::NbtDoubleClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtDoubleClass>{})
 {
@@ -605,7 +654,7 @@ NbtDoubleClass* NbtDoubleClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of DoubleTag!");
             }
 
-        return new NbtDoubleClass(tag, true);
+        return new NbtDoubleClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create DoubleTag!");
 }
@@ -653,6 +702,13 @@ Local<Value> NbtDoubleClass::set(const Arguments& args)
 
 //////////////////// Classes NbtString ////////////////////
 
+NbtStringClass::NbtStringClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtStringClass::NbtStringClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtStringClass>{})
 {
@@ -671,7 +727,7 @@ NbtStringClass* NbtStringClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of StringTag!");
             }
 
-        return new NbtStringClass(tag, true);
+        return new NbtStringClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create StringTag!");
 }
@@ -719,6 +775,13 @@ Local<Value> NbtStringClass::set(const Arguments& args)
 
 //////////////////// Classes NbtByteArray ////////////////////
 
+NbtByteArrayClass::NbtByteArrayClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtByteArrayClass::NbtByteArrayClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtByteArrayClass>{})
 {
@@ -737,7 +800,7 @@ NbtByteArrayClass* NbtByteArrayClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of ByteArrayTag!");
             }
 
-        return new NbtByteArrayClass(tag, true);
+        return new NbtByteArrayClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create ByteArrayTag!");
 }
@@ -785,6 +848,13 @@ Local<Value> NbtByteArrayClass::set(const Arguments& args)
 
 //////////////////// Classes NbtList ////////////////////
 
+NbtListClass::NbtListClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    this->nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtListClass::NbtListClass(Tag* p, bool canDelete)
     :ScriptClass(ScriptClass::ConstructFromCpp<NbtListClass>{})
 {
@@ -803,7 +873,7 @@ NbtListClass* NbtListClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of ListTag!");
             }
 
-        return new NbtListClass(tag, true);
+        return new NbtListClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create ListTag!");
 }
@@ -1334,8 +1404,15 @@ Local<Value> NbtListClass::toArray(const Arguments& args)
 
 //////////////////// Classes NbtCompound ////////////////////
 
+NbtCompoundClass::NbtCompoundClass(const Local<Object>& scriptObj, Tag* p, bool canDelete)
+    :ScriptClass(scriptObj)
+{
+    nbt = p;
+    this->canDelete = canDelete;
+}
+
 NbtCompoundClass::NbtCompoundClass(Tag* p, bool canDelete)
-    :NbtBase(), ScriptClass(ScriptClass::ConstructFromCpp<NbtCompoundClass>{})
+    :ScriptClass(ScriptClass::ConstructFromCpp<NbtCompoundClass>{})
 {
     nbt = p;
     this->canDelete = canDelete;
@@ -1352,7 +1429,7 @@ NbtCompoundClass* NbtCompoundClass::constructor(const Arguments& args)
                 ERROR("Fail to Set value of CompoundTag!");
             }
 
-        return new NbtCompoundClass(tag, true);
+        return new NbtCompoundClass(args.thiz(), tag, true);
     }
     CATCH_C("Fail in Create ListTag!");
 }

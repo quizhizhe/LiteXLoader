@@ -87,8 +87,13 @@ ClassDefine<ConfIniClass> ConfIniClassBuilder =
 //////////////////// Classes Db ////////////////////
 
 //生成函数
-DbClass::DbClass(const string &dir)
-    :ScriptClass(ScriptClass::ConstructFromCpp<DbClass>{})
+DbClass::DbClass(const Local<Object>& scriptObj, const string &dir) :ScriptClass(scriptObj)
+{
+    kvdb = Raw_NewDB(dir);
+}
+
+DbClass::DbClass(const string& dir)
+    : ScriptClass(script::ScriptClass::ConstructFromCpp<DbClass>{})
 {
     kvdb = Raw_NewDB(dir);
 }
@@ -108,7 +113,7 @@ DbClass* DbClass::constructor(const Arguments& args)
     CHECK_ARG_TYPE_C(args[0], ValueKind::kString);
 
     try {
-        auto res = new DbClass(args[0].toStr());
+        auto res = new DbClass(args.thiz(), args[0].toStr());
         if (res->isValid())
             return res;
         else
@@ -230,6 +235,12 @@ Local<Value> ConfBaseClass::read(const Arguments& args)
 //////////////////// Classes ConfJson ////////////////////
 
 //生成函数
+ConfJsonClass::ConfJsonClass(const Local<Object>& scriptObj, const string& path, const string& defContent)
+    :ScriptClass(scriptObj), ConfBaseClass(path)
+{
+    jsonConf = Raw_JsonOpen(path, defContent);
+}
+
 ConfJsonClass::ConfJsonClass(const string& path, const string& defContent)
     :ScriptClass(ScriptClass::ConstructFromCpp<ConfJsonClass>{}), ConfBaseClass(path)
 {
@@ -254,9 +265,9 @@ ConfJsonClass* ConfJsonClass::constructor(const Arguments& args)
             return nullptr;
 
         if (args.size() >= 2)
-            return new ConfJsonClass(path, args[1].toStr());
+            return new ConfJsonClass(args.thiz(), path, args[1].toStr());
         else
-            return new ConfJsonClass(path, "{}");
+            return new ConfJsonClass(args.thiz(), path, "{}");
     }
     CATCH_C("Fail in Open JsonConfigFile!");
 }
@@ -412,6 +423,12 @@ bool ConfJsonClass::reload()
 //////////////////// Classes ConfIni ////////////////////
 
 //生成函数
+ConfIniClass::ConfIniClass(const Local<Object>& scriptObj, const string& path, const string& defContent)
+    :ScriptClass(scriptObj), ConfBaseClass(path)
+{
+    iniConf = Raw_IniOpen(path, defContent);
+}
+
 ConfIniClass::ConfIniClass(const string& path, const string& defContent)
     :ScriptClass(ScriptClass::ConstructFromCpp<ConfIniClass>{}), ConfBaseClass(path)
 {
@@ -436,9 +453,9 @@ ConfIniClass* ConfIniClass::constructor(const Arguments& args)
             return nullptr;
 
         if (args.size() >= 2)
-            return new ConfIniClass(path, args[1].toStr());
+            return new ConfIniClass(args.thiz(), path, args[1].toStr());
         else
-            return new ConfIniClass(path, "");
+            return new ConfIniClass(args.thiz(), path, "");
     }
     CATCH_C("Fail in Open JsonConfigFile!");
 }

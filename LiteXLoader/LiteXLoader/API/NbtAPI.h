@@ -39,6 +39,7 @@ extern ClassDefine<void> NbtStaticBuilder;
 class NbtEndClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtEndClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtEndClass(Tag* p, bool canDelete = false);
     ~NbtEndClass() = default;
     static NbtEndClass* constructor(const Arguments& args);
@@ -56,6 +57,7 @@ extern ClassDefine<NbtEndClass> NbtEndClassBuilder;
 class NbtByteClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtByteClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtByteClass(Tag* p, bool canDelete = false);
     NbtByteClass() = default;
     static NbtByteClass* constructor(const Arguments& args);
@@ -73,6 +75,7 @@ extern ClassDefine<NbtByteClass> NbtByteClassBuilder;
 class NbtShortClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtShortClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtShortClass(Tag* p, bool canDelete = false);
     ~NbtShortClass() = default;
     static NbtShortClass* constructor(const Arguments& args);
@@ -90,6 +93,7 @@ extern ClassDefine<NbtShortClass> NbtShortClassBuilder;
 class NbtIntClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtIntClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtIntClass(Tag* p, bool canDelete = false);
     ~NbtIntClass() = default;
     static NbtIntClass* constructor(const Arguments& args);
@@ -107,6 +111,7 @@ extern ClassDefine<NbtIntClass> NbtIntClassBuilder;
 class NbtLongClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtLongClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtLongClass(Tag* p, bool canDelete = false);
     ~NbtLongClass() = default;
     static NbtLongClass* constructor(const Arguments& args);
@@ -124,6 +129,7 @@ extern ClassDefine<NbtLongClass> NbtLongClassBuilder;
 class NbtFloatClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtFloatClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtFloatClass(Tag* p, bool canDelete = false);
     ~NbtFloatClass() = default;
     static NbtFloatClass* constructor(const Arguments& args);
@@ -141,6 +147,7 @@ extern ClassDefine<NbtFloatClass> NbtFloatClassBuilder;
 class NbtDoubleClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtDoubleClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtDoubleClass(Tag* p, bool canDelete = false);
     ~NbtDoubleClass() = default;
     static NbtDoubleClass* constructor(const Arguments& args);
@@ -158,6 +165,7 @@ extern ClassDefine<NbtDoubleClass> NbtDoubleClassBuilder;
 class NbtStringClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtStringClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtStringClass(Tag* p, bool canDelete = false);
     ~NbtStringClass() = default;
     static NbtStringClass* constructor(const Arguments& args);
@@ -175,6 +183,7 @@ extern ClassDefine<NbtStringClass> NbtStringClassBuilder;
 class NbtByteArrayClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtByteArrayClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtByteArrayClass(Tag* p, bool canDelete = false);
     ~NbtByteArrayClass() = default;
     static NbtByteArrayClass* constructor(const Arguments& args);
@@ -192,6 +201,7 @@ extern ClassDefine<NbtByteArrayClass> NbtByteArrayClassBuilder;
 class NbtListClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtListClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtListClass(Tag* p, bool canDelete = false);
     ~NbtListClass() = default;
     static NbtListClass* constructor(const Arguments& args);
@@ -227,6 +237,7 @@ extern ClassDefine<NbtListClass> NbtListClassBuilder;
 class NbtCompoundClass : public NbtBase, public ScriptClass
 {
 public:
+    explicit NbtCompoundClass(const Local<Object>& scriptObj, Tag* p, bool canDelete = false);
     explicit NbtCompoundClass(Tag* p, bool canDelete = false);
     ~NbtCompoundClass() = default;
     static NbtCompoundClass* constructor(const Arguments& args);

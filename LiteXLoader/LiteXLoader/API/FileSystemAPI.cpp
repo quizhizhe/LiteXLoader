@@ -71,6 +71,14 @@ ClassDefine<FileClass> FileClassBuilder =
 //////////////////// Classes ////////////////////
 
 //生成函数
+FileClass::FileClass(const Local<Object>& scriptObj, std::fstream&& f, const std::string& path, bool isBinary)
+    :ScriptClass(scriptObj)
+{
+    this->file = std::move(f);
+    this->path = path;
+    this->isBinary = isBinary;
+}
+
 FileClass::FileClass(std::fstream&& f, const std::string& path, bool isBinary)
     :ScriptClass(ScriptClass::ConstructFromCpp<FileClass>{})
 {
@@ -121,7 +129,7 @@ FileClass* FileClass::constructor(const Arguments& args)
             ERROR("Fail to Open File " + path + "!\n");
             return nullptr;
         }
-        return new FileClass(std::move(fs), path, isBinary);
+        return new FileClass(args.thiz(), std::move(fs), path, isBinary);
     }
     catch (const filesystem_error& e)
     {
