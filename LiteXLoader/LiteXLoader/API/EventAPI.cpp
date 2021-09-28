@@ -868,13 +868,16 @@ THook(void, "?_onItemChanged@LevelContainerModel@@MEAAXHAEBVItemStack@@0@Z",
 {
     IF_LISTENED(EVENT_TYPES::onContainerChange)
     {
-        Actor* pl = dAccess<Actor*>(_this, 208);            //IDA LevelContainerModel::LevelContainerModel
-        BlockSource* bs = Raw_GetBlockSourceByActor(pl);
-        BlockPos* bpos = (BlockPos*)((char*)_this + 216);
-        Block* block = Raw_GetBlockByPos(bpos, bs);
+        Player* pl = (Player*) dAccess<Actor*>(_this, 208);            //IDA LevelContainerModel::LevelContainerModel
+        if (SymCall("?hasOpenContainer@Player@@QEBA_NXZ", bool, Player*)(pl))
+        {
+            BlockSource* bs = Raw_GetBlockSourceByActor(pl);
+            BlockPos* bpos = (BlockPos*)((char*)_this + 216);
+            Block* block = Raw_GetBlockByPos(bpos, bs);
 
-        CallEventRtnVoid(EVENT_TYPES::onContainerChange, PlayerClass::newPlayer((Player*)pl), BlockClass::newBlock(block, bpos, bs),
-            slotNumber, ItemClass::newItem(oldItem), ItemClass::newItem(newItem));
+            CallEventRtnVoid(EVENT_TYPES::onContainerChange, PlayerClass::newPlayer(pl), BlockClass::newBlock(block, bpos, bs),
+                slotNumber, ItemClass::newItem(oldItem), ItemClass::newItem(newItem));
+        }
     }
     IF_LISTENED_END(EVENT_TYPES::onContainerChange);
     return original(_this, slotNumber, oldItem, newItem);
