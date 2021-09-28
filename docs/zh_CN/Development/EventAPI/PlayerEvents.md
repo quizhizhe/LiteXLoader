@@ -292,7 +292,7 @@
     被打开的容器方块对象
 - 拦截事件：函数返回`false`
 
-目前已支持监听的容器有：箱子（`minecraft:chest`）、木桶（`minecraft:barrel`）
+此处的 **容器** 为宽泛容器的概念，包括箱子、桶等多种可以储存物品的容器都可以触发此事件
 
 <br>
 
@@ -308,7 +308,7 @@
     被关闭的容器方块对象
 - 拦截事件：函数返回`false`
 
-目前已支持监听的容器有：箱子（`minecraft:chest`）、木桶（`minecraft:barrel`）
+由于监听函数下限制，目前支持监听关闭的容器有：箱子（`minecraft:chest`）、木桶（`minecraft:barrel`）
 
 <br>
 

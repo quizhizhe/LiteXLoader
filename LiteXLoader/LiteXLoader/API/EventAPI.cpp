@@ -793,19 +793,20 @@ THook(bool, "?mayPlace@BlockSource@@QEAA_NAEBVBlock@@AEBVBlockPos@@EPEAVActor@@_
     return original(_this, a2, a3, a4, a5, a6);
 }
 
-// ===== onOpenContainer_Chest =====
-THook(bool, "?use@ChestBlock@@UEBA_NAEAVPlayer@@AEBVBlockPos@@E@Z",
-    void* _this, Player* pl , BlockPos* bp)
+// ===== onOpenContainer =====
+THook(__int64, "?onPlayerOpenContainer@VanillaServerGameplayEventListener@@UEAA?AW4EventResult@@AEBUPlayerOpenContainerEvent@@@Z",
+    void* a1, void* a2)
 {
     IF_LISTENED(EVENT_TYPES::onOpenContainer)
     {
+        Player* pl = SymCall("??$tryUnwrap@VPlayer@@$$V@WeakEntityRef@@QEBAPEAVPlayer@@XZ", Player*, void*)(a2);
+        BlockPos bp = dAccess<BlockPos>(a2, 28);        // IDA VanillaServerGameplayEventListener::onPlayerOpenContainer
         int dim = Raw_GetPlayerDimId(pl);
-        Block* bl = Raw_GetBlockByPos(bp,dim);
 
-        CallEventRtnBool(EVENT_TYPES::onOpenContainer, PlayerClass::newPlayer(pl), BlockClass::newBlock(bl, bp, dim));
+        CallEventRtnValue(EVENT_TYPES::onOpenContainer, 0, PlayerClass::newPlayer(pl), BlockClass::newBlock(&bp,dim));
     }
     IF_LISTENED_END(EVENT_TYPES::onOpenContainer);
-    return original(_this, pl, bp);
+    return original(a1, a2);
 }
 
 // ===== onCloseContainer_Chest =====
@@ -825,22 +826,6 @@ THook(bool, "?stopOpen@ChestBlockActor@@UEAAXAEAVPlayer@@@Z",
     }
     IF_LISTENED_END(EVENT_TYPES::onCloseContainer);
     return original(_this, pl);
-}
-
-// ===== onOpenContainer_Barrel =====
-THook(bool, "?use@BarrelBlock@@UEBA_NAEAVPlayer@@AEBVBlockPos@@E@Z",
-    void* _this, Player* pl, BlockPos* bp)
-{
-    IF_LISTENED(EVENT_TYPES::onOpenContainer)
-    {
-        int dim = Raw_GetPlayerDimId(pl);
-        BlockSource* bs = Raw_GetBlockSourceByDim(dim);
-        Block* bl = Raw_GetBlockByPos(bp, bs);
-
-        CallEventRtnBool(EVENT_TYPES::onOpenContainer, PlayerClass::newPlayer(pl), BlockClass::newBlock(bl, bp, dim));
-    }
-    IF_LISTENED_END(EVENT_TYPES::onOpenContainer);
-    return original(_this, pl, bp);
 }
 
 // ===== onCloseContainer_Barrel =====
