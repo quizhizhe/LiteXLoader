@@ -285,6 +285,15 @@ pl.rename("newname");
 
 ```
 
+#### 获取玩家当前站立所在的方块
+
+`pl.getBlockStandingOn()`
+
+- 返回值：当前站立在的方块对象
+- 返回值类型：`Block`
+
+<br>
+
 #### 获取玩家对应的设备信息对象
 
 `pl.getDevice()`

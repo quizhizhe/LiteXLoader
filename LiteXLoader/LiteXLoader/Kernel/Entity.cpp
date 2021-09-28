@@ -141,6 +141,14 @@ std::vector<Actor*> Raw_GetAllEntities()
     return entityList;
 }
 
+IntVec4 Raw_GetBlockStandingOn(Actor* ac)
+{
+    BlockPos bp;
+    SymCall("?getBlockPosCurrentlyStandingOn@Actor@@QEBA?AVBlockPos@@PEAV1@@Z",
+        void*, Actor*, BlockPos*, void*)(ac, &bp, nullptr);
+    return { bp.x,bp.y,bp.z,Raw_GetEntityDimId(ac) };
+}
+
 bool Raw_TeleportEntity(Actor* actor, const FloatVec4 &pos)
 {
     WActor(*actor).teleport({pos.x,pos.y,pos.z},pos.dim);

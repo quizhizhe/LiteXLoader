@@ -41,9 +41,9 @@ public:
     Local<Value> hurt(const Arguments& args);
     Local<Value> setOnFire(const Arguments& args);
 
-    Local<Value> isMob(const Arguments& args);
     Local<Value> isPlayer(const Arguments& args);
     Local<Value> toPlayer(const Arguments& args);
+    Local<Value> getBlockStandingOn(const Arguments& args);
     Local<Value> getArmor(const Arguments& args);
     Local<Value> hasContainer(const Arguments& args);
     Local<Value> getContainer(const Arguments& args);

@@ -80,6 +80,11 @@ Local<Object> BlockClass::newBlock(WBlock p)
 {
     return BlockClass::newBlock(p.v);
 }
+Local<Object> BlockClass::newBlock(IntVec4 pos)
+{
+    BlockPos bp = { pos.x, pos.y, pos.z };
+    return BlockClass::newBlock(Raw_GetBlockByPos(&pos), &bp, pos.dim);
+}
 Block* BlockClass::extract(Local<Value> v)
 {
     if(EngineScope::currentEngine()->isInstanceOf<BlockClass>(v))

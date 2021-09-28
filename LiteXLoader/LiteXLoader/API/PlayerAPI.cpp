@@ -1,5 +1,6 @@
 #include "APIHelp.h"
 #include "BaseAPI.h"
+#include "BlockAPI.h"
 #include "DeviceAPI.h"
 #include "PlayerAPI.h"
 #include "McAPI.h"
@@ -70,6 +71,7 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceFunction("giveItem", &PlayerClass::giveItem)
         .instanceFunction("clearItem", &PlayerClass::clearItem)
 
+        .instanceFunction("getBlockStandingOn", &PlayerClass::getBlockStandingOn)
         .instanceFunction("getDevice", &PlayerClass::getDevice)
         .instanceFunction("getHand", &PlayerClass::getHand)
         .instanceFunction("getOffHand", &PlayerClass::getOffHand)
@@ -767,6 +769,18 @@ Local<Value> PlayerClass::crash(const Arguments& args)
         return Boolean::newBoolean(Raw_CrashPlayer(player));
     }
     CATCH("Fail in crashPlayer!");
+}
+
+Local<Value> PlayerClass::getBlockStandingOn(const Arguments& args)
+{
+    try {
+        Player* player = get();
+        if (!player)
+            return Local<Value>();
+
+        return BlockClass::newBlock(Raw_GetBlockStandingOn((Actor*)player));
+    }
+    CATCH("Fail in getBlockStandingOn!");
 }
 
 Local<Value> PlayerClass::getDevice(const Arguments& args)

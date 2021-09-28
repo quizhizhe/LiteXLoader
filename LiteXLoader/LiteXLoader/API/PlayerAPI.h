@@ -58,6 +58,7 @@ public:
     Local<Value> giveItem(const Arguments& args);
     Local<Value> clearItem(const Arguments& args);
 
+    Local<Value> getBlockStandingOn(const Arguments& args);
     Local<Value> getDevice(const Arguments& args);
     Local<Value> getHand(const Arguments& args);
     Local<Value> getOffHand(const Arguments& args);

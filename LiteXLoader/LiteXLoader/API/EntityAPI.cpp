@@ -1,5 +1,6 @@
 #include "APIHelp.h"
 #include "BaseAPI.h"
+#include "BlockAPI.h"
 #include "EntityAPI.h"
 #include "PlayerAPI.h"
 #include "McAPI.h"
@@ -33,6 +34,7 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceFunction("setOnFire", &EntityClass::setOnFire)
         .instanceFunction("isPlayer", &EntityClass::isPlayer)
         .instanceFunction("toPlayer", &EntityClass::toPlayer)
+        .instanceFunction("getBlockStandingOn", &EntityClass::getBlockStandingOn)
         .instanceFunction("getArmor", &EntityClass::getArmor)
         .instanceFunction("hasContainer", &EntityClass::hasContainer)
         .instanceFunction("getContainer", &EntityClass::getContainer)
@@ -334,7 +336,19 @@ Local<Value> EntityClass::toPlayer(const Arguments& args)
         else
             return PlayerClass::newPlayer(pl);
     }
-    CATCH("Fail in toPlayer!")
+    CATCH("Fail in toPlayer!");
+}
+
+Local<Value> EntityClass::getBlockStandingOn(const Arguments& args)
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+
+        return BlockClass::newBlock(Raw_GetBlockStandingOn(entity));
+    }
+    CATCH("Fail in getBlockStandingOn!");
 }
 
 Local<Value> EntityClass::getArmor(const Arguments& args)
