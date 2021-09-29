@@ -27,6 +27,7 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceProperty("inAir", &EntityClass::getInAir)
         .instanceProperty("inWater", &EntityClass::getInWater)
         .instanceProperty("speed",&EntityClass::getSpeed)
+        .instanceProperty("uniqueId", &EntityClass::getUniqueID)
 
         .instanceFunction("teleport", &EntityClass::teleport)
         .instanceFunction("kill", &EntityClass::kill)
@@ -103,6 +104,18 @@ Local<Value> EntityClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)entity);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> EntityClass::getUniqueID()
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+        else
+            return Number::newNumber(entity->getUniqueID().id);
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> EntityClass::getName()

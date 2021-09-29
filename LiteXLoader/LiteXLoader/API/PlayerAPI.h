@@ -37,6 +37,7 @@ public:
     Local<Value> getSneaking();
     Local<Value> getSpeed();
     Local<Value> getDirection();
+    Local<Value> getUniqueID();
 
     Local<Value> isOP(const Arguments& args);
     Local<Value> setPermLevel(const Arguments& args);

@@ -47,6 +47,7 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceProperty("sneaking", &PlayerClass::getSneaking)
         .instanceProperty("speed",&PlayerClass::getSpeed)
         .instanceProperty("direction", &PlayerClass::getDirection)
+        .instanceProperty("uniqueId", &PlayerClass::getUniqueID)
 
         .instanceFunction("isOP", &PlayerClass::isOP)
         .instanceFunction("setPermLevel", &PlayerClass::setPermLevel)
@@ -439,6 +440,18 @@ Local<Value> PlayerClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)player);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> PlayerClass::getUniqueID()
+{
+    try {
+        Player* player = get();
+        if (!player)
+            return Local<Value>();
+        else
+            return Number::newNumber(player->getUniqueID().id);
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> PlayerClass::teleport(const Arguments& args)

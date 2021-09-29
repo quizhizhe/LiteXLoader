@@ -58,6 +58,7 @@
 | pl.sneaking  | 玩家当前是否正在潜行        | `Boolean`  |
 | pl.speed     | 玩家当前速度                | `Float`    |
 | pl.direction | 玩家当前朝向（0 - 4）       | `Integer`  |
+| pl.uniqueId  | 玩家（实体的）唯一标识符    | `Integer`  |
 
 这些对象属性都是只读的，无法被修改。其中：
 
