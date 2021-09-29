@@ -365,6 +365,28 @@ bool CheckAutoUpdate(bool isUpdateManually)
 		else
 			DEBUG(string("LXL版本更新信息解析失败！") + e.what());
 	}
+	catch (const seh_exception& e)
+	{
+		if (isUpdateManually)
+		{
+			PRINT(string("SEH Uncaught Exception Detected!\n") + e.what());
+			PRINT("In Auto Update system");
+		}
+		else
+		{
+			DEBUG(string("SEH Uncaught Exception Detected!\n") + e.what());
+			DEBUG("In Auto Update system");
+		}
+	}
+	catch (...)
+	{
+		if (isUpdateManually)
+		{
+			PRINT(string("LXL自动更新发生错误！"));
+		}
+		else
+			DEBUG(string("LXL自动更新发生错误！"));
+	}
 	return false;
 }
 
