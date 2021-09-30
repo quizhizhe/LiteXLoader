@@ -36,7 +36,7 @@ public:
     Local<Value> getInWater();
     Local<Value> getSneaking();
     Local<Value> getSpeed();
-    Local<Value> getRotation();
+    Local<Value> getDirection();
     Local<Value> getUniqueID();
 
     Local<Value> isOP(const Arguments& args);

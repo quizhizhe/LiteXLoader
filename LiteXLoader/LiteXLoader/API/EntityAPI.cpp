@@ -27,7 +27,7 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceProperty("inAir", &EntityClass::getInAir)
         .instanceProperty("inWater", &EntityClass::getInWater)
         .instanceProperty("speed",&EntityClass::getSpeed)
-        .instanceProperty("rotation",&EntityClass::getRotation)
+        .instanceProperty("direction",&EntityClass::getDirection)
         .instanceProperty("uniqueId", &EntityClass::getUniqueID)
 
         .instanceFunction("teleport", &EntityClass::teleport)
@@ -239,7 +239,7 @@ Local<Value> EntityClass::getSpeed()
     CATCH("Fail in getSpeed!")
 }
 
-Local<Value> EntityClass::getRotation()
+Local<Value> EntityClass::getDirection()
 {
     try {
         Actor* entity = get();
@@ -247,9 +247,9 @@ Local<Value> EntityClass::getRotation()
             return Local<Value>();
 
         auto vec = Raw_GetRotation(entity);
-        return FloatPos::newPos(vec->x, vec->y, 0);
+        return PitchAngle::newAngle(vec->x, vec->y);
     }
-    CATCH("Fail in getSpeed!")
+    CATCH("Fail in getDirection!")
 }
 
 Local<Value> EntityClass::teleport(const Arguments& args)

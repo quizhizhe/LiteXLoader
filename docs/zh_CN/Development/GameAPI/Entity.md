@@ -44,20 +44,20 @@
 
 每一个实体对象都包含一些固定的对象属性。对于某个特定的实体对象`en`，有以下这些属性
 
-| 属性         | 含义               | 类型       |
-| ------------ | ------------------ | ---------- |
-| en.name      | 实体名称           | `String`   |
-| en.type      | 实体标准类型名     | `String`   |
-| en.id        | 实体的游戏内id     | `Integer`  |
-| en.pos       | 实体所在坐标       | `FloatPos` |
-| en.blockPos  | 实体所在的方块坐标 | `IntPos`   |
-| en.maxHealth | 实体最大生命值     | `Integer`  |
-| en.health    | 实体当前生命值     | `Integer`  |
-| en.inAir     | 实体当前是否悬空   | `Boolean`  |
-| en.inWater   | 实体当前是否在水中 | `Boolean`  |
-| en.speed     | 实体当前速度       | `Float`    |
-| en.rotation  |                    |            |
-| en.uniqueId  | 实体唯一标识符     | `Integer`  |
+| 属性         | 含义               | 类型         |
+| ------------ | ------------------ | ------------ |
+| en.name      | 实体名称           | `String`     |
+| en.type      | 实体标准类型名     | `String`     |
+| en.id        | 实体的游戏内id     | `Integer`    |
+| en.pos       | 实体所在坐标       | `FloatPos`   |
+| en.blockPos  | 实体所在的方块坐标 | `IntPos`     |
+| en.maxHealth | 实体最大生命值     | `Integer`    |
+| en.health    | 实体当前生命值     | `Integer`    |
+| en.inAir     | 实体当前是否悬空   | `Boolean`    |
+| en.inWater   | 实体当前是否在水中 | `Boolean`    |
+| en.speed     | 实体当前速度       | `Float`      |
+| en.direction | 实体当前朝向       | `PitchAngle` |
+| en.uniqueId  | 实体唯一标识符     | `Integer`    |
 
 这些对象属性都是只读的，无法被修改
 

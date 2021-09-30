@@ -46,7 +46,7 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceProperty("inWater", &PlayerClass::getInWater)
         .instanceProperty("sneaking", &PlayerClass::getSneaking)
         .instanceProperty("speed",&PlayerClass::getSpeed)
-        .instanceProperty("rotation", &PlayerClass::getRotation)
+        .instanceProperty("direction", &PlayerClass::getDirection)
         .instanceProperty("uniqueId", &PlayerClass::getUniqueID)
 
         .instanceFunction("isOP", &PlayerClass::isOP)
@@ -370,7 +370,7 @@ Local<Value> PlayerClass::getSpeed()
     CATCH("Fail in getSpeed!")
 }
 
-Local<Value> PlayerClass::getRotation()
+Local<Value> PlayerClass::getDirection()
 {
     try {
         Player* player = get();
@@ -378,9 +378,9 @@ Local<Value> PlayerClass::getRotation()
             return Local<Value>();
         
         auto vec = Raw_GetRotation((Actor*)player);
-        return FloatPos::newPos(vec->x, vec->y, 0);
+        return PitchAngle::newAngle(vec->x, vec->y);
     }
-    CATCH("Fail in getRotation!")
+    CATCH("Fail in getDirection!")
 }
 
 Local<Value> PlayerClass::getMaxHealth()

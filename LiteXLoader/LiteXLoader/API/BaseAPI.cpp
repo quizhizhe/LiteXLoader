@@ -3,6 +3,7 @@
 #include <Kernel/Base.h>
 #include <Kernel/SymbolHelper.h>
 #include "McAPI.h"
+#include <cmath>
 using namespace script;
 
 //////////////////// Class Definition ////////////////////
@@ -27,6 +28,14 @@ ClassDefine<FloatPos> FloatPosBuilder =
         .instanceProperty("dimid", &FloatPos::getDimId, &FloatPos::setDimId)
         .build();
 
+ClassDefine<PitchAngle> AnglePitchBuilder =
+    defineClass<PitchAngle>("PitchAngle")
+        .constructor(&PitchAngle::create)
+        .instanceProperty("pitch", &PitchAngle::getPitch, &PitchAngle::setPitch)
+        .instanceProperty("yaw", &PitchAngle::getYaw, &PitchAngle::setYaw)
+        .instanceFunction("toFacing", &PitchAngle::toFacing)
+        .build();
+        
 
 //////////////////// IntPos ////////////////////   
 
@@ -150,6 +159,46 @@ Local<Value> FloatPos::getDim()
         break;
     }
     return String::newString(name);
+}
+
+//////////////////// PitchAngle ////////////////////
+
+PitchAngle* PitchAngle::create(const Arguments& args)
+{
+    if (args.size() < 2)
+        return nullptr;
+    try
+    {
+        PitchAngle* pa = new PitchAngle(args.thiz());
+        pa->pitch = args[0].asNumber().toInt32();
+        pa->yaw = args[1].asNumber().toInt32();
+        return pa;
+    }
+    catch (...)
+    {
+        return nullptr;
+    }
+}
+
+Local<Value> PitchAngle::toFacing()
+{
+    int yaw_u = yaw + 180;
+
+    if (yaw_u > 135 && yaw_u < 225)
+        return Number::newNumber(0);
+    if (yaw_u >= 225 && yaw_u < 315)
+        return Number::newNumber(1);
+    if ((yaw_u >= 315 && yaw_u <= 359) || (yaw_u >= 1 && yaw_u <= 45))
+        return Number::newNumber(2);
+    if (yaw_u > 45 && yaw_u <= 135)
+        return Number::newNumber(3);
+
+    return Number::newNumber(-1);
+}
+
+Local<Object> PitchAngle::newAngle(float pitch, float yaw)
+{
+    return EngineScope::currentEngine()->newNativeClass<PitchAngle>(pitch, yaw);
 }
 
 //////////////////// APIs ////////////////////
