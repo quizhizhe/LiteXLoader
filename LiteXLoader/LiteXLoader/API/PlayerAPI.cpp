@@ -46,7 +46,8 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceProperty("inWater", &PlayerClass::getInWater)
         .instanceProperty("sneaking", &PlayerClass::getSneaking)
         .instanceProperty("speed",&PlayerClass::getSpeed)
-        .instanceProperty("direction", &PlayerClass::getDirection)
+        .instanceProperty("rotation", &PlayerClass::getRotation)
+        .instanceProperty("uniqueId", &PlayerClass::getUniqueID)
 
         .instanceFunction("isOP", &PlayerClass::isOP)
         .instanceFunction("setPermLevel", &PlayerClass::setPermLevel)
@@ -369,16 +370,17 @@ Local<Value> PlayerClass::getSpeed()
     CATCH("Fail in getSpeed!")
 }
 
-Local<Value> PlayerClass::getDirection()
+Local<Value> PlayerClass::getRotation()
 {
     try {
         Player* player = get();
         if (!player)
             return Local<Value>();
-
-        return Number::newNumber(Raw_GetDirection(player));
+        
+        auto vec = Raw_GetRotation((Actor*)player);
+        return FloatPos::newPos(vec->x, vec->y, 0);
     }
-    CATCH("Fail in getSpeed!")
+    CATCH("Fail in getRotation!")
 }
 
 Local<Value> PlayerClass::getMaxHealth()
@@ -439,6 +441,18 @@ Local<Value> PlayerClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)player);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> PlayerClass::getUniqueID()
+{
+    try {
+        Player* player = get();
+        if (!player)
+            return Local<Value>();
+        else
+            return Number::newNumber(player->getUniqueID().id);
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> PlayerClass::teleport(const Arguments& args)

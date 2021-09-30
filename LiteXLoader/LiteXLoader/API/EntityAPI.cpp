@@ -27,6 +27,8 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceProperty("inAir", &EntityClass::getInAir)
         .instanceProperty("inWater", &EntityClass::getInWater)
         .instanceProperty("speed",&EntityClass::getSpeed)
+        .instanceProperty("rotation",&EntityClass::getRotation)
+        .instanceProperty("uniqueId", &EntityClass::getUniqueID)
 
         .instanceFunction("teleport", &EntityClass::teleport)
         .instanceFunction("kill", &EntityClass::kill)
@@ -103,6 +105,18 @@ Local<Value> EntityClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)entity);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> EntityClass::getUniqueID()
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+        else
+            return Number::newNumber(entity->getUniqueID().id);
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> EntityClass::getName()
@@ -221,6 +235,19 @@ Local<Value> EntityClass::getSpeed()
             return Local<Value>();
 
         return Number::newNumber(Raw_GetSpeed(entity));
+    }
+    CATCH("Fail in getSpeed!")
+}
+
+Local<Value> EntityClass::getRotation()
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+
+        auto vec = Raw_GetRotation(entity);
+        return FloatPos::newPos(vec->x, vec->y, 0);
     }
     CATCH("Fail in getSpeed!")
 }

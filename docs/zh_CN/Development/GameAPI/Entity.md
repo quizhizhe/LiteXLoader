@@ -56,6 +56,8 @@
 | en.inAir     | 实体当前是否悬空   | `Boolean`  |
 | en.inWater   | 实体当前是否在水中 | `Boolean`  |
 | en.speed     | 实体当前速度       | `Float`    |
+| en.rotation  |                    |            |
+| en.uniqueId  | 实体唯一标识符     | `Integer`  |
 
 这些对象属性都是只读的，无法被修改
 
