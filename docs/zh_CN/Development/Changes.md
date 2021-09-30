@@ -6,6 +6,10 @@
 
 注意：此处只会列出造成 **不兼容变化** 的API更改。如果要查看所有更新日志，请前往GitHub提交页面查看相关提交记录
 
+#### Latest (Dev)
+
+- `player.direction`改为`player.rotation`，返回值使用Vec2表示旋转角度
+
 #### 20210829 - v0.5.2
 
 - 将`Text`类改名为`Format`类，内容不变，以避开名字冲突

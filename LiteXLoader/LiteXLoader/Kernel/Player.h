@@ -17,7 +17,7 @@ std::string Raw_GetRealName(Player* player);
 int Raw_GetPlayerPermLevel(Player* player);
 int Raw_GetGameMode(Player* player);
 bool Raw_GetSneaking(Player *player);
-int Raw_GetDirection(Player* player);
+Vec2 Raw_GetRotation(Player* player);
 
 bool Raw_RuncmdAs(Player *player, const std::string &cmd);
 bool Raw_TeleportPlayer(Player* player, const FloatVec4 &pos);

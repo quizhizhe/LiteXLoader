@@ -59,9 +59,11 @@ bool Raw_GetSneaking(Player *player)
     return SymCall("?isSneaking@Actor@@QEBA_NXZ", bool, Player*)(player);
 }
 
-int Raw_GetDirection(Player* player)
+Vec2 Raw_GetRotation(Player* player)
 {
-    return (int)SymCall("?getDirection@Player@@QEBAHXZ", char, Player*)(player);
+    Vec2* rot = 0;
+    return *SymCall("?getRotation@Actor@@QEBA?AVVec2@@XZ",
+        Vec2*, Actor*, Vec2*)((Actor*)player, rot);
 }
 
 bool  Raw_RuncmdAs(Player *player, const string &cmd)
