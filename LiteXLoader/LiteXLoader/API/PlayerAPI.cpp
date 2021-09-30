@@ -376,11 +376,11 @@ Local<Value> PlayerClass::getRotation()
         Player* player = get();
         if (!player)
             return Local<Value>();
-
-        auto rot = Raw_GetRotation(player);
-        return FloatPos::newPos(rot.x, rot.y, 0);
+        
+        auto vec = Raw_GetRotation((Actor*)player);
+        return FloatPos::newPos(vec->x, vec->y, 0);
     }
-    CATCH("Fail in getSpeed!")
+    CATCH("Fail in getRotation!")
 }
 
 Local<Value> PlayerClass::getMaxHealth()
