@@ -951,8 +951,8 @@ void TagToJson_Compound_Helper(JSON_VALUE& res, Tag* nbt)
             break;
         case TagType::ByteArray:
         {
-            auto& bytes = nbt->asByteArray();
-            res.push_back(Raw_ToBase64(string((char*)bytes.data.get(), bytes.size)));
+            auto& bytes = tag.asByteArray();
+            res.push_back({ key, Raw_ToBase64(string((char*)bytes.data.get(), bytes.size)) });
             break;
         }
         case TagType::List: {

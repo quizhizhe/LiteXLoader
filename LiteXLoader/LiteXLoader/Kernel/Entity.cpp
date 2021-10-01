@@ -103,41 +103,38 @@ bool Raw_GetIsInWater(Actor* actor)
     return SymCall("?isInWater@Actor@@UEBA_NXZ", bool, Actor*)(actor);
 }
 
-std::vector<Actor*> Raw_GetAllEntities(int dimid)
+bool Raw_GetAllEntities(vector<Actor*> &acs, int dimid)
 {
     auto lv = mc->getLevel();
-    std::vector<Actor*> entityList;
     auto dim = Raw_GetDimByLevel(lv, dimid);
     if (!dim)
-        return entityList;
-    auto& list = *(std::unordered_map<long, void*>*)((uintptr_t)dim + 304);     //Dimension::getEntityIdMap
+        return false;
+    auto& list = *(std::unordered_map<ActorUniqueID, void*>*)((uintptr_t)dim + 304);     //Dimension::getEntityIdMap
     
     //Check Valid
     auto currTick = SymCall("?getCurrentTick@Level@@UEBAAEBUTick@@XZ"
         , Tick*, Level*)(lv)->t;
     for (auto& i : list)
     {
-        auto entity = SymCall("??$tryUnwrap@VActor@@$$V@WeakEntityRef@@QEBAPEAVActor@@XZ",
-            Actor*, void*)(&i.second);
+        //auto entity = SymCall("??$tryUnwrap@VActor@@$$V@WeakEntityRef@@QEBAPEAVActor@@XZ",
+        //    Actor*, void*)(&i.second);
+        auto entity = Raw_GetEntityByUniqueId(i.first);
         if (!entity)
             continue;
         auto lastTick = Raw_GetEntityLastTick(entity)->t;
         if (currTick - lastTick == 0 || currTick - lastTick == 1)
-            entityList.push_back(entity);
+            acs.push_back(entity);
     }
-    return entityList;
+    return true;
 }
 
 std::vector<Actor*> Raw_GetAllEntities()
 {
     auto lv = (uintptr_t)mc->getLevel();
     std::vector<Actor*> entityList;
-    auto dim0 = Raw_GetAllEntities(0);
-    auto dim1 = Raw_GetAllEntities(1);
-    auto dim2 = Raw_GetAllEntities(2);
-    entityList.insert(entityList.end(), dim0.begin(), dim0.end());
-    entityList.insert(entityList.end(), dim1.begin(), dim1.end());
-    entityList.insert(entityList.end(), dim2.begin(), dim2.end());
+    Raw_GetAllEntities(entityList, 0);
+    Raw_GetAllEntities(entityList, 1);
+    Raw_GetAllEntities(entityList, 2);
     return entityList;
 }
 
