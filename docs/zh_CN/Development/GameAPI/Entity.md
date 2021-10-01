@@ -57,7 +57,7 @@
 | en.inWater   | 实体当前是否在水中 | `Boolean`        |
 | en.speed     | 实体当前速度       | `Float`          |
 | en.direction | 实体当前朝向       | `DirectionAngle` |
-| en.uniqueId  | 实体唯一标识符     | `Integer`        |
+| en.uniqueId  | 实体唯一标识符     | `String`         |
 
 这些对象属性都是只读的，无法被修改
 

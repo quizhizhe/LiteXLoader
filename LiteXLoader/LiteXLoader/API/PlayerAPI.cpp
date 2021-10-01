@@ -450,7 +450,7 @@ Local<Value> PlayerClass::getUniqueID()
         if (!player)
             return Local<Value>();
         else
-            return Number::newNumber(player->getUniqueID().id);
+            return String::newString(std::to_string(player->getUniqueID().id));
     }
     CATCH("Fail in getUniqueID!")
 }

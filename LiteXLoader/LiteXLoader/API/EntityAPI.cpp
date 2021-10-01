@@ -114,7 +114,7 @@ Local<Value> EntityClass::getUniqueID()
         if (!entity)
             return Local<Value>();
         else
-            return Number::newNumber(entity->getUniqueID().id);
+            return String::newString(std::to_string(entity->getUniqueID().id));
     }
     CATCH("Fail in getUniqueID!")
 }
