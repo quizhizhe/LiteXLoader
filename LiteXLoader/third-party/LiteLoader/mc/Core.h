@@ -67,6 +67,11 @@ class Vec3 {
     Vec3 operator-(const Vec3 &v2) { return {this->x - v2.x, this->y - v2.y, this->z - v2.z}; }
 };
 
+class Vec2 {
+  public:
+    float x, y;
+};
+
 class AABB {
   public:
     Vec3 p1{};

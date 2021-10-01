@@ -3,6 +3,7 @@
 #include <Kernel/Base.h>
 #include <Kernel/SymbolHelper.h>
 #include "McAPI.h"
+#include <cmath>
 using namespace script;
 
 //////////////////// Class Definition ////////////////////
@@ -27,6 +28,14 @@ ClassDefine<FloatPos> FloatPosBuilder =
         .instanceProperty("dimid", &FloatPos::getDimId, &FloatPos::setDimId)
         .build();
 
+ClassDefine<DirectionAngle> DirectionAngleBuilder =
+    defineClass<DirectionAngle>("DirectionAngle")
+        .constructor(&DirectionAngle::create)
+        .instanceProperty("pitch", &DirectionAngle::getPitch, &DirectionAngle::setPitch)
+        .instanceProperty("yaw", &DirectionAngle::getYaw, &DirectionAngle::setYaw)
+        .instanceFunction("toFacing", &DirectionAngle::toFacing)
+        .build();
+        
 
 //////////////////// IntPos ////////////////////   
 
@@ -150,6 +159,46 @@ Local<Value> FloatPos::getDim()
         break;
     }
     return String::newString(name);
+}
+
+//////////////////// DirectionAngle ////////////////////
+
+DirectionAngle* DirectionAngle::create(const Arguments& args)
+{
+    if (args.size() < 2)
+        return nullptr;
+    try
+    {
+        DirectionAngle* pa = new DirectionAngle(args.thiz());
+        pa->pitch = args[0].asNumber().toDouble();
+        pa->yaw = args[1].asNumber().toDouble();
+        return pa;
+    }
+    catch (...)
+    {
+        return nullptr;
+    }
+}
+
+Local<Value> DirectionAngle::toFacing()
+{
+    int yaw_u = yaw + 180;
+
+    if (yaw_u > 135 && yaw_u < 225)
+        return Number::newNumber(0);
+    if (yaw_u >= 225 && yaw_u < 315)
+        return Number::newNumber(1);
+    if ((yaw_u >= 315 && yaw_u <= 359) || (yaw_u >= 1 && yaw_u <= 45))
+        return Number::newNumber(2);
+    if (yaw_u > 45 && yaw_u <= 135)
+        return Number::newNumber(3);
+
+    return Number::newNumber(-1);
+}
+
+Local<Object> DirectionAngle::newAngle(float pitch, float yaw)
+{
+    return EngineScope::currentEngine()->newNativeClass<DirectionAngle>(pitch, yaw);
 }
 
 //////////////////// APIs ////////////////////

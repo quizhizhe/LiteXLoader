@@ -52,3 +52,22 @@ public:
     void setDimId(const Local<Value>& value) { dim = value.asNumber().toInt32(); }
 };
 extern ClassDefine<FloatPos> FloatPosBuilder;
+
+class DirectionAngle : public ScriptClass
+{
+public:
+    double pitch = 0, yaw = 0;
+
+    explicit DirectionAngle(const Local<Object>& scriptObj) : ScriptClass(scriptObj) {}
+    static DirectionAngle* create(const Arguments& args);
+    
+    static Local<Object> newAngle(float pitch, float yaw);
+    Local<Value> getPitch() { return Number::newNumber(pitch); }
+    Local<Value> getYaw() { return Number::newNumber(yaw); }
+    void setPitch(const Local<Value>& value) { pitch = value.asNumber().toDouble(); }
+    void setYaw(const Local<Value>& value) { yaw = value.asNumber().toDouble(); }
+
+    Local<Value> toFacing();
+
+};
+extern ClassDefine<DirectionAngle> DirectionAngleBuilder;

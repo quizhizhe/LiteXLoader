@@ -27,6 +27,8 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceProperty("inAir", &EntityClass::getInAir)
         .instanceProperty("inWater", &EntityClass::getInWater)
         .instanceProperty("speed",&EntityClass::getSpeed)
+        .instanceProperty("direction",&EntityClass::getDirection)
+        .instanceProperty("uniqueId", &EntityClass::getUniqueID)
 
         .instanceFunction("teleport", &EntityClass::teleport)
         .instanceFunction("kill", &EntityClass::kill)
@@ -103,6 +105,18 @@ Local<Value> EntityClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)entity);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> EntityClass::getUniqueID()
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+        else
+            return String::newString(std::to_string(entity->getUniqueID().id));
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> EntityClass::getName()
@@ -223,6 +237,19 @@ Local<Value> EntityClass::getSpeed()
         return Number::newNumber(Raw_GetSpeed(entity));
     }
     CATCH("Fail in getSpeed!")
+}
+
+Local<Value> EntityClass::getDirection()
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+
+        auto vec = Raw_GetDirction(entity);
+        return DirectionAngle::newAngle(vec->x, vec->y);
+    }
+    CATCH("Fail in getDirection!")
 }
 
 Local<Value> EntityClass::teleport(const Arguments& args)

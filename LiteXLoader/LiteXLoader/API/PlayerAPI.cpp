@@ -47,6 +47,7 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceProperty("sneaking", &PlayerClass::getSneaking)
         .instanceProperty("speed",&PlayerClass::getSpeed)
         .instanceProperty("direction", &PlayerClass::getDirection)
+        .instanceProperty("uniqueId", &PlayerClass::getUniqueID)
 
         .instanceFunction("isOP", &PlayerClass::isOP)
         .instanceFunction("setPermLevel", &PlayerClass::setPermLevel)
@@ -375,10 +376,11 @@ Local<Value> PlayerClass::getDirection()
         Player* player = get();
         if (!player)
             return Local<Value>();
-
-        return Number::newNumber(Raw_GetDirection(player));
+        
+        auto vec = Raw_GetDirction((Actor*)player);
+        return DirectionAngle::newAngle(vec->x, vec->y);
     }
-    CATCH("Fail in getSpeed!")
+    CATCH("Fail in getDirection!")
 }
 
 Local<Value> PlayerClass::getMaxHealth()
@@ -439,6 +441,18 @@ Local<Value> PlayerClass::getRawPtr(const Arguments& args)
             return Number::newNumber((intptr_t)player);
     }
     CATCH("Fail in getRawPtr!")
+}
+
+Local<Value> PlayerClass::getUniqueID()
+{
+    try {
+        Player* player = get();
+        if (!player)
+            return Local<Value>();
+        else
+            return String::newString(std::to_string(player->getUniqueID().id));
+    }
+    CATCH("Fail in getUniqueID!")
 }
 
 Local<Value> PlayerClass::teleport(const Arguments& args)

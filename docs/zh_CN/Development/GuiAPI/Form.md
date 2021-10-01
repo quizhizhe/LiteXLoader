@@ -34,8 +34,8 @@
   - player : `Player`  
     与表单互动的玩家对象
     
-  - result : `Integer`    
-    玩家点击**确定**按钮为`1`，**取消**按钮为`0`   
+  - result : `Boolean`    
+    玩家点击**确定**按钮为`true`，**取消**按钮为`false`   
     
     如果id为`Null`，则代表玩家取消了表单
 

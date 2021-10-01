@@ -41,30 +41,31 @@
 
 每一个玩家对象都包含一些固定的对象属性。对于某个特定的玩家对象`pl`，有以下这些属性
 
-| 属性         | 含义                        | 类型       |
-| ------------ | --------------------------- | ---------- |
-| pl.name      | 玩家名                      | `String`   |
-| pl.pos       | 玩家所在坐标                | `FloatPos` |
-| pl.blockPos  | 玩家所在的方块坐标          | `IntPos`   |
-| pl.realName  | 玩家的真实名字              | `String`   |
-| pl.xuid      | 玩家Xuid字符串              | `String`   |
-| pl.uuid      | 玩家Uuid字符串              | `String`   |
-| pl.permLevel | 玩家的操作权限等级（0 - 4） | `Integer`  |
-| pl.gameMode  | 玩家的游戏模式（0 - 3）     | `Integer`  |
-| pl.maxHealth | 玩家最大生命值              | `Integer`  |
-| pl.health    | 玩家当前生命值              | `Integer`  |
-| pl.inAir     | 玩家当前是否悬空            | `Boolean`  |
-| pl.inWater   | 玩家当前是否在水中          | `Boolean`  |
-| pl.sneaking  | 玩家当前是否正在潜行        | `Boolean`  |
-| pl.speed     | 玩家当前速度                | `Float`    |
-| pl.direction | 玩家当前朝向（0 - 4）       | `Integer`  |
+| 属性         | 含义                        | 类型             |
+| ------------ | --------------------------- | ---------------- |
+| pl.name      | 玩家名                      | `String`         |
+| pl.pos       | 玩家所在坐标                | `FloatPos`       |
+| pl.blockPos  | 玩家所在的方块坐标          | `IntPos`         |
+| pl.realName  | 玩家的真实名字              | `String`         |
+| pl.xuid      | 玩家Xuid字符串              | `String`         |
+| pl.uuid      | 玩家Uuid字符串              | `String`         |
+| pl.permLevel | 玩家的操作权限等级（0 - 4） | `Integer`        |
+| pl.gameMode  | 玩家的游戏模式（0 - 3）     | `Integer`        |
+| pl.maxHealth | 玩家最大生命值              | `Integer`        |
+| pl.health    | 玩家当前生命值              | `Integer`        |
+| pl.inAir     | 玩家当前是否悬空            | `Boolean`        |
+| pl.inWater   | 玩家当前是否在水中          | `Boolean`        |
+| pl.sneaking  | 玩家当前是否正在潜行        | `Boolean`        |
+| pl.speed     | 玩家当前速度                | `Float`          |
+| pl.direction | 玩家当前朝向                | `DirectionAngle` |
+| pl.uniqueId  | 玩家（实体的）唯一标识符    | `String`         |
 
 这些对象属性都是只读的，无法被修改。其中：
 
 - **玩家游戏模式** 属性的取值为：`0` 代表生存模式，`1` 代表创造模式，`2` 代表冒险模式，`3` 代表旁观者模式 
-- **玩家当前朝向** 属性记录了玩家当前面对的方向。`0`代表北方，`1`代表东方，`2`代表南方，`3`代表西方，
 - **玩家真实名字** 属性储存的字符串可以被认为是可靠的，他们不会被改名而变动  
 - **玩家设备IP地址** 属性储存了玩家的设备IP以及端口号，格式类似`12.34.567.89:1111`  
+- **玩家当前朝向** 属性的详细解释见  [基础游戏接口文档](zh_CN/Development/GameAPI/Basic.md)
 - **操作权限等级** 属性的对照表如下：
 
 | 操作权限等级 | 对应操作权限    |

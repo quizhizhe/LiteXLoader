@@ -59,11 +59,6 @@ bool Raw_GetSneaking(Player *player)
     return SymCall("?isSneaking@Actor@@QEBA_NXZ", bool, Player*)(player);
 }
 
-int Raw_GetDirection(Player* player)
-{
-    return (int)SymCall("?getDirection@Player@@QEBAHXZ", char, Player*)(player);
-}
-
 bool  Raw_RuncmdAs(Player *player, const string &cmd)
 {
     //return liteloader::runcmdAs(player,cmd);

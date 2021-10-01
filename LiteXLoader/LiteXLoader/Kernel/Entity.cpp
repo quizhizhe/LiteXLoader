@@ -199,21 +199,19 @@ bool Raw_SetOnFire(Actor* actor, int time) {
     return true;
 }
 
-/*
-bool Raw_SetInLove(Actor* a1, Actor* a2) {
-    SymCall("?setInLove@Actor@@QEAAXPEAV1@@Z", void,
-        Actor*, Actor*)(a1, a2);
-    return true;
-}*/
-
 Actor* Raw_GetEntityByUniqueId(ActorUniqueID id) {
     return SymCall("?fetchEntity@Level@@UEBAPEAVActor@@UActorUniqueID@@_N@Z",
         Actor*, Level*, ActorUniqueID, bool)(mc->getLevel(), id, 0);
 }
 
-float Raw_GetSpeed(Actor* ac) {
+float Raw_GetSpeed(Actor* actor) {
     return SymCall("?getSpeedInMetersPerSecond@Actor@@QEBAMXZ"
-        , float, Actor*)(ac);
+        , float, Actor*)(actor);
+}
+
+Vec2* Raw_GetDirction(Actor* actor)
+{
+    return (Vec2*)(actor + 312); // IDA: Actor::getRotation()
 }
 
 bool Raw_EntityIsMoving(Actor* ac)

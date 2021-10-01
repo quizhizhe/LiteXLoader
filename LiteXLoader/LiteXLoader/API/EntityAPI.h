@@ -35,6 +35,8 @@ public:
     Local<Value> getInAir();
     Local<Value> getInWater();
     Local<Value> getSpeed();
+    Local<Value> getDirection();
+    Local<Value> getUniqueID();
 
     Local<Value> teleport(const Arguments& args);
     Local<Value> kill(const Arguments& args);
