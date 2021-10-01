@@ -209,7 +209,7 @@ float Raw_GetSpeed(Actor* actor) {
         , float, Actor*)(actor);
 }
 
-Vec2* Raw_GetRotation(Actor* actor)
+Vec2* Raw_GetDirction(Actor* actor)
 {
     return (Vec2*)(actor + 312); // IDA: Actor::getRotation()
 }

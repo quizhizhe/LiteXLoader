@@ -55,7 +55,7 @@ void BindAPIs(ScriptEngine *engine)
 
     engine->registerNativeClass<IntPos>(IntPosBuilder);
     engine->registerNativeClass<FloatPos>(FloatPosBuilder);
-    engine->registerNativeClass<PitchAngle>(AnglePitchBuilder);
+    engine->registerNativeClass<DirectionAngle>(DirectionAngleBuilder);
     engine->registerNativeClass<BlockClass>(BlockClassBuilder);
     engine->registerNativeClass<DbClass>(DbClassBuilder);
     engine->registerNativeClass<ConfJsonClass>(ConfJsonClassBuilder);

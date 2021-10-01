@@ -246,8 +246,8 @@ Local<Value> EntityClass::getDirection()
         if (!entity)
             return Local<Value>();
 
-        auto vec = Raw_GetRotation(entity);
-        return PitchAngle::newAngle(vec->x, vec->y);
+        auto vec = Raw_GetDirction(entity);
+        return DirectionAngle::newAngle(vec->x, vec->y);
     }
     CATCH("Fail in getDirection!")
 }

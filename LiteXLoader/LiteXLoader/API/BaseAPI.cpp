@@ -28,12 +28,12 @@ ClassDefine<FloatPos> FloatPosBuilder =
         .instanceProperty("dimid", &FloatPos::getDimId, &FloatPos::setDimId)
         .build();
 
-ClassDefine<PitchAngle> AnglePitchBuilder =
-    defineClass<PitchAngle>("PitchAngle")
-        .constructor(&PitchAngle::create)
-        .instanceProperty("pitch", &PitchAngle::getPitch, &PitchAngle::setPitch)
-        .instanceProperty("yaw", &PitchAngle::getYaw, &PitchAngle::setYaw)
-        .instanceFunction("toFacing", &PitchAngle::toFacing)
+ClassDefine<DirectionAngle> DirectionAngleBuilder =
+    defineClass<DirectionAngle>("DirectionAngle")
+        .constructor(&DirectionAngle::create)
+        .instanceProperty("pitch", &DirectionAngle::getPitch, &DirectionAngle::setPitch)
+        .instanceProperty("yaw", &DirectionAngle::getYaw, &DirectionAngle::setYaw)
+        .instanceFunction("toFacing", &DirectionAngle::toFacing)
         .build();
         
 
@@ -161,17 +161,17 @@ Local<Value> FloatPos::getDim()
     return String::newString(name);
 }
 
-//////////////////// PitchAngle ////////////////////
+//////////////////// DirectionAngle ////////////////////
 
-PitchAngle* PitchAngle::create(const Arguments& args)
+DirectionAngle* DirectionAngle::create(const Arguments& args)
 {
     if (args.size() < 2)
         return nullptr;
     try
     {
-        PitchAngle* pa = new PitchAngle(args.thiz());
-        pa->pitch = args[0].asNumber().toInt32();
-        pa->yaw = args[1].asNumber().toInt32();
+        DirectionAngle* pa = new DirectionAngle(args.thiz());
+        pa->pitch = args[0].asNumber().toDouble();
+        pa->yaw = args[1].asNumber().toDouble();
         return pa;
     }
     catch (...)
@@ -180,7 +180,7 @@ PitchAngle* PitchAngle::create(const Arguments& args)
     }
 }
 
-Local<Value> PitchAngle::toFacing()
+Local<Value> DirectionAngle::toFacing()
 {
     int yaw_u = yaw + 180;
 
@@ -196,9 +196,9 @@ Local<Value> PitchAngle::toFacing()
     return Number::newNumber(-1);
 }
 
-Local<Object> PitchAngle::newAngle(float pitch, float yaw)
+Local<Object> DirectionAngle::newAngle(float pitch, float yaw)
 {
-    return EngineScope::currentEngine()->newNativeClass<PitchAngle>(pitch, yaw);
+    return EngineScope::currentEngine()->newNativeClass<DirectionAngle>(pitch, yaw);
 }
 
 //////////////////// APIs ////////////////////

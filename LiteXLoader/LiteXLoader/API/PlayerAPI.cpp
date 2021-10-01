@@ -377,8 +377,8 @@ Local<Value> PlayerClass::getDirection()
         if (!player)
             return Local<Value>();
         
-        auto vec = Raw_GetRotation((Actor*)player);
-        return PitchAngle::newAngle(vec->x, vec->y);
+        auto vec = Raw_GetDirction((Actor*)player);
+        return DirectionAngle::newAngle(vec->x, vec->y);
     }
     CATCH("Fail in getDirection!")
 }
