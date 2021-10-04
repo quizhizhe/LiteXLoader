@@ -53,7 +53,7 @@ enum class EVENT_TYPES : int
     onProjectileHitBlock, onBlockInteracted, onUseRespawnAnchor, onFarmLandDecay, onUseFrameBlock,
     onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onNpcCmd,
     onScoreChanged, onServerStarted, onConsoleCmd, onFormSelected, onConsoleOutput, onTick,
-    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, 
+    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem,
     EVENT_COUNT
 };
 static const std::unordered_map<string, EVENT_TYPES> EventsMap{
@@ -118,7 +118,8 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onMoneyReduce",EVENT_TYPES::onMoneyReduce},
     {"onMoneyTrans",EVENT_TYPES::onMoneyTrans},
     {"onMoneySet",EVENT_TYPES::onMoneySet},
-    {"onFormSelected",EVENT_TYPES::onFormSelected}
+    {"onFormSelected",EVENT_TYPES::onFormSelected},
+    {"onConsumeTotem",EVENT_TYPES::onConsumeTotem}
 };
 struct ListenerListType
 {
@@ -748,6 +749,17 @@ THook(bool, "?useItemOn@GameMode@@UEAA_NAEAVItemStack@@AEBVBlockPos@@EAEBVVec3@@
     }
     IF_LISTENED_END(EVENT_TYPES::onUseItemOn);
     return original(_this, item, bp, side, a5, bl);
+}
+
+// ===== onConsumeTotem =====
+THook(void, "?consumeTotem@Player@@UEAA_NXZ", Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onConsumeTotem)
+    {
+        CallEventRtnVoid(EVENT_TYPES::onConsumeTotem, PlayerClass::newPlayer(player));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onConsumeTotem);
+    return original(player);
 }
 
 /* onTurnLectern // 由于还是不能拦截掉书，暂时注释
