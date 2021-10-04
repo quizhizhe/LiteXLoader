@@ -482,11 +482,13 @@ THook(bool, "?attack@Player@@UEAA_NAEAVActor@@AEBW4ActorDamageCause@@@Z",
 THook(Item*, "?useTimeDepleted@FoodItemComponentLegacy@@UEAAPEBVItem@@AEAVItemStack@@AEAVPlayer@@AEAVLevel@@@Z",
     class FoodItemComponentLegacy* _this, ItemStack* eaten, Player* player, Level* level)
 {
-    IF_LISTENED(EVENT_TYPES::onEat)
-    {
-        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+    if (Raw_GetItemTypeName(eaten) != "minecraft:suspicious_stew") {
+        IF_LISTENED(EVENT_TYPES::onEat)
+        {
+            CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+        }
+        IF_LISTENED_END(EVENT_TYPES::onEat);
     }
-    IF_LISTENED_END(EVENT_TYPES::onEat);
     return original(_this, eaten, player, level);
 }
 
