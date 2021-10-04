@@ -490,6 +490,18 @@ THook(Item*, "?useTimeDepleted@FoodItemComponentLegacy@@UEAAPEBVItem@@AEAVItemSt
     return original(_this, eaten, player, level);
 }
 
+// ===== onEat_SuspiciousStew =====
+THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class FoodItemComponentLegacy* _this, ItemStack* eaten, Player* player, Level* level)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, eaten, player, level);
+}
+
 // ===== onMove =====
 THook(void, "?sendPlayerMove@PlayerEventCoordinator@@QEAAXAEAVPlayer@@@Z",
     void *_this, Player* pl)
