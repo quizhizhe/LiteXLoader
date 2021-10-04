@@ -504,42 +504,6 @@ THook(Item*, "?useTimeDepleted@FoodItemComponent@@UEAAPEBVItem@@AEAVItemStack@@A
     return original(_this, eaten, player, level);
 }
 
-//===== onEat_Drink_Potion =====
-THook(long long*, "?useTimeDepleted@PotionItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
-    long long _this, ItemStack* eaten, long long a3, Player* player)
-{
-    IF_LISTENED(EVENT_TYPES::onEat)
-    {
-        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
-    }
-    IF_LISTENED_END(EVENT_TYPES::onEat);
-    return original(_this, eaten, a3, player);
-}
-
-//===== onEat_Drink_MedicineItem =====
-THook(long long*, "?useTimeDepleted@MedicineItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
-    long long _this, ItemStack* eaten, long long a3, Player* player)
-{
-    IF_LISTENED(EVENT_TYPES::onEat)
-    {
-        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
-    }
-    IF_LISTENED_END(EVENT_TYPES::onEat);
-    return original(_this, eaten, a3, player);
-}
-
-//===== onEat_Drink_Milk =====
-THook(long long*, "?useTimeDepleted@BucketItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
-    long long _this, ItemStack* eaten, long long a3, Player* player)
-{
-    IF_LISTENED(EVENT_TYPES::onEat)
-    {
-        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
-    }
-    IF_LISTENED_END(EVENT_TYPES::onEat);
-    return original(_this, eaten, a3, player);
-}
-
 // ===== onEat_SuspiciousStew =====
 THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
     class SuspiciousStewItem* _this, ItemStack* eaten, Level* level, Player* player)
