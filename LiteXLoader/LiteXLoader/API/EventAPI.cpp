@@ -492,14 +492,14 @@ THook(Item*, "?useTimeDepleted@FoodItemComponentLegacy@@UEAAPEBVItem@@AEAVItemSt
 
 // ===== onEat_SuspiciousStew =====
 THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
-    class FoodItemComponentLegacy* _this, ItemStack* eaten, Player* player, Level* level)
+    class FoodItemComponentLegacy* _this, ItemStack* eaten, Level* level, Player* player)
 {
     IF_LISTENED(EVENT_TYPES::onEat)
     {
         CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
     }
     IF_LISTENED_END(EVENT_TYPES::onEat);
-    return original(_this, eaten, player, level);
+    return original(_this, eaten, level, player);
 }
 
 // ===== onMove =====
