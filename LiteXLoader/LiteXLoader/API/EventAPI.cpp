@@ -482,6 +482,20 @@ THook(bool, "?attack@Player@@UEAA_NAEAVActor@@AEBW4ActorDamageCause@@@Z",
 THook(Item*, "?useTimeDepleted@FoodItemComponentLegacy@@UEAAPEBVItem@@AEAVItemStack@@AEAVPlayer@@AEAVLevel@@@Z",
     class FoodItemComponentLegacy* _this, ItemStack* eaten, Player* player, Level* level)
 {
+    if (Raw_GetItemTypeName(eaten) != "minecraft:suspicious_stew") {
+        IF_LISTENED(EVENT_TYPES::onEat)
+        {
+            CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+        }
+        IF_LISTENED_END(EVENT_TYPES::onEat);
+    }
+    return original(_this, eaten, player, level);
+}
+
+// ===== onEat_Unknown =====
+THook(Item*, "?useTimeDepleted@FoodItemComponent@@UEAAPEBVItem@@AEAVItemStack@@AEAVPlayer@@AEAVLevel@@@Z",
+    class FoodItemComponent* _this, ItemStack* eaten, Player* player, Level* level)
+{
     IF_LISTENED(EVENT_TYPES::onEat)
     {
         CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
@@ -528,7 +542,7 @@ THook(long long*, "?useTimeDepleted@BucketItem@@UEBA?AW4ItemUseMethod@@AEAVItemS
 
 // ===== onEat_SuspiciousStew =====
 THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
-    class FoodItemComponentLegacy* _this, ItemStack* eaten, Level* level, Player* player)
+    class SuspiciousStewItem* _this, ItemStack* eaten, Level* level, Player* player)
 {
     IF_LISTENED(EVENT_TYPES::onEat)
     {
@@ -536,6 +550,42 @@ THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVIt
     }
     IF_LISTENED_END(EVENT_TYPES::onEat);
     return original(_this, eaten, level, player);
+}
+
+// ===== onEat_Potion =====
+THook(Item*, "?useTimeDepleted@PotionItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class PotionItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
+}
+
+// ===== onEat_Medicine =====
+THook(Item*, "?useTimeDepleted@MedicineItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class MedicineItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
+}
+
+// ===== onEat_Milk =====
+THook(Item*, "?useTimeDepleted@BucketItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class BucketItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
 }
 
 // ===== onMove =====
