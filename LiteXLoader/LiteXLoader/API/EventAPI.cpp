@@ -44,7 +44,7 @@ using namespace script;
 enum class EVENT_TYPES : int
 {
     onPreJoin=0, onJoin, onLeft, onPlayerCmd, onChat, onPlayerDie, 
-    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onSpawnProjectile,
+    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onDrink, onMove, onSpawnProjectile,
     onFireworkShootWithCrossbow, onSetArmor, onRide, onStepOnPressurePlate,
     onUseItem, onTakeItem, onDropItem, onUseItemOn, onInventoryChange,
     onStartDestroyBlock, onDestroyBlock, onWitherBossDestroy, onPlaceBlock, onBedExplode, onRespawnAnchorExplode, onLiquidFlow,
@@ -69,6 +69,7 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onSneak",EVENT_TYPES::onSneak},
     {"onAttack",EVENT_TYPES::onAttack},
     {"onEat",EVENT_TYPES::onEat},
+    {"onDrink",EVENT_TYPES::onDrink},
     {"onMove",EVENT_TYPES::onMove},
     {"onSpawnProjectile",EVENT_TYPES::onSpawnProjectile},
     {"onFireworkShootWithCrossbow",EVENT_TYPES::onFireworkShootWithCrossbow},
@@ -500,6 +501,42 @@ THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVIt
     }
     IF_LISTENED_END(EVENT_TYPES::onEat);
     return original(_this, eaten, level, player);
+}
+
+// ===== onDrink_Potion =====
+THook(Item*, "?useTimeDepleted@PotionItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class FoodItemComponentLegacy* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onDrink)
+    {
+        CallEventRtnValue(EVENT_TYPES::onDrink, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onDrink);
+    return original(_this, item, level, player);
+}
+
+// ===== onDrink_Medicine =====
+THook(Item*, "?useTimeDepleted@MedicineItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class FoodItemComponentLegacy* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onDrink)
+    {
+        CallEventRtnValue(EVENT_TYPES::onDrink, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onDrink);
+    return original(_this, item, level, player);
+}
+
+// ===== onDrink_Milk =====
+THook(Item*, "?useTimeDepleted@BucketItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class FoodItemComponentLegacy* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onDrink)
+    {
+        CallEventRtnValue(EVENT_TYPES::onDrink, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onDrink);
+    return original(_this, item, level, player);
 }
 
 // ===== onMove =====

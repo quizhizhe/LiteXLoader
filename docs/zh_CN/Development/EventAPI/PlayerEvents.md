@@ -235,6 +235,20 @@
 
 <br>
 
+#### `"onDrink"` - 玩家饮用饮料
+
+- 监听函数原型
+  `function(player,item)`
+- 参数：
+  - player : `Player`  
+    正在喝的玩家对象
+  - item : `Item`  
+    被喝的物品对象
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
 #### `"onStartDestroyBlock"` - 玩家开始破坏方块  / 点击左键
 
 - 监听函数原型
