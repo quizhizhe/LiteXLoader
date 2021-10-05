@@ -1,5 +1,7 @@
 #include "Global.h"
 #include "Block.h"
+#include "Packet.h"
+#include "Player.h"
 #include "SymbolHelper.h"
 using namespace std;
 
@@ -36,9 +38,15 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
 {
     BlockSource* bs = Raw_GetBlockSourceByDim(pos.dim);
 
-    return SymCall("?setBlock@BlockSource@@QEAA_NAEBVBlockPos@@AEBVBlock@@HPEBUActorBlockSyncMessage@@@Z",
-        bool, BlockSource*, BlockPos , Block*, int, void*)
-        (bs, { pos.x, pos.y, pos.z }, block, 0, nullptr);
+    if (!SymCall("?setBlock@BlockSource@@QEAA_NAEBVBlockPos@@AEBVBlock@@HPEBUActorBlockSyncMessage@@@Z", 
+        bool, BlockSource*, BlockPos, Block*, int, void*) (bs, { pos.x, pos.y, pos.z }, block, 0, nullptr))
+        return false;
+
+    auto pls = Raw_GetOnlinePlayers();
+    for (auto& pl : pls)
+        Raw_RefreshChunks(pl);
+    //Raw_BroadcastUpdateBlockPacket(pos);
+    return true;
 }
 
 bool Raw_SetBlockByName(IntVec4 pos, const string& name)

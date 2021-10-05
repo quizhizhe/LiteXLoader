@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "Packet.h"
+#include "Player.h"
 #include "SymbolHelper.h"
 #include "Scoreboard.h"
 #include <cstdlib>
@@ -108,6 +109,23 @@ bool Raw_SendTextTalkPacket(Player* player, const string& msg)
         void*, Player*)(player);
     SymCall("?handle@ServerNetworkHandler@@UEAAXAEBVNetworkIdentifier@@AEBVTextPacket@@@Z",
         void, ServerNetworkHandler*, void*, void*)(mc->getServerNetworkHandler(), clientId, pkt);
+    return true;
+}
+
+bool Raw_BroadcastUpdateBlockPacket(IntVec4 pos)
+{
+    Block* blk = Raw_GetBlockByPos(&pos);
+    Packet* pkt = Raw_CreatePacket(21);     //Update Block
+    dAccess<DWORD, 12>(pkt) = (DWORD)pos.x;
+    dAccess<DWORD, 13>(pkt) = (DWORD)pos.y;
+    dAccess<DWORD, 14>(pkt) = (DWORD)pos.z;
+    dAccess<DWORD, 15>(pkt) = 0;
+    dAccess<DWORD, 17>(pkt) = (DWORD)*SymCall("?getRuntimeId@Block@@QEBAAEBIXZ", int*, Block*)(blk);        //IDA ItemUseInventoryTransaction::resendBlocksAroundArea
+    dAccess<char, 64>(pkt) = 3;
+
+    auto pls = Raw_GetOnlinePlayers();
+    for(auto &pl : pls)
+        Raw_SendPacket(pl, pkt);
     return true;
 }
 
