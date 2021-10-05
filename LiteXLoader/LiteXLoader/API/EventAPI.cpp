@@ -46,7 +46,7 @@ enum class EVENT_TYPES : int
     onPreJoin=0, onJoin, onLeft, onPlayerCmd, onChat, onPlayerDie, 
     onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onSpawnProjectile,
     onFireworkShootWithCrossbow, onSetArmor, onRide, onStepOnPressurePlate,
-    onUseItem, onTakeItem, onDropItem, onUseItemOn, onInventoryChange,
+    onUseItem, onTakeItem, onDropItem, onUseItemOn, onInventoryChange, onChangeArmorStand,
     onStartDestroyBlock, onDestroyBlock, onWitherBossDestroy, onPlaceBlock, onBedExplode, onRespawnAnchorExplode, onLiquidFlow,
     onOpenContainer, onCloseContainer, onContainerChange, onOpenContainerScreen, 
     onMobDie, onMobHurt, onExplode, onBlockExploded, onCmdBlockExecute, onRedStoneUpdate, onProjectileHitEntity,
@@ -82,6 +82,7 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onDropItem",EVENT_TYPES::onDropItem},
     {"onUseItemOn",EVENT_TYPES::onUseItemOn},
     {"onInventoryChange",EVENT_TYPES::onInventoryChange},
+    {"onChangeArmorStand",EVENT_TYPES::onChangeArmorStand},
     {"onStartDestroyBlock",EVENT_TYPES::onStartDestroyBlock},
     {"onDestroyBlock",EVENT_TYPES::onDestroyBlock},
     {"onWitherBossDestroy",EVENT_TYPES::onWitherBossDestroy},
@@ -729,6 +730,18 @@ THook(void, "?inventoryChanged@Player@@UEAAXAEAVContainer@@HAEBVItemStack@@1_N@Z
     IF_LISTENED_END(EVENT_TYPES::onInventoryChange);
 
     return original(_this, container, slotNumber, oldItem, newItem, is);
+}
+
+// ===== onChangeArmorStand =====
+THook(bool, "?_trySwapItem@ArmorStand@@AEAA_NAEAVPlayer@@W4EquipmentSlot@@@Z",
+    Actor* _this, Player* a2, int a3)
+{
+    IF_LISTENED(EVENT_TYPES::onChangeArmorStand)
+    {
+        CallEventRtnBool(EVENT_TYPES::onChangeArmorStand, EntityClass::newEntity(_this), PlayerClass::newPlayer(a2), Number::newNumber(a3));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onChangeArmorStand);
+    return original(_this, a2, a3);
 }
 
 // ===== onStartDestroyBlock =====
