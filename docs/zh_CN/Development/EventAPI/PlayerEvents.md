@@ -251,6 +251,51 @@
 
 <br>
 
+#### `"onEffectAdded"` - 玩家获得效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    获得效果的玩家对象
+
+  - effectName : `String`  
+    获得的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
+#### `"onEffectRemoved"` - 玩家移除效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    被移除效果的玩家对象
+
+  - effectName : `String`   
+    被移除的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
+#### `"onEffectUpdated"` - 玩家刷新效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    刷新效果的玩家对象
+
+  - effectName : `String`   
+    被刷新的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
 #### `"onStartDestroyBlock"` - 玩家开始破坏方块  / 点击左键
 
 - 监听函数原型
