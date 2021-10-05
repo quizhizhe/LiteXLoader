@@ -16,7 +16,6 @@ bool Raw_SendBossEventPacket(Player* player, std::string name, float percent, in
 bool Raw_SendCrashClientPacket(Player* player);
 bool Raw_SendCommandRequestPacket(Player* player, const string& cmd);
 bool Raw_SendTextTalkPacket(Player* player, const string& msg);
-bool Raw_BroadcastUpdateBlockPacket(IntVec4 pos);
 
 Player* Raw_GetPlayerFromPacket(NetworkIdentifier* id, Packet* packet);
 Player* Raw_GetPlayerFromPacket(ServerNetworkHandler* handler, NetworkIdentifier* id, Packet* packet);
