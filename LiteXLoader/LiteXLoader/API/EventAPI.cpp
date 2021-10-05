@@ -53,7 +53,7 @@ enum class EVENT_TYPES : int
     onProjectileHitBlock, onBlockInteracted, onUseRespawnAnchor, onFarmLandDecay, onUseFrameBlock,
     onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onNpcCmd,
     onScoreChanged, onServerStarted, onConsoleCmd, onFormSelected, onConsoleOutput, onTick,
-    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, 
+    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem, onEffectAdded, onEffectUpdated, onEffectRemoved,
     EVENT_COUNT
 };
 static const std::unordered_map<string, EVENT_TYPES> EventsMap{
@@ -119,7 +119,11 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onMoneyReduce",EVENT_TYPES::onMoneyReduce},
     {"onMoneyTrans",EVENT_TYPES::onMoneyTrans},
     {"onMoneySet",EVENT_TYPES::onMoneySet},
-    {"onFormSelected",EVENT_TYPES::onFormSelected}
+    {"onFormSelected",EVENT_TYPES::onFormSelected},
+    {"onConsumeTotem",EVENT_TYPES::onConsumeTotem},
+    {"onEffectAdded",EVENT_TYPES::onEffectAdded},
+    {"onEffectRemoved",EVENT_TYPES::onEffectRemoved},
+    {"onEffectUpdated",EVENT_TYPES::onEffectUpdated}
 };
 struct ListenerListType
 {
@@ -480,15 +484,77 @@ THook(bool, "?attack@Player@@UEAA_NAEAVActor@@AEBW4ActorDamageCause@@@Z",
 }
 
 // ===== onEat =====
-THook(void, "?eat@Player@@QEAAXAEBVItemStack@@@Z",
-    Player* _this, ItemStack* eaten)
+THook(Item*, "?useTimeDepleted@FoodItemComponentLegacy@@UEAAPEBVItem@@AEAVItemStack@@AEAVPlayer@@AEAVLevel@@@Z",
+    class FoodItemComponentLegacy* _this, ItemStack* eaten, Player* player, Level* level)
+{
+    if (Raw_GetItemTypeName(eaten) != "minecraft:suspicious_stew") {
+        IF_LISTENED(EVENT_TYPES::onEat)
+        {
+            CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+        }
+        IF_LISTENED_END(EVENT_TYPES::onEat);
+    }
+    return original(_this, eaten, player, level);
+}
+
+// ===== onEat_Unknown =====
+THook(Item*, "?useTimeDepleted@FoodItemComponent@@UEAAPEBVItem@@AEAVItemStack@@AEAVPlayer@@AEAVLevel@@@Z",
+    class FoodItemComponent* _this, ItemStack* eaten, Player* player, Level* level)
 {
     IF_LISTENED(EVENT_TYPES::onEat)
     {
-        CallEventRtnVoid(EVENT_TYPES::onEat, PlayerClass::newPlayer(_this), ItemClass::newItem(eaten));
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
     }
     IF_LISTENED_END(EVENT_TYPES::onEat);
-    return original(_this, eaten);
+    return original(_this, eaten, player, level);
+}
+
+// ===== onEat_SuspiciousStew =====
+THook(Item*, "?useTimeDepleted@SuspiciousStewItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class SuspiciousStewItem* _this, ItemStack* eaten, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(eaten));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, eaten, level, player);
+}
+
+// ===== onEat_Potion =====
+THook(Item*, "?useTimeDepleted@PotionItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class PotionItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
+}
+
+// ===== onEat_Medicine =====
+THook(Item*, "?useTimeDepleted@MedicineItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class MedicineItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
+}
+
+// ===== onEat_Milk =====
+THook(Item*, "?useTimeDepleted@BucketItem@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z",
+    class BucketItem* _this, ItemStack* item, Level* level, Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onEat)
+    {
+        CallEventRtnValue(EVENT_TYPES::onEat, nullptr, PlayerClass::newPlayer(player), ItemClass::newItem(item));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEat);
+    return original(_this, item, level, player);
 }
 
 // ===== onMove =====
@@ -687,6 +753,53 @@ THook(bool, "?useItemOn@GameMode@@UEAA_NAEAVItemStack@@AEBVBlockPos@@EAEBVVec3@@
     }
     IF_LISTENED_END(EVENT_TYPES::onUseItemOn);
     return original(_this, item, bp, side, a5, bl);
+}
+
+// ===== onConsumeTotem =====
+THook(void, "?consumeTotem@Player@@UEAA_NXZ", Player* player)
+{
+    IF_LISTENED(EVENT_TYPES::onConsumeTotem)
+    {
+        CallEventRtnVoid(EVENT_TYPES::onConsumeTotem, PlayerClass::newPlayer(player));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onConsumeTotem);
+    return original(player);
+}
+
+// ===== onEffectAdded =====
+THook(void, "?onEffectAdded@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectAdded)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectAdded, PlayerClass::newPlayer(player) , effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectAdded);
+    return original(player,effect);
+}
+
+// ===== onEffectRemoved =====
+THook(void, "?onEffectRemoved@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectRemoved)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectRemoved, PlayerClass::newPlayer(player), effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectRemoved);
+    return original(player, effect);
+}
+
+// ===== onEffectUpdated =====
+THook(void, "?onEffectUpdated@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectUpdated)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectUpdated, PlayerClass::newPlayer(player), effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectUpdated);
+    return original(player, effect);
 }
 
 /* onTurnLectern // 由于还是不能拦截掉书，暂时注释

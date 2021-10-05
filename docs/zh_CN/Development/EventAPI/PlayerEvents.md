@@ -230,8 +230,66 @@
     正在吃的玩家对象
   - item : `Item`  
     被吃的物品对象
+    
+- 拦截事件：函数返回`false`
 
-- 拦截事件：不可以拦截
+此处的 **食物** 为宽泛物品的概念，包括常规食物、药水、牛奶、药品等多种可以被摄取的物品
+
+<br>
+
+#### `"onConsumeTotem"` - 玩家消耗图腾
+
+- 监听函数原型
+  `function(player)`
+- 参数：
+  - player : `Player`  
+    消耗图腾的玩家对象
+    
+- 拦截事件：函数返回`false`
+  - 此处拦截后,仍会触发图腾的复活效果,但不会消耗图腾
+  - ***请不要用这个事件整烂活***
+
+<br>
+
+#### `"onEffectAdded"` - 玩家获得效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    获得效果的玩家对象
+  - effectName : `String`
+    - 获得的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
+#### `"onEffectRemoved"` - 玩家移除效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    被移除效果的玩家对象
+  - effectName : `String`
+    - 被移除的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
+
+<br>
+
+#### `"onEffectUpdated"` - 玩家刷新效果
+
+- 监听函数原型
+  `function(player,effectName)`
+- 参数：
+  - player : `Player`  
+    刷新效果的玩家对象
+  - effectName : `String`
+    - 被刷新的效果名称 **minecraft:effect.效果**
+    
+- 拦截事件：函数返回`false`
 
 <br>
 
