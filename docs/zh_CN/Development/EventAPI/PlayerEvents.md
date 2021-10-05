@@ -258,8 +258,9 @@
 - 参数：
   - player : `Player`  
     获得效果的玩家对象
-  - effectName : `String`
-    - 获得的效果名称 **minecraft:effect.效果**
+
+  - effectName : `String`  
+    获得的效果名称 **minecraft:effect.效果**
     
 - 拦截事件：函数返回`false`
 
@@ -272,8 +273,9 @@
 - 参数：
   - player : `Player`  
     被移除效果的玩家对象
-  - effectName : `String`
-    - 被移除的效果名称 **minecraft:effect.效果**
+
+  - effectName : `String`   
+    被移除的效果名称 **minecraft:effect.效果**
     
 - 拦截事件：函数返回`false`
 
@@ -286,8 +288,9 @@
 - 参数：
   - player : `Player`  
     刷新效果的玩家对象
-  - effectName : `String`
-    - 被刷新的效果名称 **minecraft:effect.效果**
+
+  - effectName : `String`   
+    被刷新的效果名称 **minecraft:effect.效果**
     
 - 拦截事件：函数返回`false`
 
