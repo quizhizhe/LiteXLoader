@@ -53,7 +53,7 @@ enum class EVENT_TYPES : int
     onProjectileHitBlock, onBlockInteracted, onUseRespawnAnchor, onFarmLandDecay, onUseFrameBlock,
     onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onNpcCmd,
     onScoreChanged, onServerStarted, onConsoleCmd, onFormSelected, onConsoleOutput, onTick,
-    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem,
+    onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem, onEffectAdded, onEffectUpdated, onEffectRemoved,
     EVENT_COUNT
 };
 static const std::unordered_map<string, EVENT_TYPES> EventsMap{
@@ -119,7 +119,10 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onMoneyTrans",EVENT_TYPES::onMoneyTrans},
     {"onMoneySet",EVENT_TYPES::onMoneySet},
     {"onFormSelected",EVENT_TYPES::onFormSelected},
-    {"onConsumeTotem",EVENT_TYPES::onConsumeTotem}
+    {"onConsumeTotem",EVENT_TYPES::onConsumeTotem},
+    {"onEffectAdded",EVENT_TYPES::onEffectAdded},
+    {"onEffectRemoved",EVENT_TYPES::onEffectRemoved},
+    {"onEffectUpdated",EVENT_TYPES::onEffectUpdated}
 };
 struct ListenerListType
 {
@@ -760,6 +763,42 @@ THook(void, "?consumeTotem@Player@@UEAA_NXZ", Player* player)
     }
     IF_LISTENED_END(EVENT_TYPES::onConsumeTotem);
     return original(player);
+}
+
+// ===== onEffectAdded =====
+THook(void, "?onEffectAdded@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectAdded)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectAdded, PlayerClass::newPlayer(player) , effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectAdded);
+    return original(player,effect);
+}
+
+// ===== onEffectRemoved =====
+THook(void, "?onEffectRemoved@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectRemoved)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectRemoved, PlayerClass::newPlayer(player), effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectRemoved);
+    return original(player, effect);
+}
+
+// ===== onEffectUpdated =====
+THook(void, "?onEffectUpdated@ServerPlayer@@MEAAXAEAVMobEffectInstance@@@Z", Player* player, void* effect)
+{
+    IF_LISTENED(EVENT_TYPES::onEffectUpdated)
+    {
+        HashedString* effectName = SymCall("?getComponentName@MobEffectInstance@@QEBAAEBVHashedString@@XZ", HashedString*, void*)(effect);
+        CallEventRtnVoid(EVENT_TYPES::onEffectUpdated, PlayerClass::newPlayer(player), effectName->getString());
+    }
+    IF_LISTENED_END(EVENT_TYPES::onEffectUpdated);
+    return original(player, effect);
 }
 
 /* onTurnLectern // 由于还是不能拦截掉书，暂时注释
