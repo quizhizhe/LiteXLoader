@@ -1330,7 +1330,7 @@ THook(bool, "?_trySpawnBlueFire@FireBlock@@AEBA_NAEAVBlockSource@@AEBVBlockPos@@
     return original(_this, bs, bp);
 }
 
-// ====== onBlockChanged ======
+// ===== onBlockChanged =====
 THook(void, "?_blockChanged@BlockSource@@IEAAXAEBVBlockPos@@IAEBVBlock@@1HPEBUActorBlockSyncMessage@@@Z",
     BlockSource* bs,
     BlockPos* bp,
