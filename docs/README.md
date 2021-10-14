@@ -9,7 +9,7 @@
 ![LiteXLoader](https://socialify.git.ci/LiteLDev/LiteXLoader/image?description=1&descriptionEditable=%E5%88%92%E6%97%B6%E4%BB%A3%20x%20%E8%B7%A8%E8%AF%AD%E8%A8%80%20BDS%E8%84%9A%E6%9C%AC%E6%8F%92%E4%BB%B6%E5%8A%A0%E8%BD%BD%E5%99%A8&font=KoHo&forks=1&logo=https%3A%2F%2Fgithub.com%2FLiteLDev%2FLiteXLoader%2Fblob%2Fmain%2Fassets%2FLXL.png%3Fraw%3Dtrue&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Light)
 
 ## 🎨 简介
-`LiteXLoader`是一个基岩版官方服务端`Bedrock Delicated Server`（以下简称**BDS**）的脚本插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
+`LiteXLoader`是一个基岩版官方服务端`Bedrock Dedicated Server`（以下简称**BDS**）的脚本插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
 
 目前，基于注入技术的C++插件开发框架`LiteLoader`的使用十分广泛。它为拓展基岩版**BDS**的更多玩法和功能提供了坚实的基础，弥补了官方行为包系统长期以来存在的一些不足。
 
