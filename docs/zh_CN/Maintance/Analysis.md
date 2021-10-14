@@ -1,6 +1,6 @@
 ## 👓 项目架构分析
 
-> `LiteXLoader`是一个基岩版官方服务端`Bedrock Delicated Server`（以下简称**BDS**）插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。
+> `LiteXLoader`是一个基岩版官方服务端`Bedrock Dedicated Server`（以下简称**BDS**）插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。
 
 正如项目介绍所言，LXL一个拥有跨语言、跨平台能力的BDS服务端插件框架。
 

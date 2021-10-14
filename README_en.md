@@ -7,7 +7,7 @@
 简体中文 | [English](README_en.md)
 
 ## 🎨 简介
-`LiteXLoader`是一个基岩版官方服务端`Bedrock Delicated Server`（以下简称**BDS**）插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
+`LiteXLoader`是一个基岩版官方服务端`Bedrock Dedicated Server`（以下简称**BDS**）插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
 由`LiteLoader`插件加载器加载并提供部分基础API。  
 使用脚本开发**BDS**插件具有上手容易、代码简洁、便于维护的优点。同时脚本插件不需要随着**BDS**版本更新而修改代码，仅需本项目在底层适配即可，给插件开发与维护带来了很大的便利。  
 
