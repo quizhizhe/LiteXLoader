@@ -2,7 +2,7 @@
 
 ## 🎨 项目简介
 
-`LiteXLoader`（以下简称**LXL**）是一个基岩版官方服务端 `Bedrock Delicated Server`（以下简称**BDS**）的插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
+`LiteXLoader`（以下简称**LXL**）是一个基岩版官方服务端 `Bedrock Dedicated Server`（以下简称**BDS**）的插件框架，提供强大的跨语言脚本插件支持能力和稳定的开发API支持。  
 
 `LiteXLoader` 主要发布和更新于**MineBBS**。你可以在哪里下载到`LiteXLoader`以及绝大多数相关插件
 

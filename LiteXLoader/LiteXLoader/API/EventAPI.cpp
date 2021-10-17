@@ -51,7 +51,7 @@ enum class EVENT_TYPES : int
     onOpenContainer, onCloseContainer, onContainerChange, onOpenContainerScreen, 
     onMobDie, onMobHurt, onExplode, onBlockExploded, onCmdBlockExecute, onRedStoneUpdate, onProjectileHitEntity,
     onProjectileHitBlock, onBlockInteracted, onUseRespawnAnchor, onFarmLandDecay, onUseFrameBlock,
-    onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onNpcCmd,
+    onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onBlockChanged, onNpcCmd,
     onScoreChanged, onServerStarted, onConsoleCmd, onFormSelected, onConsoleOutput, onTick,
     onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem, onEffectAdded, onEffectUpdated, onEffectRemoved,
     EVENT_COUNT
@@ -109,6 +109,7 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onHopperSearchItem",EVENT_TYPES::onHopperSearchItem},
     {"onHopperPushOut",EVENT_TYPES::onHopperPushOut},
     {"onFireSpread",EVENT_TYPES::onFireSpread},
+    {"onBlockChanged",EVENT_TYPES::onBlockChanged},
     {"onNpcCmd",EVENT_TYPES::onNpcCmd},
     {"onScoreChanged",EVENT_TYPES::onScoreChanged},
     {"onServerStarted",EVENT_TYPES::onServerStarted},
@@ -1327,6 +1328,24 @@ THook(bool, "?_trySpawnBlueFire@FireBlock@@AEBA_NAEAVBlockSource@@AEBVBlockPos@@
     }
     IF_LISTENED_END(EVENT_TYPES::onFireSpread);
     return original(_this, bs, bp);
+}
+
+// ===== onBlockChanged =====
+THook(void, "?_blockChanged@BlockSource@@IEAAXAEBVBlockPos@@IAEBVBlock@@1HPEBUActorBlockSyncMessage@@@Z",
+    BlockSource* bs,
+    BlockPos* bp,
+    int a3,
+    Block* afterBlock,
+    Block* beforeBlock,
+    int a6,
+    void* a7)
+{
+    IF_LISTENED(EVENT_TYPES::onBlockChanged)
+    {
+        CallEventRtnVoid(EVENT_TYPES::onBlockChanged, BlockClass::newBlock(beforeBlock, bp, bs), BlockClass::newBlock(afterBlock, bp, bs));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onBlockChanged);
+    return original(bs, bp, a3, afterBlock, beforeBlock, a6,a7);
 }
 
 /* ==== = onFishingHookRetrieve ==== =
