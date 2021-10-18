@@ -314,9 +314,15 @@ Local<Value> McClass::setBlock(const Arguments& args)
     {
         IntVec4 pos;
         Local<Value> block;
-
-        if (args.size() == 2)
+        unsigned short state=0;
+        if (args.size() == 2|| args.size() == 3)
         {
+            if (args.size() == 3)
+            {
+                CHECK_ARG_TYPE(args[1], ValueKind::kString);
+                CHECK_ARG_TYPE(args[2], ValueKind::kNumber);
+                state = args[2].toInt();
+            }
             if (IsInstanceOf<IntPos>(args[0]))
             {
                 // IntPos
@@ -350,7 +356,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
                 return Local<Value>();
             }
         }
-        else if (args.size() == 5)
+        else if (args.size() == 5|| args.size() == 6)
         {
             // Number Pos
             CHECK_ARG_TYPE(args[0], ValueKind::kNumber);
@@ -359,6 +365,12 @@ Local<Value> McClass::setBlock(const Arguments& args)
             CHECK_ARG_TYPE(args[3], ValueKind::kNumber);
             pos = { args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt() };
             block = args[4];
+            if (args.size() == 6)
+            {
+                CHECK_ARG_TYPE(args[4], ValueKind::kString);
+                CHECK_ARG_TYPE(args[5], ValueKind::kNumber);
+                state = args[5].toInt();
+            }
         }
         else
         {
@@ -370,7 +382,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
         if (block.isString())
         {
             //方块名
-            return Boolean::newBoolean(Raw_SetBlockByName(pos, block.toStr()));
+            return Boolean::newBoolean(Raw_SetBlockByNameAndState(pos, block.toStr(), state));
         }
         else
         {

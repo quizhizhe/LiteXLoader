@@ -140,14 +140,16 @@
 
 #### 设置指定位置的方块
 
-`mc.setBlock(pos,block)`  
-`mc.setBlock(x,y,z,dimid,block)`
+`mc.setBlock(pos,block,tiledata)`  
+`mc.setBlock(x,y,z,dimid,block,tiledata)`
 
 - 参数：
   - pos : `IntPos `  
     目标方块位置（或者使用x, y, z, dimid来确定方块位置）
   - block : `Block` 或 `String`  
     要设置成的方块对象或者方块标准类型名（如`minecraft:stone`）
+  - tiledata : `Integer`  
+    方块状态值，同原版 /setBlock 指令的 tiledata，默认为0
 - 返回值：是否成功设置
 - 返回值类型：`Boolean`
 

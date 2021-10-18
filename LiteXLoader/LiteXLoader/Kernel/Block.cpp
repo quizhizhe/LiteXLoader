@@ -26,12 +26,12 @@ int Raw_GetBlockId(Block* block)
 }
 
 struct BlockPalette;
-Block* Raw_NewBlockFromName(string name)
+Block* Raw_NewBlockFromNameAndState(string name, unsigned short state)
 {
     BlockPalette* generator = SymCall("?getBlockPalette@Level@@UEBAAEBVBlockPalette@@XZ", BlockPalette*, Level*)(mc->getLevel());
     BlockLegacy* blk = SymCall("?getBlockLegacy@BlockPalette@@QEBAPEBVBlockLegacy@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
         BlockLegacy*, void*, string*)(generator, &name);
-    return SymCall("?getRenderBlock@BlockLegacy@@UEBAAEBVBlock@@XZ", Block*, BlockLegacy*)(blk);    //SetBlockCommand::execute
+    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, state);    //SetBlockCommand::execute
 }
 
 bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
@@ -48,9 +48,9 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
     return true;
 }
 
-bool Raw_SetBlockByName(IntVec4 pos, const string& name)
+bool Raw_SetBlockByNameAndState(IntVec4 pos, const string& name, unsigned short state)
 {
-    Block* newBlock = Raw_NewBlockFromName(name);
+    Block* newBlock = Raw_NewBlockFromNameAndState(name, state);
     if (!newBlock)
         return false;
     return Raw_SetBlockByBlock(pos, newBlock);
