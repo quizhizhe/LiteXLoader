@@ -25,6 +25,11 @@ int Raw_GetBlockId(Block* block)
     return blockLegacy->getBlockItemId();
 }
 
+unsigned short Raw_GetTileData(Block* bl)
+{
+    return dAccess<unsigned short, 8>(bl);
+}
+
 struct BlockPalette;
 Block* Raw_NewBlockFromNameAndState(string name, unsigned short state)
 {

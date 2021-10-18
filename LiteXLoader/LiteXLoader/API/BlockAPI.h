@@ -43,6 +43,7 @@ public:
     Local<Value> getType();
     Local<Value> getId();
     Local<Value> getPos();
+    Local<Value> getTileData();
 
     Local<Value> getNbt(const Arguments& args);
     Local<Value> setNbt(const Arguments& args);

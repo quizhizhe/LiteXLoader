@@ -11,6 +11,7 @@ class Tag;
 std::string Raw_GetBlockName(Block* block);
 std::string Raw_GetBlockType(Block* block);
 int Raw_GetBlockId(Block* block);
+unsigned short Raw_GetTileData(Block* bl);
 
 Block* Raw_NewBlockFromNameAndState(string str, unsigned short state);
 Block* Raw_NewBlockFromNbt(Tag* tag);

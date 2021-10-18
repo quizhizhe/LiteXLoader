@@ -25,6 +25,7 @@ ClassDefine<BlockClass> BlockClassBuilder =
         .instanceProperty("type", &BlockClass::getType)
         .instanceProperty("id", &BlockClass::getId)
         .instanceProperty("pos", &BlockClass::getPos)
+        .instanceProperty("tileData", &BlockClass::getTileData)
 
         .instanceFunction("setNbt", &BlockClass::setNbt)
         .instanceFunction("getNbt", &BlockClass::getNbt)
@@ -140,6 +141,15 @@ Local<Value> BlockClass::getPos()
         return IntPos::newPos(pos);
     }
     CATCH("Fail in getBlockPos!");
+}
+
+Local<Value> BlockClass::getTileData()
+{
+    try{
+        // 已预加载
+        return Number::newNumber(Raw_GetTileData(block));
+    }
+    CATCH("Fail in getTileData!");
 }
 
 Local<Value> BlockClass::getRawPtr(const Arguments& args)
