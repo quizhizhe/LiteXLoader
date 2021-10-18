@@ -26,7 +26,11 @@ int Raw_GetBlockId(Block* block)
 }
 
 Block* Raw_GetBlockFromBlockLegacy(BlockLegacy* blk, unsigned short tileData) {
-    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);
+    auto block = SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);
+    // 某些方块在 tileData 太大时会变成其他方块，原版 /setblock 指令就存在这个问题（也有可能是被设计成这样的？）
+    if (block && offBlock::getLegacyBlock(block) == blk)
+        return block;
+    return SymCall("?getRenderBlock@BlockLegacy@@UEBAAEBVBlock@@XZ", Block*, BlockLegacy*)(blk);
 }
 
 unsigned short Raw_GetTileData(Block* bl)
