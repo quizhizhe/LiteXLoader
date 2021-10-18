@@ -146,10 +146,10 @@
 - 参数：
   - pos : `IntPos `  
     目标方块位置（或者使用x, y, z, dimid来确定方块位置）
-  - block : `Block` 或 `String`  
-    要设置成的方块对象或者方块标准类型名（如`minecraft:stone`）
+  - block : `Block` 、`String` 或 `NBTCompound`
+    要设置成的方块对象、方块标准类型名（如`minecraft:stone`）或方块NBT数据
   - tiledata : `Integer`  
-    方块状态值，同原版 /setBlock 指令的 tiledata，默认为0
+    方块状态值，同原版 /setBlock 指令的 tiledata，默认为0，仅通过方块类型名放置方块时有效
 - 返回值：是否成功设置
 - 返回值类型：`Boolean`
 

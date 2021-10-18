@@ -34,6 +34,14 @@ Block* Raw_NewBlockFromNameAndState(string name, unsigned short state)
     return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, state);    //SetBlockCommand::execute
 }
 
+Block* Raw_NewBlockFromNbt(Tag* tag)
+{
+    pair<int, Block*> result; // pair<enum BlockSerializationUtils::NBTState, Block*>
+    SymCall("?tryGetBlockFromNBT@BlockSerializationUtils@@YA?AU?$pair@W4NBTState@BlockSerializationUtils@@PEBVBlock@@@std@@AEBVCompoundTag@@PEAUNbtToBlockCache@1@@Z",
+        void*, void*, Tag*, int64_t)(&result, tag, 0);
+    return result.second;
+}
+
 bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
 {
     BlockSource* bs = Raw_GetBlockSourceByDim(pos.dim);
@@ -51,6 +59,14 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
 bool Raw_SetBlockByNameAndState(IntVec4 pos, const string& name, unsigned short state)
 {
     Block* newBlock = Raw_NewBlockFromNameAndState(name, state);
+    if (!newBlock)
+        return false;
+    return Raw_SetBlockByBlock(pos, newBlock);
+}
+
+bool Raw_SetBlockByNbt(IntVec4 pos, Tag* nbt)
+{
+    Block* newBlock = Raw_NewBlockFromNbt(nbt);
     if (!newBlock)
         return false;
     return Raw_SetBlockByBlock(pos, newBlock);

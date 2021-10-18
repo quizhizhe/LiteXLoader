@@ -384,6 +384,12 @@ Local<Value> McClass::setBlock(const Arguments& args)
             //方块名
             return Boolean::newBoolean(Raw_SetBlockByNameAndState(pos, block.toStr(), state));
         }
+        else if (IsInstanceOf<NbtCompoundClass>(block))
+        {
+            //Nbt
+            Tag* nbt = NbtCompoundClass::extract(block);
+            return Boolean::newBoolean(Raw_SetBlockByNbt(pos, nbt));
+        }
         else
         {
             //其他方块对象
