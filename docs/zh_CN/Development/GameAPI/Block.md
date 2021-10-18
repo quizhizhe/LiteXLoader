@@ -69,6 +69,7 @@
 - 返回值类型：`Boolean`
 
 关于NBT对象的更多使用，请参考 [NBT接口文档](zh_CN/Development/NbtAPI/NBT.md)
+注意：慎重使用此api，请考虑使用 mc.setBlock() 代替
 
 <br>
 
