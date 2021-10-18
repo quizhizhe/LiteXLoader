@@ -31,12 +31,12 @@ unsigned short Raw_GetTileData(Block* bl)
 }
 
 struct BlockPalette;
-Block* Raw_NewBlockFromNameAndState(string name, unsigned short state)
+Block* Raw_NewBlockFromNameAndTileData(string name, unsigned short tileData)
 {
     BlockPalette* generator = SymCall("?getBlockPalette@Level@@UEBAAEBVBlockPalette@@XZ", BlockPalette*, Level*)(mc->getLevel());
     BlockLegacy* blk = SymCall("?getBlockLegacy@BlockPalette@@QEBAPEBVBlockLegacy@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
         BlockLegacy*, void*, string*)(generator, &name);
-    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, state);    //SetBlockCommand::execute
+    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);    //SetBlockCommand::execute
 }
 
 Block* Raw_NewBlockFromNbt(Tag* tag)
@@ -61,9 +61,9 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
     return true;
 }
 
-bool Raw_SetBlockByNameAndState(IntVec4 pos, const string& name, unsigned short state)
+bool Raw_SetBlockByNameAndTileData(IntVec4 pos, const string& name, unsigned short tileData)
 {
-    Block* newBlock = Raw_NewBlockFromNameAndState(name, state);
+    Block* newBlock = Raw_NewBlockFromNameAndTileData(name, tileData);
     if (!newBlock)
         return false;
     return Raw_SetBlockByBlock(pos, newBlock);

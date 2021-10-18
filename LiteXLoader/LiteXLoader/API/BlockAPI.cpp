@@ -324,14 +324,14 @@ Local<Value> McClass::setBlock(const Arguments& args)
     {
         IntVec4 pos;
         Local<Value> block;
-        unsigned short state=0;
+        unsigned short tileData=0;
         if (args.size() == 2|| args.size() == 3)
         {
             if (args.size() == 3)
             {
                 CHECK_ARG_TYPE(args[1], ValueKind::kString);
                 CHECK_ARG_TYPE(args[2], ValueKind::kNumber);
-                state = args[2].toInt();
+                tileData = args[2].toInt();
             }
             if (IsInstanceOf<IntPos>(args[0]))
             {
@@ -379,7 +379,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
             {
                 CHECK_ARG_TYPE(args[4], ValueKind::kString);
                 CHECK_ARG_TYPE(args[5], ValueKind::kNumber);
-                state = args[5].toInt();
+                tileData = args[5].toInt();
             }
         }
         else
@@ -392,7 +392,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
         if (block.isString())
         {
             //方块名
-            return Boolean::newBoolean(Raw_SetBlockByNameAndState(pos, block.toStr(), state));
+            return Boolean::newBoolean(Raw_SetBlockByNameAndTileData(pos, block.toStr(), tileData));
         }
         else if (IsInstanceOf<NbtCompoundClass>(block))
         {

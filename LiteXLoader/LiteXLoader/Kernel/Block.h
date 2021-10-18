@@ -13,10 +13,10 @@ std::string Raw_GetBlockType(Block* block);
 int Raw_GetBlockId(Block* block);
 unsigned short Raw_GetTileData(Block* bl);
 
-Block* Raw_NewBlockFromNameAndState(string str, unsigned short state);
+Block* Raw_NewBlockFromNameAndTileData(string str, unsigned short tileData);
 Block* Raw_NewBlockFromNbt(Tag* tag);
 bool Raw_SetBlockByBlock(IntVec4 pos, Block* block);
-bool Raw_SetBlockByNameAndState(IntVec4 pos, const string& name, unsigned short state);
+bool Raw_SetBlockByNameAndTileData(IntVec4 pos, const string& name, unsigned short tileData);
 bool Raw_SetBlockByNbt(IntVec4 pos, Tag* nbt);
 bool Raw_SpawnParticle(FloatVec4 pos, const string& type);
 
