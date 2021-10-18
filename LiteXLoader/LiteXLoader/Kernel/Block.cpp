@@ -25,9 +25,24 @@ int Raw_GetBlockId(Block* block)
     return blockLegacy->getBlockItemId();
 }
 
+Block* Raw_GetBlockFromBlockLegacy(BlockLegacy* blk, unsigned short tileData) {
+    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);
+}
+
 unsigned short Raw_GetTileData(Block* bl)
 {
-    return dAccess<unsigned short, 8>(bl);
+    // 等待大佬改进
+    auto tileData = dAccess<unsigned short, 8>(bl);
+    auto blk = offBlock::getLegacyBlock(bl);
+    if (Raw_GetBlockFromBlockLegacy(blk, tileData) == bl)
+        return tileData;
+    for (unsigned short i = 0; i < 16; ++i) {
+        if (i == tileData)
+            continue;
+        if (Raw_GetBlockFromBlockLegacy(blk, i) == bl)
+            return i;
+    }
+    ERROR("Error in Raw_GetTileData");
 }
 
 struct BlockPalette;
@@ -36,7 +51,9 @@ Block* Raw_NewBlockFromNameAndTileData(string name, unsigned short tileData)
     BlockPalette* generator = SymCall("?getBlockPalette@Level@@UEBAAEBVBlockPalette@@XZ", BlockPalette*, Level*)(mc->getLevel());
     BlockLegacy* blk = SymCall("?getBlockLegacy@BlockPalette@@QEBAPEBVBlockLegacy@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
         BlockLegacy*, void*, string*)(generator, &name);
-    return SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);    //SetBlockCommand::execute
+    if (!blk)
+        return nullptr;
+    return Raw_GetBlockFromBlockLegacy(blk, tileData);    //SetBlockCommand::execute
 }
 
 Block* Raw_NewBlockFromNbt(Tag* tag)
