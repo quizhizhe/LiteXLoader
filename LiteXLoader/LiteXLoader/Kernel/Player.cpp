@@ -153,7 +153,7 @@ Container* Raw_GetArmor(Player* pl)
 
 Container* Raw_GetEnderChest(Player* pl)
 {
-    return dAccess<Container*>(pl, 4440);       //IDA ReplaceItemCommand::execute 1086 
+    return dAccess<Container*>(pl, 4208);       //IDA Player::Player() 782 
 }
 
 bool Raw_RefreshItems(Player* pl)
