@@ -33,10 +33,14 @@ string Raw_GetXuid(Player* player)
 
 std::string Raw_GetUuid(Player *player)
 {
-    string uuid;
+    auto ueic = offPlayer::getUserEntityIdentifierComponent(player);
+    if (!ueic)
+        return "";
+    auto uuid = (void*)((uintptr_t)ueic + 168);
+    string uuidStr;
     SymCall("?asString@UUID@mce@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
-        string *, void*, string *)((unsigned*)((uintptr_t)player+2976), &uuid);
-    return uuid;
+        string*, void*, string*)(uuid, &uuidStr);
+    return uuidStr;
 }
 
 string  Raw_GetRealName(Player* player)

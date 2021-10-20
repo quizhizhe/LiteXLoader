@@ -17,11 +17,15 @@ class Player;
 class Level;
 class Certificate;
 class BaseCommandBlock;
+class UserEntityIdentifierComponent;
 typedef unsigned long long xuid_t;
 namespace offPlayer {
+inline UserEntityIdentifierComponent* getUserEntityIdentifierComponent(Actor* ac) {
+    return SymCall("??$tryGetComponent@VUserEntityIdentifierComponent@@@Actor@@QEAAPEAVUserEntityIdentifierComponent@@XZ",
+        UserEntityIdentifierComponent*, Actor*)(ac);
+}
 inline NetworkIdentifier *getNetworkIdentifier(Player *pl) {
-    return (NetworkIdentifier*)SymCall("??$tryGetComponent@VUserEntityIdentifierComponent@@@Actor@@QEAAPEAVUserEntityIdentifierComponent@@XZ",
-        void*, Actor*)(pl);
+    return (NetworkIdentifier*)getUserEntityIdentifierComponent(pl);
     //return (NetworkIdentifier *)((uintptr_t)pl + 2712);  // ServerPlayer::isHostingPlayer
 }
 inline Level *getLevel(Actor *pl) {
@@ -30,10 +34,9 @@ inline Level *getLevel(Actor *pl) {
 }
 inline Certificate *getCert(Player *pl) {
     //return (Certificate *)*((uintptr_t *)pl + 377);
-    auto component = SymCall("??$tryGetComponent@VUserEntityIdentifierComponent@@@Actor@@QEAAPEAVUserEntityIdentifierComponent@@XZ",
-        void*, Actor*)(pl);
-    if (component)
-        return dAccess<Certificate*>(component, 184);
+    auto ueic = getUserEntityIdentifierComponent(pl);
+    if (ueic)
+        return dAccess<Certificate*>(ueic, 184);
     return nullptr;
 }
 
