@@ -61,7 +61,10 @@ inline xuid_t getXUID(Player *pl) {
 }
 
 inline std::string getXUIDString(Player *pl) {
-    return getXUIDStringByCert(offPlayer::getCert((Player *)pl)).c_str();
+    auto cert = offPlayer::getCert((Player*)pl);
+    if (!cert)
+        return "";
+    return getXUIDStringByCert(cert).c_str();
 }
 
 inline xuid_t getXUIDByCert(Certificate *cert) {
@@ -74,10 +77,13 @@ inline xuid_t getXUIDByCert(Certificate *cert) {
 }
 
 inline string getRealName(Player *pl) {
+    auto cert = offPlayer::getCert((Player*)pl);
+    if (!cert)
+        return pl->getNameTag();
     return SymCall(
         "?getIdentityName@ExtendedCertificate@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$"
         "allocator@D@2@@std@@AEBVCertificate@@@Z",
-        string, void *)(offPlayer::getCert((Player *)pl));
+        string, void *)(cert);
 }
 }  // namespace offPlayer
 

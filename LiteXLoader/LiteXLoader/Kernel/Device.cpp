@@ -17,6 +17,9 @@ int Raw_GetAvgPing(Player* player)
     auto netid = offPlayer::getNetworkIdentifier(player);
     auto nwpeer = SymCall("?getPeerForUser@NetworkHandler@@QEAAPEAVNetworkPeer@@AEBVNetworkIdentifier@@@Z"
         , NetworkPeer*, NetworkHandler*, NetworkIdentifier*)(LocateService<Minecraft>()->getNetworkHandler(), netid);
+    if (!nwpeer)
+        return -1;
+
     auto nwstatus = nwpeer->getNetworkStatus();
 
     string res = std::to_string(nwstatus.avgping);      //strange, but better than crash
