@@ -29,7 +29,7 @@ Block* Raw_GetBlockByPos(BlockPos* bp, BlockSource* bs)
 
 Block* Raw_GetBlockByPos(int x, int y, int z, BlockSource* bs)
 {
-	return SymCall("?getBlock@BlockSource@@QEBAAEBVBlock@@HHH@Z",
+	return SymCall("?getBlock@BlockSource@@UEBAAEBVBlock@@HHH@Z",
 		Block*, BlockSource*, int, int, int)(bs, x, y, z);
 }
 
