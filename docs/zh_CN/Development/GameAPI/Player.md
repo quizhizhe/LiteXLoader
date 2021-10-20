@@ -694,24 +694,3 @@ pl.removeBossBar();
 （此处使用Json格式直观地展示）
 
 <br>
-
-#### 获取玩家疾跑状态
-
-`pl.isSprinting()`
-
-- 返回值：玩家疾跑状态
-- 返回值类型：`Boolean`
-
-<br>
-
-#### 设置玩家疾跑状态 
-
-`pl.setSprinting(sprinting)`
-
-- 参数：
-  - sprinting : `Boolean`  
-    是否为疾跑状态
-- 返回值：是否设置成功
-- 返回值类型：`Boolean`
-
-<br>

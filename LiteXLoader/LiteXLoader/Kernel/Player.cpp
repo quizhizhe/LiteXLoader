@@ -309,14 +309,3 @@ Player* Raw_GetPlayerByUniqueId(ActorUniqueID id) {
     return SymCall("?getPlayer@Level@@UEBAPEAVPlayer@@UActorUniqueID@@@Z"
         , Player*, Level*, ActorUniqueID)(mc->getLevel(), id);
 }
-
-bool Raw_IsSprinting(Mob* mob) {
-    return SymCall("?isSprinting@Mob@@QEBA_NXZ",
-        bool, Mob*)(mob);
-}
-
-bool Raw_SetSprinting(Mob* mob, bool sprinting) {
-    SymCall("?setSprinting@Mob@@UEAAX_N@Z", 
-        void, Mob*, bool)(mob, sprinting);
-    return true;
-}

@@ -58,8 +58,6 @@ public:
     Local<Value> refreshChunks(const Arguments& args);
     Local<Value> giveItem(const Arguments& args);
     Local<Value> clearItem(const Arguments& args);
-    Local<Value> isSprinting(const Arguments& args);
-    Local<Value> setSprinting(const Arguments& args);
 
     Local<Value> getBlockStandingOn(const Arguments& args);
     Local<Value> getDevice(const Arguments& args);

@@ -95,7 +95,7 @@ int Raw_GetMaxHealth(Actor *actor)
 
 bool Raw_GetIsInAir(Actor *actor)
 {
-    return !(dAccess<bool, 472>(actor)); // IDA DirectActorProxyImpl<IMobMovementProxy>::isOnGround
+    return !(dAccess<bool, 472>(actor));
 }
 
 bool Raw_GetIsInWater(Actor* actor)

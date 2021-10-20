@@ -71,8 +71,6 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceFunction("refreshChunks", &PlayerClass::refreshChunks)
         .instanceFunction("giveItem", &PlayerClass::giveItem)
         .instanceFunction("clearItem", &PlayerClass::clearItem)
-        .instanceFunction("isSprinting", &PlayerClass::isSprinting)
-        .instanceFunction("setSprinting", &PlayerClass::setSprinting)
 
         .instanceFunction("getBlockStandingOn", &PlayerClass::getBlockStandingOn)
         .instanceFunction("getDevice", &PlayerClass::getDevice)
@@ -1258,35 +1256,6 @@ Local<Value> PlayerClass::clearItem(const Arguments& args)
             return Local<Value>();
 
         return Number::newNumber(Raw_ClearItem(player, args[0].toStr()));
-    }
-    CATCH("Fail in clearItem!");
-}
-
-Local<Value> PlayerClass::isSprinting(const Arguments& args)
-{
-    CHECK_ARGS_COUNT(args, 0);
-
-    try {
-        Player* player = get();
-        if (!player)
-            return Local<Value>();
-
-        return Boolean::newBoolean(Raw_IsSprinting(player));
-    }
-    CATCH("Fail in isSprinting!");
-}
-
-Local<Value> PlayerClass::setSprinting(const Arguments& args)
-{
-    CHECK_ARGS_COUNT(args, 1);
-    CHECK_ARG_TYPE(args[0], ValueKind::kBoolean);
-
-    try {
-        Player* player = get();
-        if (!player)
-            return Local<Value>();
-
-        return Boolean::newBoolean(Raw_SetSprinting(player, args[0].asBoolean().value()));
     }
     CATCH("Fail in clearItem!");
 }
