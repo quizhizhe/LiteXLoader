@@ -11,7 +11,7 @@ BlockSource* Raw_GetBlockSourceByActor(Actor* actor)
 int Raw_GetBlockDimensionId(BlockSource* bs)
 {
 	int dimid = -1;
-	return *SymCall("?getDimensionId@BlockSource@@QEBA?AV?$AutomaticID@VDimension@@H@@XZ",
+	return *SymCall("?getDimensionId@BlockSource@@UEBA?AV?$AutomaticID@VDimension@@H@@XZ",
 		int*, BlockSource*, int*)(bs, &dimid);
 }
 
