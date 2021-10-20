@@ -33,10 +33,14 @@ string Raw_GetXuid(Player* player)
 
 std::string Raw_GetUuid(Player *player)
 {
-    string uuid;
+    auto ueic = offPlayer::getUserEntityIdentifierComponent(player);
+    if (!ueic)
+        return "";
+    auto uuid = (void*)((uintptr_t)ueic + 168);
+    string uuidStr;
     SymCall("?asString@UUID@mce@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
-        string *, void*, string *)((unsigned*)((uintptr_t)player+2976), &uuid);
-    return uuid;
+        string*, void*, string*)(uuid, &uuidStr);
+    return uuidStr;
 }
 
 string  Raw_GetRealName(Player* player)
@@ -149,7 +153,7 @@ Container* Raw_GetArmor(Player* pl)
 
 Container* Raw_GetEnderChest(Player* pl)
 {
-    return dAccess<Container*>(pl, 4440);       //IDA ReplaceItemCommand::execute 1086 
+    return dAccess<Container*>(pl, 4208);       //IDA Player::Player() 782 
 }
 
 bool Raw_RefreshItems(Player* pl)
@@ -308,4 +312,15 @@ int Raw_GetPlayerDimId(Player* player)
 Player* Raw_GetPlayerByUniqueId(ActorUniqueID id) {
     return SymCall("?getPlayer@Level@@UEBAPEAVPlayer@@UActorUniqueID@@@Z"
         , Player*, Level*, ActorUniqueID)(mc->getLevel(), id);
+}
+
+bool Raw_IsSprinting(Mob* mob) {
+    return SymCall("?isSprinting@Mob@@QEBA_NXZ",
+        bool, Mob*)(mob);
+}
+
+bool Raw_SetSprinting(Mob* mob, bool sprinting) {
+    SymCall("?setSprinting@Mob@@UEAAX_N@Z", 
+        void, Mob*, bool)(mob, sprinting);
+    return true;
 }

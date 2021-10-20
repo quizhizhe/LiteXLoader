@@ -1,4 +1,4 @@
-﻿#include "Global.h"
+#include "Global.h"
 #include "NBT.h"
 #include "Data.h"
 #include "Entity.h"
@@ -242,10 +242,15 @@ void Tag::setItem(ItemStack* item) {
 }
 
 Tag* Tag::fromBlock(Block* blk) {
-	return (Tag*)((uintptr_t)blk + 96);
+    auto tag = (Tag*)((uintptr_t)blk + 96);
+    Tag* newTag;
+    SymCall("?clone@CompoundTag@@QEBA?AV?$unique_ptr@VCompoundTag@@U?$default_delete@VCompoundTag@@@std@@@std@@XZ",
+        Tag**, Tag*, Tag**)(tag, &newTag);
+	return newTag;
 }
 
 void Tag::setBlock(Block* blk) {
+    //SymCall("??0CompoundTag@@QEAA@$$QEAV0@@Z", Tag*, Tag*, Tag*)((Tag*)((uintptr_t)blk + 96), this);
     *(Tag*)((uintptr_t)blk + 96) = *this;
 }
 

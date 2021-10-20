@@ -11,7 +11,7 @@ BlockSource* Raw_GetBlockSourceByActor(Actor* actor)
 int Raw_GetBlockDimensionId(BlockSource* bs)
 {
 	int dimid = -1;
-	return *SymCall("?getDimensionId@BlockSource@@QEBA?AV?$AutomaticID@VDimension@@H@@XZ",
+	return *SymCall("?getDimensionId@BlockSource@@UEBA?AV?$AutomaticID@VDimension@@H@@XZ",
 		int*, BlockSource*, int*)(bs, &dimid);
 }
 
@@ -29,7 +29,7 @@ Block* Raw_GetBlockByPos(BlockPos* bp, BlockSource* bs)
 
 Block* Raw_GetBlockByPos(int x, int y, int z, BlockSource* bs)
 {
-	return SymCall("?getBlock@BlockSource@@QEBAAEBVBlock@@HHH@Z",
+	return SymCall("?getBlock@BlockSource@@UEBAAEBVBlock@@HHH@Z",
 		Block*, BlockSource*, int, int, int)(bs, x, y, z);
 }
 

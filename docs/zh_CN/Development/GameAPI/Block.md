@@ -33,12 +33,13 @@
 
 每一个方块对象都包含一些固定的对象属性。对于某个特定的方块对象`bl`，有以下这些属性
 
-| 属性    | 含义                 | 类型      |
-| ------- | -------------------- | --------- |
-| bl.name | 游戏内显示的方块名称 | `String`  |
-| bl.type | 方块标准类型名       | `String`  |
-| bl.id   | 方块的游戏内id       | `Integer` |
-| bl.pos  | 方块所在坐标         | `IntPos`  |
+| 属性           | 含义                 | 类型      |
+| ------------- | -------------------- | --------- |
+| bl.name       | 游戏内显示的方块名称  | `String`  |
+| bl.type       | 方块标准类型名       | `String`  |
+| bl.id         | 方块的游戏内id       | `Integer` |
+| bl.pos        | 方块所在坐标         | `IntPos`  |
+| bl.tileData   | 方块数据值          | `Integer` |
 
 这些对象属性都是只读的，无法被修改
 
@@ -68,6 +69,7 @@
 - 返回值类型：`Boolean`
 
 关于NBT对象的更多使用，请参考 [NBT接口文档](zh_CN/Development/NbtAPI/NBT.md)
+注意：慎重使用此api，请考虑使用 mc.setBlock() 代替
 
 <br>
 
@@ -140,14 +142,16 @@
 
 #### 设置指定位置的方块
 
-`mc.setBlock(pos,block)`  
-`mc.setBlock(x,y,z,dimid,block)`
+`mc.setBlock(pos,block,tiledata)`  
+`mc.setBlock(x,y,z,dimid,block,tiledata)`
 
 - 参数：
   - pos : `IntPos `  
     目标方块位置（或者使用x, y, z, dimid来确定方块位置）
-  - block : `Block` 或 `String`  
-    要设置成的方块对象或者方块标准类型名（如`minecraft:stone`）
+  - block : `Block` 、`String` 或 `NBTCompound`
+    要设置成的方块对象、方块标准类型名（如`minecraft:stone`）或方块NBT数据
+  - tiledata : `Integer`  
+    方块状态值，同原版 /setBlock 指令的 tiledata，默认为0，仅通过方块类型名放置方块时有效
 - 返回值：是否成功设置
 - 返回值类型：`Boolean`
 
