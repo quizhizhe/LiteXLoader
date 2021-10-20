@@ -109,7 +109,7 @@ bool Raw_GetAllEntities(vector<Actor*> &acs, int dimid)
     auto dim = Raw_GetDimByLevel(lv, dimid);
     if (!dim)
         return false;
-    auto& list = *(std::unordered_map<ActorUniqueID, void*>*)((uintptr_t)dim + 304);     //Dimension::getEntityIdMap
+    auto& list = *(std::unordered_map<ActorUniqueID, void*>*)((uintptr_t)dim + 312); //IDA Dimension::registerEntity
     
     //Check Valid
     auto currTick = SymCall("?getCurrentTick@Level@@UEBAAEBUTick@@XZ"
