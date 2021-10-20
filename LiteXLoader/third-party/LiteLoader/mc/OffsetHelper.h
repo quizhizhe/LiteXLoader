@@ -30,7 +30,11 @@ inline Level *getLevel(Actor *pl) {
 }
 inline Certificate *getCert(Player *pl) {
     //return (Certificate *)*((uintptr_t *)pl + 377);
-    return SymCall("?getCertificate@Player@@QEBAPEBVCertificate@@XZ", Certificate*, Player*)(pl);
+    auto component = SymCall("??$tryGetComponent@VUserEntityIdentifierComponent@@@Actor@@QEAAPEAVUserEntityIdentifierComponent@@XZ",
+        void*, Actor*)(pl);
+    if (component)
+        return dAccess<Certificate*>(component, 184);
+    return nullptr;
 }
 
 inline BlockSource *getBlockSource(Actor *ac) {
