@@ -414,21 +414,6 @@
 
 <br>
 
-#### `"onChangeSprinting"` - 玩家改变疾跑状态
-
-- 监听函数原型
-  `function(player,sprinting)`
-- 参数：
-  - player : `Player`  
-    要改变疾跑状态的玩家对象
-  - sprinting : `Boolean`  
-    要改变成的疾跑状态
-- 拦截事件：不可以拦截
-
-注：可在下一游戏刻执行player.setSprinting(false)达到拦截效果
-
-<br>
-
 #### `"onSetArmor"` - 玩家改变盔甲栏
 
 - 监听函数原型

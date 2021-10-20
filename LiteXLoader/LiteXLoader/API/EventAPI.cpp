@@ -44,7 +44,7 @@ using namespace script;
 enum class EVENT_TYPES : int
 {
     onPreJoin=0, onJoin, onLeft, onPlayerCmd, onChat, onPlayerDie, 
-    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onChangeSprinting, onSpawnProjectile,
+    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onSpawnProjectile,
     onFireworkShootWithCrossbow, onSetArmor, onRide, onStepOnPressurePlate,
     onUseItem, onTakeItem, onDropItem, onUseItemOn, onInventoryChange, onChangeArmorStand,
     onStartDestroyBlock, onDestroyBlock, onWitherBossDestroy, onPlaceBlock, onBedExplode, onRespawnAnchorExplode, onLiquidFlow,
@@ -70,7 +70,6 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onAttack",EVENT_TYPES::onAttack},
     {"onEat",EVENT_TYPES::onEat},
     {"onMove",EVENT_TYPES::onMove},
-    {"onChangeSprinting",EVENT_TYPES::onChangeSprinting},
     {"onSpawnProjectile",EVENT_TYPES::onSpawnProjectile},
     {"onFireworkShootWithCrossbow",EVENT_TYPES::onFireworkShootWithCrossbow},
     {"onSetArmor",EVENT_TYPES::onSetArmor},
@@ -571,21 +570,6 @@ THook(void, "?sendPlayerMove@PlayerEventCoordinator@@QEAAXAEAVPlayer@@@Z",
     }
     IF_LISTENED_END(EVENT_TYPES::onMove);
     return original(_this, pl);
-}
-
-// ===== onChangeSprinting =====
-THook(void, "?setSprinting@Mob@@UEAAX_N@Z",
-    Mob*_this, bool sprinting)
-{
-    IF_LISTENED(EVENT_TYPES::onChangeSprinting)
-    {
-        if (Raw_IsPlayer(_this) && (Raw_IsSprinting(_this) != sprinting))
-        {
-            CallEventRtnValue(EVENT_TYPES::onChangeSprinting, original(_this, sprinting), PlayerClass::newPlayer((Player*)_this), Boolean::newBoolean(sprinting));
-        }
-    }
-    IF_LISTENED_END(EVENT_TYPES::onChangeSprinting);
-    return original(_this, sprinting);
 }
 
 // ===== onChangeDim =====
