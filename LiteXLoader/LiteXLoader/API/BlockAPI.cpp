@@ -274,10 +274,7 @@ Local<Value> McClass::getBlock(const Arguments& args)
                     return Boolean::newBoolean(false);
                 else
                 {
-                    pos.x = posObj->x;
-                    pos.y = posObj->y;
-                    pos.z = posObj->z;
-                    pos.dim = posObj->dim;
+                    pos = posObj->toIntVec4();
                 }
             }
             else
@@ -353,10 +350,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
                     return Boolean::newBoolean(false);
                 else
                 {
-                    pos.x = posObj->x;
-                    pos.y = posObj->y;
-                    pos.z = posObj->z;
-                    pos.dim = posObj->dim;
+                    pos = posObj->toIntVec4();
                     block = args[1];
                 }
             }

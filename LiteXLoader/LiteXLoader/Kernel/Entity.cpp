@@ -121,8 +121,10 @@ bool Raw_GetAllEntities(vector<Actor*> &acs, int dimid)
         auto entity = Raw_GetEntityByUniqueId(i.first);
         if (!entity)
             continue;
-        auto lastTick = Raw_GetEntityLastTick(entity)->t;
-        if (currTick - lastTick == 0 || currTick - lastTick == 1)
+        auto lastTick = Raw_GetEntityLastTick(entity);
+        if (!lastTick)
+            continue;
+        if (currTick - lastTick->t == 0 || currTick - lastTick->t == 1)
             acs.push_back(entity);
     }
     return true;
@@ -283,9 +285,13 @@ bool Raw_EntityIsRemoved(Actor* ac)
 Tick* Raw_GetEntityLastTick(Actor* ac)
 {
     auto bs = Raw_GetBlockSourceByActor(ac);
+    if (!bs)
+        return nullptr;
     auto bpos = ((Vec3)ac->getPos()).toBlockPos();
     void* lc = SymCall("?getChunkAt@BlockSource@@QEBAPEAVLevelChunk@@AEBVBlockPos@@@Z",
         void*, BlockSource*, BlockPos*)(bs, &bpos);
+    if (!lc)
+        return nullptr;
     return SymCall("?getLastTick@LevelChunk@@QEBAAEBUTick@@XZ"
         , Tick*, void*)(lc);
 }
