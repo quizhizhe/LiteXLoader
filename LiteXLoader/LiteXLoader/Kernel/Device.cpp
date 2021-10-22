@@ -17,6 +17,9 @@ int Raw_GetAvgPing(Player* player)
     auto netid = offPlayer::getNetworkIdentifier(player);
     auto nwpeer = SymCall("?getPeerForUser@NetworkHandler@@QEAAPEAVNetworkPeer@@AEBVNetworkIdentifier@@@Z"
         , NetworkPeer*, NetworkHandler*, NetworkIdentifier*)(LocateService<Minecraft>()->getNetworkHandler(), netid);
+    if (!nwpeer)
+        return -1;
+
     auto nwstatus = nwpeer->getNetworkStatus();
 
     string res = std::to_string(nwstatus.avgping);      //strange, but better than crash
@@ -32,6 +35,8 @@ std::string Raw_GetOs(Player* player)
 {
     try
     {
+        if (Raw_IsSimulatedPlayer(player))
+            return "None";
         return Raw_GetOsNameByType(localShareData->deviceInfoRecord.at((uintptr_t)player).DeviceOS);
     }
     catch (...)
@@ -44,6 +49,8 @@ std::string Raw_GetClientId(Player* player)
 {
     try
     {
+        if (Raw_IsSimulatedPlayer(player))
+            return "";
         return localShareData->deviceInfoRecord.at((uintptr_t)player).DeviceId;
     }
     catch (...)

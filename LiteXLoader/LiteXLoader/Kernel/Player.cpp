@@ -304,6 +304,12 @@ bool Raw_IsPlayerValid(Player *player)
     return false;
 }
 
+extern bool Raw_IsSimulatedPlayer(Actor*);
+bool Raw_IsSimulatedPlayer(Player* player)
+{
+    return Raw_IsSimulatedPlayer((Actor*)player);
+}
+
 int Raw_GetPlayerDimId(Player* player)
 {
     return WPlayer(*player).getDimID();

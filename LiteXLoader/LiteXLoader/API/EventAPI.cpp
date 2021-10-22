@@ -1335,16 +1335,30 @@ THook(bool, "?_pushOutItems@Hopper@@IEAA_NAEAVBlockSource@@AEAVContainer@@AEBVVe
 }
 
 // ===== onFireSpread =====
-THook(bool, "?_trySpawnBlueFire@FireBlock@@AEBA_NAEAVBlockSource@@AEBVBlockPos@@@Z",
+bool onFireSpread_OnPlace = false;
+THook(void, "?onPlace@FireBlock@@UEBAXAEAVBlockSource@@AEBVBlockPos@@@Z",
     void* _this, BlockSource* bs, BlockPos* bp)
 {
+    onFireSpread_OnPlace = true;
+    original(_this, bs, bp);
+    onFireSpread_OnPlace = false;
+}
+
+THook(bool, "?mayPlace@FireBlock@@UEBA_NAEAVBlockSource@@AEBVBlockPos@@@Z",
+    void* _this, BlockSource* bs, BlockPos* bp)
+{
+    auto rtn = original(_this, bs, bp);
+    if (!onFireSpread_OnPlace || !rtn)
+        return rtn;
+
     IF_LISTENED(EVENT_TYPES::onFireSpread)
     {
-        CallEventRtnValue(EVENT_TYPES::onFireSpread, true, IntPos::newPos(bp, bs));
+        CallEventRtnBool(EVENT_TYPES::onFireSpread, IntPos::newPos(bp, bs));
     }
     IF_LISTENED_END(EVENT_TYPES::onFireSpread);
-    return original(_this, bs, bp);
+    return rtn;
 }
+
 
 // ===== onBlockChanged =====
 THook(void, "?_blockChanged@BlockSource@@IEAAXAEBVBlockPos@@IAEBVBlock@@1HPEBUActorBlockSyncMessage@@@Z",
