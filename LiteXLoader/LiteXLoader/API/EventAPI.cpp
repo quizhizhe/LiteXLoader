@@ -659,7 +659,7 @@ THook(void, "?setArmor@Player@@UEAAXW4ArmorSlot@@AEBVItemStack@@@Z",
 }
 
 // ===== onRide =====
-THook(bool, "?startRiding@Actor@@UEAA_NAEAV1@@Z",
+THook(bool, "?canAddPassenger@Actor@@UEBA_NAEAV1@@Z",
     Actor* a1, Actor* a2)
 {
     IF_LISTENED(EVENT_TYPES::onRide)
