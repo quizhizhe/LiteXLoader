@@ -76,14 +76,14 @@ inline xuid_t getXUIDByCert(Certificate *cert) {
     }
 }
 
-inline string getRealName(Player *pl) {
-    auto cert = offPlayer::getCert((Player*)pl);
+inline string getRealName(Player* pl) {
+    auto cert = offPlayer::getCert(pl);
     if (!cert)
-        return pl->getNameTag();
+        return dAccess<string>(pl, 2272); // ScriptPlayer::getName
     return SymCall(
         "?getIdentityName@ExtendedCertificate@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$"
         "allocator@D@2@@std@@AEBVCertificate@@@Z",
-        string, void *)(cert);
+        string, void*)(cert);
 }
 }  // namespace offPlayer
 
