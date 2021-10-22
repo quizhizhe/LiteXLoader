@@ -160,12 +160,20 @@ bool Raw_KillEntity(Actor* actor)
     return true;
 }
 
+bool Raw_IsSimulatedPlayer(Actor* actor)
+{
+    if (!actor)
+        return false;
+    auto vtbl = dlsym("??_7SimulatedPlayer@@6B@");
+    return *(void**)actor == vtbl;
+}
+
 bool Raw_IsPlayer(Actor* actor)
 {
     if (!actor)
         return false;
     auto vtbl = dlsym("??_7ServerPlayer@@6B@");
-    return *(void**)actor == vtbl;
+    return *(void**)actor == vtbl || Raw_IsSimulatedPlayer(actor);
 }
 
 Player* Raw_ToPlayer(Actor* actor)

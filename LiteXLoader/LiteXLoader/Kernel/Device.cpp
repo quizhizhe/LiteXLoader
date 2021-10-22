@@ -35,6 +35,8 @@ std::string Raw_GetOs(Player* player)
 {
     try
     {
+        if (Raw_IsSimulatedPlayer(player))
+            return "None";
         return Raw_GetOsNameByType(localShareData->deviceInfoRecord.at((uintptr_t)player).DeviceOS);
     }
     catch (...)
@@ -47,6 +49,8 @@ std::string Raw_GetClientId(Player* player)
 {
     try
     {
+        if (Raw_IsSimulatedPlayer(player))
+            return "";
         return localShareData->deviceInfoRecord.at((uintptr_t)player).DeviceId;
     }
     catch (...)
