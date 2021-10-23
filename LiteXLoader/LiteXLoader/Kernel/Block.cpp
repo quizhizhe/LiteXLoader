@@ -47,6 +47,7 @@ unsigned short Raw_GetTileData(Block* bl)
             return i;
     }
     ERROR("Error in Raw_GetTileData");
+    return 0;
 }
 
 struct BlockPalette;

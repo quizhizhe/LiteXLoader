@@ -23,6 +23,7 @@
 #include <Kernel/ThirdParty.h>
 #include <Kernel/Utils.h>
 #include <Kernel/Data.h>
+#include "AutoUpdate.h"
 using namespace std;
 
 enum class DownloadResult {
@@ -99,7 +100,7 @@ DownloadResult DownloadAndCheckMd5(const string& url, const string& localPath, b
 	return DownloadResult::Success;
 }
 
-bool CheckAutoUpdate(bool isUpdateManually)
+bool CheckAutoUpdate(bool isUpdateManually, bool forceUpdate)
 {
 	try
 	{
@@ -243,7 +244,7 @@ bool CheckAutoUpdate(bool isUpdateManually)
 			int b = stoi(versRemote[1]);
 			int c = stoi(versRemote[2]);
 
-			if(!IsVersionLess(LXL_VERSION_MAJOR, LXL_VERSION_MINOR, LXL_VERSION_REVISION, a,b,c))
+			if(!forceUpdate && !IsVersionLess(LXL_VERSION_MAJOR, LXL_VERSION_MINOR, LXL_VERSION_REVISION, a,b,c))
 			{
 				if (isUpdateManually)
 				{
