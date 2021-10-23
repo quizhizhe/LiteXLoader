@@ -28,7 +28,7 @@
 
 对众多接口和事件进行了 **封装**，使用各种脚本语言作为基础，代码简短易上手，学习周期短 
 
-这里用一个游戏内停服插件作为参考示例：  
+这里用一个简易的游戏内停服插件作为参考示例：  
 
 ```javascript
 let _VER = '1.1.1'
@@ -43,39 +43,14 @@ mc.regPlayerCmd("stop","关闭服务器", (pl,args) => {
     //鉴权
     if(!pl.isOP())
         return true;
-    if(pl.getExtraData("_SERVER_STOPPER_STATUS") == _HasConfirmed)
-    {
-        //第二次确认
-        pl.tell("停服命令执行成功",1);
-        mc.broadcast("玩家" + pl.realName + "执行停服命令。服务器将在5秒之后关闭");
-        //执行关服命令
-        setTimeout(() => {
-            mc.runcmd("stop");
-        },5000);
-        pl.setExtraData("_SERVER_STOPPER_STATUS",null);
-    }
-    else
-    {
-        //第一次确认
-        pl.tell("你真的确定要停服吗？请再次执行/stop确认",1);
-        pl.setExtraData("_SERVER_STOPPER_STATUS", _HasConfirmed);
-    }
+    pl.tell("停服命令执行成功",1);
+    mc.broadcast("玩家" + pl.realName + "执行停服命令。服务器将在5秒之后关闭");
+    
+    //执行关服命令
+    setTimeout(() => {
+        mc.runcmd("stop");
+    },5000);
 },1);
-
-//取消命令执行
-mc.listen("onPlayerCmd", (pl,cmd) =>  {
-    if(cmd != "stop" && pl.getExtraData("_SERVER_STOPPER_STATUS") == _HasConfirmed)
-    {
-        pl.tell("确认失败。你的停服命令已被取消",1);
-        pl.setExtraData("_SERVER_STOPPER_STATUS",null);
-    }
-});
-
-log('[ServerStopper] ServerStopper停服命令插件已装载  当前版本：'+_VER);
-log('[ServerStopper] OP玩家在游戏内输入 /stop 并再次确认后即可关服');
-log('[ServerStopper] 用于配合有自动重启的服务端，以实现游戏内命令重启服务器');
-log('[ServerStopper] 作者：yqs112358   首发平台：MineBBS');
-log('[ServerStopper] 欲联系作者可前往MineBBS论坛');
 ```
 
 ##### 多种脚本语言支持 📚
