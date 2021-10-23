@@ -193,7 +193,9 @@ bool Raw_TransServer(Player* player, const std::string& server, short port)
 
 bool Raw_CrashPlayer(Player* player)
 {
-    return Raw_SendCrashClientPacket(player);
+    //######################## Need to fix ########################
+    return Raw_KickPlayer(player,"");
+    //return Raw_SendCrashClientPacket(player);
 }
 
 bool Raw_RefreshChunks(Player* player)
