@@ -4,4 +4,4 @@
 #define LXL_VERSION_MAJOR 0
 #define LXL_VERSION_MINOR 5
 #define LXL_VERSION_REVISION 8
-#define LXL_VERSION_IS_BETA true
+#define LXL_VERSION_IS_BETA false
