@@ -8,19 +8,13 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Js|x64 = Js|x64
-		Js|x86 = Js|x86
 		Lua|x64 = Lua|x64
-		Lua|x86 = Lua|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3524E651-FDFA-498D-BE39-7DF750172672}.Js|x64.ActiveCfg = Js|x64
 		{3524E651-FDFA-498D-BE39-7DF750172672}.Js|x64.Build.0 = Js|x64
-		{3524E651-FDFA-498D-BE39-7DF750172672}.Js|x86.ActiveCfg = Js|Win32
-		{3524E651-FDFA-498D-BE39-7DF750172672}.Js|x86.Build.0 = Js|Win32
 		{3524E651-FDFA-498D-BE39-7DF750172672}.Lua|x64.ActiveCfg = Lua|x64
 		{3524E651-FDFA-498D-BE39-7DF750172672}.Lua|x64.Build.0 = Lua|x64
-		{3524E651-FDFA-498D-BE39-7DF750172672}.Lua|x86.ActiveCfg = Lua|Win32
-		{3524E651-FDFA-498D-BE39-7DF750172672}.Lua|x86.Build.0 = Lua|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

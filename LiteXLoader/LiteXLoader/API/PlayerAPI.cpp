@@ -80,6 +80,7 @@ ClassDefine<PlayerClass> PlayerClassBuilder =
         .instanceFunction("getInventory", &PlayerClass::getInventory)
         .instanceFunction("getArmor", &PlayerClass::getArmor)
         .instanceFunction("getEnderChest", &PlayerClass::getEnderChest)
+        .instanceFunction("getRespawnPosition",&PlayerClass::getRespawnPosition)
         .instanceFunction("refreshItems", &PlayerClass::refreshItems)
 
         .instanceFunction("getScore", &PlayerClass::getScore)
@@ -714,6 +715,17 @@ Local<Value> PlayerClass::getEnderChest(const Arguments& args)
         return ContainerClass::newContainer(Raw_GetEnderChest(player));
     }
     CATCH("Fail in getEnderChest!");
+}
+
+Local<Value> PlayerClass::getRespawnPosition(const Arguments& args)
+{
+    try {
+        Player* player = get();
+        if (!player)
+            return Local<Value>();
+        return IntPos::newPos(Raw_GetPlayerRespawnPosition(player));
+    }
+    CATCH("Fail in getRespawnPosition!")
 }
 
 Local<Value> PlayerClass::refreshItems(const Arguments& args)

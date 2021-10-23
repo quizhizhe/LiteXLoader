@@ -156,6 +156,22 @@ Container* Raw_GetEnderChest(Player* pl)
     return dAccess<Container*>(pl, 4208);       //IDA Player::Player() 782 
 }
 
+IntVec4 Raw_GetPlayerRespawnPosition(Player* pl)
+{
+    auto bp = SymCall("?getSpawnPosition@Player@@QEBAAEBVBlockPos@@XZ", BlockPos*,
+        Player*)(pl);
+    auto dimid = *(DWORD*)(pl + 7440);  // IDA: Player::getSpawnDimension
+    if (dimid == 3) // has no bed.
+    {
+        bp = SymCall("?getExpectedSpawnPosition@Player@@QEBAAEBVBlockPos@@XZ", BlockPos*,
+            Player*)(pl);
+        SymCall("?getExpectedSpawnDimensionId@Player@@QEBA?AV?$AutomaticID@VDimension@@H@@XZ", DWORD*,
+            Actor*, DWORD*)(pl, &dimid);
+    }
+
+    return { bp->x,bp->y,bp->z,(int)dimid };
+}
+
 bool Raw_RefreshItems(Player* pl)
 {
     SymCall("?sendInventory@ServerPlayer@@UEAAX_N@Z",void,ServerPlayer*,bool)((ServerPlayer*)pl, true);
@@ -184,7 +200,9 @@ bool Raw_TransServer(Player* player, const std::string& server, short port)
 
 bool Raw_CrashPlayer(Player* player)
 {
-    return Raw_SendCrashClientPacket(player);
+    //######################## Need to fix ########################
+    return Raw_KickPlayer(player,"");
+    //return Raw_SendCrashClientPacket(player);
 }
 
 bool Raw_RefreshChunks(Player* player)

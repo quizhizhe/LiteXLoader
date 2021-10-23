@@ -685,15 +685,19 @@ THook(void, "?entityInside@BasePressurePlateBlock@@UEBAXAEAVBlockSource@@AEBVBlo
 
 
 // ===== onRespawn =====
-THook(bool, "?respawn@Player@@UEAAXXZ",
-    Player* pl)
+THook(void, "?handle@?$PacketHandlerDispatcherInstance@VRespawnPacket@@$0A@@@UEBAXAEBVNetworkIdentifier@@AEAVNetEventCallback@@AEAV?$shared_ptr@VPacket@@@std@@@Z",
+    void* _this, NetworkIdentifier* id, ServerNetworkHandler* handler, void* pPacket)
 {
+    Packet* packet = *(Packet**)pPacket;
+    Player* player = Raw_GetPlayerFromPacket(handler, id, packet);
+    
     IF_LISTENED(EVENT_TYPES::onRespawn)
     {
-        CallEventRtnBool(EVENT_TYPES::onRespawn, PlayerClass::newPlayer(pl));
+        CallEventRtnVoid(EVENT_TYPES::onRespawn, PlayerClass::newPlayer(player));
     }
-    IF_LISTENED_END(EVENT_TYPES::onRespawn);
-    return original(pl);
+    IF_LISTENED_END(EVENT_TYPES::onRespawn)
+
+    original(_this, id, handler, pPacket);
 }
 
 // ===== onJump =====
