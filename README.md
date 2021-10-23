@@ -13,7 +13,7 @@
 
 目前，基于注入技术的C++插件开发框架`LiteLoader`的使用十分广泛。它为拓展基岩版**BDS**的更多玩法和功能提供了坚实的基础，弥补了官方行为包系统长期以来存在的一些不足。
 
-而为了进一步降低开发门槛，为更多开发者参与社区发展提供支持，脚本插件开发框架 `LiteXLoader` 呼之欲出。
+而脚本插件开发框架 `LiteXLoader` 的到来，进一步降低了开发门槛，为更多开发者参与社区发展提供了很好的支持。
 
 使用脚本开发**BDS**插件具有上手容易、代码简洁、便于维护的优点。同时脚本插件不需要随着**BDS**版本更新而修改代码，仅需本项目在底层适配更新即可，给插件开发与维护带来了很大的便利。  
 
@@ -28,14 +28,54 @@
 
 对众多接口和事件进行了 **封装**，使用各种脚本语言作为基础，代码简短易上手，学习周期短 
 
-参考插件示例：  
+这里用一个游戏内停服插件作为参考示例：  
 
 ```javascript
+let _VER = '1.1.1'
+let _HasConfirmed = 1;
 
-```
+//加载器版本检查
+if(!lxl.checkVersion(0,3,0))
+    throw new Error("【加载失败】\nLXL版本过旧！请升级你的LXL版本到0.3.0及以上再使用此插件");
 
-```lua
+//注册关服命令
+mc.regPlayerCmd("stop","关闭服务器", (pl,args) => {
+    //鉴权
+    if(!pl.isOP())
+        return true;
+    if(pl.getExtraData("_SERVER_STOPPER_STATUS") == _HasConfirmed)
+    {
+        //第二次确认
+        pl.tell("停服命令执行成功",1);
+        mc.broadcast("玩家" + pl.realName + "执行停服命令。服务器将在5秒之后关闭");
+        //执行关服命令
+        setTimeout(() => {
+            mc.runcmd("stop");
+        },5000);
+        pl.setExtraData("_SERVER_STOPPER_STATUS",null);
+    }
+    else
+    {
+        //第一次确认
+        pl.tell("你真的确定要停服吗？请再次执行/stop确认",1);
+        pl.setExtraData("_SERVER_STOPPER_STATUS", _HasConfirmed);
+    }
+},1);
 
+//取消命令执行
+mc.listen("onPlayerCmd", (pl,cmd) =>  {
+    if(cmd != "stop" && pl.getExtraData("_SERVER_STOPPER_STATUS") == _HasConfirmed)
+    {
+        pl.tell("确认失败。你的停服命令已被取消",1);
+        pl.setExtraData("_SERVER_STOPPER_STATUS",null);
+    }
+});
+
+log('[ServerStopper] ServerStopper停服命令插件已装载  当前版本：'+_VER);
+log('[ServerStopper] OP玩家在游戏内输入 /stop 并再次确认后即可关服');
+log('[ServerStopper] 用于配合有自动重启的服务端，以实现游戏内命令重启服务器');
+log('[ServerStopper] 作者：yqs112358   首发平台：MineBBS');
+log('[ServerStopper] 欲联系作者可前往MineBBS论坛');
 ```
 
 ##### 多种脚本语言支持 📚
