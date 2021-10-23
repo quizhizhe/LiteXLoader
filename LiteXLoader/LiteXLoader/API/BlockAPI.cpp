@@ -25,6 +25,7 @@ ClassDefine<BlockClass> BlockClassBuilder =
         .instanceProperty("type", &BlockClass::getType)
         .instanceProperty("id", &BlockClass::getId)
         .instanceProperty("pos", &BlockClass::getPos)
+        .instanceProperty("tileData", &BlockClass::getTileData)
 
         .instanceFunction("setNbt", &BlockClass::setNbt)
         .instanceFunction("getNbt", &BlockClass::getNbt)
@@ -140,6 +141,15 @@ Local<Value> BlockClass::getPos()
         return IntPos::newPos(pos);
     }
     CATCH("Fail in getBlockPos!");
+}
+
+Local<Value> BlockClass::getTileData()
+{
+    try{
+        // 已预加载
+        return Number::newNumber(Raw_GetTileData(block));
+    }
+    CATCH("Fail in getTileData!");
 }
 
 Local<Value> BlockClass::getRawPtr(const Arguments& args)
@@ -264,10 +274,7 @@ Local<Value> McClass::getBlock(const Arguments& args)
                     return Boolean::newBoolean(false);
                 else
                 {
-                    pos.x = posObj->x;
-                    pos.y = posObj->y;
-                    pos.z = posObj->z;
-                    pos.dim = posObj->dim;
+                    pos = posObj->toIntVec4();
                 }
             }
             else
@@ -314,9 +321,15 @@ Local<Value> McClass::setBlock(const Arguments& args)
     {
         IntVec4 pos;
         Local<Value> block;
-
-        if (args.size() == 2)
+        unsigned short tileData=0;
+        if (args.size() == 2|| args.size() == 3)
         {
+            if (args.size() == 3)
+            {
+                CHECK_ARG_TYPE(args[1], ValueKind::kString);
+                CHECK_ARG_TYPE(args[2], ValueKind::kNumber);
+                tileData = args[2].toInt();
+            }
             if (IsInstanceOf<IntPos>(args[0]))
             {
                 // IntPos
@@ -337,10 +350,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
                     return Boolean::newBoolean(false);
                 else
                 {
-                    pos.x = posObj->x;
-                    pos.y = posObj->y;
-                    pos.z = posObj->z;
-                    pos.dim = posObj->dim;
+                    pos = posObj->toIntVec4();
                     block = args[1];
                 }
             }
@@ -350,7 +360,7 @@ Local<Value> McClass::setBlock(const Arguments& args)
                 return Local<Value>();
             }
         }
-        else if (args.size() == 5)
+        else if (args.size() == 5|| args.size() == 6)
         {
             // Number Pos
             CHECK_ARG_TYPE(args[0], ValueKind::kNumber);
@@ -359,6 +369,12 @@ Local<Value> McClass::setBlock(const Arguments& args)
             CHECK_ARG_TYPE(args[3], ValueKind::kNumber);
             pos = { args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt() };
             block = args[4];
+            if (args.size() == 6)
+            {
+                CHECK_ARG_TYPE(args[4], ValueKind::kString);
+                CHECK_ARG_TYPE(args[5], ValueKind::kNumber);
+                tileData = args[5].toInt();
+            }
         }
         else
         {
@@ -370,7 +386,13 @@ Local<Value> McClass::setBlock(const Arguments& args)
         if (block.isString())
         {
             //方块名
-            return Boolean::newBoolean(Raw_SetBlockByName(pos, block.toStr()));
+            return Boolean::newBoolean(Raw_SetBlockByNameAndTileData(pos, block.toStr(), tileData));
+        }
+        else if (IsInstanceOf<NbtCompoundClass>(block))
+        {
+            //Nbt
+            Tag* nbt = NbtCompoundClass::extract(block);
+            return Boolean::newBoolean(Raw_SetBlockByNbt(pos, nbt));
         }
         else
         {

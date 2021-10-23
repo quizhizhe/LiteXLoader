@@ -13,7 +13,7 @@
 
 目前，基于注入技术的C++插件开发框架`LiteLoader`的使用十分广泛。它为拓展基岩版**BDS**的更多玩法和功能提供了坚实的基础，弥补了官方行为包系统长期以来存在的一些不足。
 
-而为了进一步降低开发门槛，为更多开发者参与社区发展提供支持，脚本插件开发框架 `LiteXLoader` 呼之欲出。
+而脚本插件开发框架 `LiteXLoader` 的到来，进一步降低了开发门槛，为更多开发者参与社区发展提供了很好的支持。
 
 使用脚本开发**BDS**插件具有上手容易、代码简洁、便于维护的优点。同时脚本插件不需要随着**BDS**版本更新而修改代码，仅需本项目在底层适配更新即可，给插件开发与维护带来了很大的便利。  
 
@@ -28,14 +28,29 @@
 
 对众多接口和事件进行了 **封装**，使用各种脚本语言作为基础，代码简短易上手，学习周期短 
 
-参考插件示例：  
+这里用一个简易的游戏内停服插件作为参考示例：  
 
 ```javascript
+let _VER = '1.1.1'
+let _HasConfirmed = 1;
 
-```
+//加载器版本检查
+if(!lxl.checkVersion(0,3,0))
+    throw new Error("【加载失败】\nLXL版本过旧！请升级你的LXL版本到0.3.0及以上再使用此插件");
 
-```lua
-
+//注册关服命令
+mc.regPlayerCmd("stop","关闭服务器", (pl,args) => {
+    //鉴权
+    if(!pl.isOP())
+        return true;
+    pl.tell("停服命令执行成功",1);
+    mc.broadcast("玩家" + pl.realName + "执行停服命令。服务器将在5秒之后关闭");
+    
+    //执行关服命令
+    setTimeout(() => {
+        mc.runcmd("stop");
+    },5000);
+},1);
 ```
 
 ##### 多种脚本语言支持 📚
@@ -50,7 +65,7 @@ LXL 的插件可以使用 **多种** 不同的脚本语言开发。自由选择�
 ##### 开发文档内容详细，解释深入  📕
 
 LXL 拥有 **极其详尽** 的文档说明和示例，帮助你从零开始学习，快速上手  
-欢迎 👉[移步 LXL 文档站](https://lxl.litetitle.com/)👈 查看更多  
+欢迎 👉[移步 LXL 文档站](https://lxl.litebds.com/)👈 查看更多  
 
 ##### 大量开发辅助工具  🧰
 
@@ -64,7 +79,7 @@ LXL 拥有 **极其详尽** 的文档说明和示例，帮助你从零开始学�
 ##### 众多的**游戏API**支持 🎈
 
 - 玩家，实体，方块，物品，容器，NBT，服务器系统。。。。给你自由掌控世界的能力
-- 多达 **五十多种** 游戏事件监听，不管什么事情发生，都可以第一时间响应
+- 多达 **五十多种** 游戏事件监听，不管什么事情发生，都可以第一时间响应
 
 ##### 方便的 开发基础设施 🧪
 
@@ -143,7 +158,7 @@ LXL插件主要发布于**MineBBS**，请 [点击这里 前往MineBBS](https://w
 
 > 没错，就这么简单 o(*￣▽￣*)ブ
 
-关于具体的**安装与使用指南** ，请👉[移步LXL文档站](https://lxl.litetitle.com/#/zh_CN/Usage/)👈查看
+关于具体的**安装与使用指南** ，请👉[移步LXL文档站](https://lxl.litebds.com/#/zh_CN/Usage/)👈查看
 
 ## 📡 实时调试
 在BDS后台控制台执行
@@ -166,7 +181,7 @@ LXL插件主要发布于**MineBBS**，请 [点击这里 前往MineBBS](https://w
 - `lxl reload xxxx.js`  
 - `lxl reload`  
 
-关于他们的具体介绍和相关使用方法，请👉[移步 LXL 文档站](https://lxl.litetitle.com/#/zh_CN/Usage/)👈查看
+关于他们的具体介绍和相关使用方法，请👉[移步 LXL 文档站](https://lxl.litebds.com/#/zh_CN/Usage/)👈查看
 
 <br>
 
@@ -176,7 +191,7 @@ LXL插件主要发布于**MineBBS**，请 [点击这里 前往MineBBS](https://w
 
 ### 开发文档与教程
 
-请👉[移步 LXL 文档站](https://lxl.litetitle.com/#/zh_CN/Development/)👈查看详细的**API文档**和**插件开发教程**  
+请👉[移步 LXL 文档站](https://lxl.litebds.com/#/zh_CN/Development/)👈查看详细的**API文档**和**插件开发教程**  
 如果有修订需求或者有新增API的需要，欢迎联系作者或者发布Issue  
 
 [点击这里](https://github.com/LiteLDev-LXL) 查看更多开源的LXL插件，作为示例插件。  
@@ -255,7 +270,7 @@ VS项目采用多目标构建，构建的每种配置对应一种脚本语言
 4. 帮助我们宣传LXL，对我们的开发给予支持
 
 ⭐⭐⭐我们欢迎你对LiteXLoader做出自己的贡献！⭐⭐⭐  
-如果你有意为LXL贡献代码，欢迎👉[移步 LXL 文档站](https://lxl.litetitle.com/#/zh_CN/Maintance/)👈查看 **项目维护与支持文档**  
+如果你有意为LXL贡献代码，欢迎👉[移步 LXL 文档站](https://lxl.litebds.com/#/zh_CN/Maintance/)👈查看 **项目维护与支持文档**  
 
 有你们，LiteXLoader将变得更好~
 

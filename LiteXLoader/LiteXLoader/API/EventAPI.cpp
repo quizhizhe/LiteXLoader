@@ -44,14 +44,14 @@ using namespace script;
 enum class EVENT_TYPES : int
 {
     onPreJoin=0, onJoin, onLeft, onPlayerCmd, onChat, onPlayerDie, 
-    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onSpawnProjectile,
+    onRespawn, onChangeDim, onJump, onSneak, onAttack, onEat, onMove, onChangeSprinting, onSpawnProjectile,
     onFireworkShootWithCrossbow, onSetArmor, onRide, onStepOnPressurePlate,
     onUseItem, onTakeItem, onDropItem, onUseItemOn, onInventoryChange, onChangeArmorStand,
     onStartDestroyBlock, onDestroyBlock, onWitherBossDestroy, onPlaceBlock, onBedExplode, onRespawnAnchorExplode, onLiquidFlow,
     onOpenContainer, onCloseContainer, onContainerChange, onOpenContainerScreen, 
     onMobDie, onMobHurt, onExplode, onBlockExploded, onCmdBlockExecute, onRedStoneUpdate, onProjectileHitEntity,
     onProjectileHitBlock, onBlockInteracted, onUseRespawnAnchor, onFarmLandDecay, onUseFrameBlock,
-    onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onNpcCmd,
+    onPistonPush, onHopperSearchItem, onHopperPushOut, onFireSpread, onBlockChanged, onNpcCmd,
     onScoreChanged, onServerStarted, onConsoleCmd, onFormSelected, onConsoleOutput, onTick,
     onMoneyAdd, onMoneyReduce, onMoneyTrans, onMoneySet, onConsumeTotem, onEffectAdded, onEffectUpdated, onEffectRemoved,
     EVENT_COUNT
@@ -70,6 +70,7 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onAttack",EVENT_TYPES::onAttack},
     {"onEat",EVENT_TYPES::onEat},
     {"onMove",EVENT_TYPES::onMove},
+    {"onChangeSprinting",EVENT_TYPES::onChangeSprinting},
     {"onSpawnProjectile",EVENT_TYPES::onSpawnProjectile},
     {"onFireworkShootWithCrossbow",EVENT_TYPES::onFireworkShootWithCrossbow},
     {"onSetArmor",EVENT_TYPES::onSetArmor},
@@ -109,6 +110,7 @@ static const std::unordered_map<string, EVENT_TYPES> EventsMap{
     {"onHopperSearchItem",EVENT_TYPES::onHopperSearchItem},
     {"onHopperPushOut",EVENT_TYPES::onHopperPushOut},
     {"onFireSpread",EVENT_TYPES::onFireSpread},
+    {"onBlockChanged",EVENT_TYPES::onBlockChanged},
     {"onNpcCmd",EVENT_TYPES::onNpcCmd},
     {"onScoreChanged",EVENT_TYPES::onScoreChanged},
     {"onServerStarted",EVENT_TYPES::onServerStarted},
@@ -572,6 +574,21 @@ THook(void, "?sendPlayerMove@PlayerEventCoordinator@@QEAAXAEAVPlayer@@@Z",
     return original(_this, pl);
 }
 
+// ===== onChangeSprinting =====
+THook(void, "?setSprinting@Mob@@UEAAX_N@Z",
+    Mob*_this, bool sprinting)
+{
+    IF_LISTENED(EVENT_TYPES::onChangeSprinting)
+    {
+        if (Raw_IsPlayer(_this) && (Raw_IsSprinting(_this) != sprinting))
+        {
+            CallEventRtnValue(EVENT_TYPES::onChangeSprinting, original(_this, sprinting), PlayerClass::newPlayer((Player*)_this), Boolean::newBoolean(sprinting));
+        }
+    }
+    IF_LISTENED_END(EVENT_TYPES::onChangeSprinting);
+    return original(_this, sprinting);
+}
+
 // ===== onChangeDim =====
 THook(void*, "?changeDimension@ServerPlayer@@UEAAXV?$AutomaticID@VDimension@@H@@_N@Z",
     Actor* ac, unsigned int a3)
@@ -642,7 +659,7 @@ THook(void, "?setArmor@Player@@UEAAXW4ArmorSlot@@AEBVItemStack@@@Z",
 }
 
 // ===== onRide =====
-THook(bool, "?canAddRider@Actor@@UEBA_NAEAV1@@Z",
+THook(bool, "?canAddPassenger@Actor@@UEBA_NAEAV1@@Z",
     Actor* a1, Actor* a2)
 {
     IF_LISTENED(EVENT_TYPES::onRide)
@@ -721,7 +738,7 @@ THook(bool, "?take@Player@@QEAA_NAEAVActor@@HH@Z",
 {
     IF_LISTENED(EVENT_TYPES::onTakeItem)
     {
-        ItemStack* it = (ItemStack*)((uintptr_t)actor + 1856);      //IDA Player::take
+        ItemStack* it = (ItemStack*)((uintptr_t)actor + 1864);      //IDA Player::take
         CallEventRtnBool(EVENT_TYPES::onTakeItem, PlayerClass::newPlayer(_this), EntityClass::newEntity(actor), ItemClass::newItem(it));
     }
     IF_LISTENED_END(EVENT_TYPES::onTakeItem);
@@ -1318,15 +1335,47 @@ THook(bool, "?_pushOutItems@Hopper@@IEAA_NAEAVBlockSource@@AEAVContainer@@AEBVVe
 }
 
 // ===== onFireSpread =====
-THook(bool, "?_trySpawnBlueFire@FireBlock@@AEBA_NAEAVBlockSource@@AEBVBlockPos@@@Z",
+bool onFireSpread_OnPlace = false;
+THook(void, "?onPlace@FireBlock@@UEBAXAEAVBlockSource@@AEBVBlockPos@@@Z",
     void* _this, BlockSource* bs, BlockPos* bp)
 {
+    onFireSpread_OnPlace = true;
+    original(_this, bs, bp);
+    onFireSpread_OnPlace = false;
+}
+
+THook(bool, "?mayPlace@FireBlock@@UEBA_NAEAVBlockSource@@AEBVBlockPos@@@Z",
+    void* _this, BlockSource* bs, BlockPos* bp)
+{
+    auto rtn = original(_this, bs, bp);
+    if (!onFireSpread_OnPlace || !rtn)
+        return rtn;
+
     IF_LISTENED(EVENT_TYPES::onFireSpread)
     {
-        CallEventRtnValue(EVENT_TYPES::onFireSpread, true, IntPos::newPos(bp, bs));
+        CallEventRtnBool(EVENT_TYPES::onFireSpread, IntPos::newPos(bp, bs));
     }
     IF_LISTENED_END(EVENT_TYPES::onFireSpread);
-    return original(_this, bs, bp);
+    return rtn;
+}
+
+
+// ===== onBlockChanged =====
+THook(void, "?_blockChanged@BlockSource@@IEAAXAEBVBlockPos@@IAEBVBlock@@1HPEBUActorBlockSyncMessage@@@Z",
+    BlockSource* bs,
+    BlockPos* bp,
+    int a3,
+    Block* afterBlock,
+    Block* beforeBlock,
+    int a6,
+    void* a7)
+{
+    IF_LISTENED(EVENT_TYPES::onBlockChanged)
+    {
+        CallEventRtnVoid(EVENT_TYPES::onBlockChanged, BlockClass::newBlock(beforeBlock, bp, bs), BlockClass::newBlock(afterBlock, bp, bs));
+    }
+    IF_LISTENED_END(EVENT_TYPES::onBlockChanged);
+    return original(bs, bp, a3, afterBlock, beforeBlock, a6,a7);
 }
 
 /* ==== = onFishingHookRetrieve ==== =

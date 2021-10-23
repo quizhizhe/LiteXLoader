@@ -50,6 +50,10 @@ bool Raw_RemoveBossBar(Player *player);
 
 std::vector<Player*> Raw_GetOnlinePlayers();
 bool Raw_IsPlayerValid(Player *player);
+bool Raw_IsSimulatedPlayer(Player* player);
 
 int Raw_GetPlayerDimId(Player* player);
 Player* Raw_GetPlayerByUniqueId(ActorUniqueID id);
+
+bool Raw_IsSprinting(Mob* mob);
+bool Raw_SetSprinting(Mob* mob, bool sprinting);

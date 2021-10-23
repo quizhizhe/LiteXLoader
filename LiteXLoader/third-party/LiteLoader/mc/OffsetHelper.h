@@ -17,11 +17,15 @@ class Player;
 class Level;
 class Certificate;
 class BaseCommandBlock;
+class UserEntityIdentifierComponent;
 typedef unsigned long long xuid_t;
 namespace offPlayer {
+inline UserEntityIdentifierComponent* getUserEntityIdentifierComponent(Actor* ac) {
+    return SymCall("??$tryGetComponent@VUserEntityIdentifierComponent@@@Actor@@QEAAPEAVUserEntityIdentifierComponent@@XZ",
+        UserEntityIdentifierComponent*, Actor*)(ac);
+}
 inline NetworkIdentifier *getNetworkIdentifier(Player *pl) {
-    return SymCall("?getClientId@Player@@QEBAAEBVNetworkIdentifier@@XZ", NetworkIdentifier*,
-     Player*)(pl);
+    return (NetworkIdentifier*)getUserEntityIdentifierComponent(pl);
     //return (NetworkIdentifier *)((uintptr_t)pl + 2712);  // ServerPlayer::isHostingPlayer
 }
 inline Level *getLevel(Actor *pl) {
@@ -30,7 +34,10 @@ inline Level *getLevel(Actor *pl) {
 }
 inline Certificate *getCert(Player *pl) {
     //return (Certificate *)*((uintptr_t *)pl + 377);
-    return SymCall("?getCertificate@Player@@QEBAPEBVCertificate@@XZ", Certificate*, Player*)(pl);
+    auto ueic = getUserEntityIdentifierComponent(pl);
+    if (ueic)
+        return dAccess<Certificate*>(ueic, 184);
+    return nullptr;
 }
 
 inline BlockSource *getBlockSource(Actor *ac) {
@@ -54,7 +61,10 @@ inline xuid_t getXUID(Player *pl) {
 }
 
 inline std::string getXUIDString(Player *pl) {
-    return getXUIDStringByCert(offPlayer::getCert((Player *)pl)).c_str();
+    auto cert = offPlayer::getCert((Player*)pl);
+    if (!cert)
+        return "";
+    return getXUIDStringByCert(cert).c_str();
 }
 
 inline xuid_t getXUIDByCert(Certificate *cert) {
@@ -66,11 +76,14 @@ inline xuid_t getXUIDByCert(Certificate *cert) {
     }
 }
 
-inline string getRealName(Player *pl) {
+inline string getRealName(Player* pl) {
+    auto cert = offPlayer::getCert(pl);
+    if (!cert)
+        return dAccess<string>(pl, 2272); // ScriptPlayer::getName
     return SymCall(
         "?getIdentityName@ExtendedCertificate@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$"
         "allocator@D@2@@std@@AEBVCertificate@@@Z",
-        string, void *)(offPlayer::getCert((Player *)pl));
+        string, void*)(cert);
 }
 }  // namespace offPlayer
 

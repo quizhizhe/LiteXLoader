@@ -95,7 +95,7 @@ int Raw_GetMaxHealth(Actor *actor)
 
 bool Raw_GetIsInAir(Actor *actor)
 {
-    return !(dAccess<bool, 472>(actor));
+    return !(dAccess<bool, 472>(actor)); // IDA DirectActorProxyImpl<IMobMovementProxy>::isOnGround
 }
 
 bool Raw_GetIsInWater(Actor* actor)
@@ -109,7 +109,7 @@ bool Raw_GetAllEntities(vector<Actor*> &acs, int dimid)
     auto dim = Raw_GetDimByLevel(lv, dimid);
     if (!dim)
         return false;
-    auto& list = *(std::unordered_map<ActorUniqueID, void*>*)((uintptr_t)dim + 304);     //Dimension::getEntityIdMap
+    auto& list = *(std::unordered_map<ActorUniqueID, void*>*)((uintptr_t)dim + 312); //IDA Dimension::registerEntity
     
     //Check Valid
     auto currTick = SymCall("?getCurrentTick@Level@@UEBAAEBUTick@@XZ"
@@ -121,8 +121,10 @@ bool Raw_GetAllEntities(vector<Actor*> &acs, int dimid)
         auto entity = Raw_GetEntityByUniqueId(i.first);
         if (!entity)
             continue;
-        auto lastTick = Raw_GetEntityLastTick(entity)->t;
-        if (currTick - lastTick == 0 || currTick - lastTick == 1)
+        auto lastTick = Raw_GetEntityLastTick(entity);
+        if (!lastTick)
+            continue;
+        if (currTick - lastTick->t == 0 || currTick - lastTick->t == 1)
             acs.push_back(entity);
     }
     return true;
@@ -158,12 +160,20 @@ bool Raw_KillEntity(Actor* actor)
     return true;
 }
 
+bool Raw_IsSimulatedPlayer(Actor* actor)
+{
+    if (!actor)
+        return false;
+    auto vtbl = dlsym("??_7SimulatedPlayer@@6B@");
+    return *(void**)actor == vtbl;
+}
+
 bool Raw_IsPlayer(Actor* actor)
 {
     if (!actor)
         return false;
     auto vtbl = dlsym("??_7ServerPlayer@@6B@");
-    return *(void**)actor == vtbl;
+    return *(void**)actor == vtbl || Raw_IsSimulatedPlayer(actor);
 }
 
 Player* Raw_ToPlayer(Actor* actor)
@@ -283,9 +293,13 @@ bool Raw_EntityIsRemoved(Actor* ac)
 Tick* Raw_GetEntityLastTick(Actor* ac)
 {
     auto bs = Raw_GetBlockSourceByActor(ac);
+    if (!bs)
+        return nullptr;
     auto bpos = ((Vec3)ac->getPos()).toBlockPos();
     void* lc = SymCall("?getChunkAt@BlockSource@@QEBAPEAVLevelChunk@@AEBVBlockPos@@@Z",
         void*, BlockSource*, BlockPos*)(bs, &bpos);
+    if (!lc)
+        return nullptr;
     return SymCall("?getLastTick@LevelChunk@@QEBAAEBUTick@@XZ"
         , Tick*, void*)(lc);
 }

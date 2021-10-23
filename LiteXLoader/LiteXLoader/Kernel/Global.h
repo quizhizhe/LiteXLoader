@@ -40,6 +40,18 @@ class FloatVec4
 public:
 	float x,y,z;
     int dim;
+    inline IntVec4 toIntVec4() {
+        auto px = (int)x;
+        auto py = (int)y;
+        auto pz = (int)z;
+        if (px < 0 && px != x)
+            px = px - 1;
+        if (py < 0 && py != y)
+            py = py - 1;
+        if (pz < 0 && pz != z)
+            pz = pz - 1;
+        return { px, py, pz, dim };
+    }
 };
 
 class FishingHook;

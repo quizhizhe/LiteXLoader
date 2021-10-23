@@ -25,13 +25,47 @@ int Raw_GetBlockId(Block* block)
     return blockLegacy->getBlockItemId();
 }
 
+Block* Raw_GetBlockFromBlockLegacy(BlockLegacy* blk, unsigned short tileData) {
+    auto block = SymCall("?getStateFromLegacyData@BlockLegacy@@UEBAAEBVBlock@@G@Z", Block*, BlockLegacy*, unsigned short)(blk, tileData);
+    // 某些方块在 tileData 太大时会变成其他方块，原版 /setblock 指令就存在这个问题（也有可能是被设计成这样的？）
+    if (block && offBlock::getLegacyBlock(block) == blk)
+        return block;
+    return SymCall("?getRenderBlock@BlockLegacy@@UEBAAEBVBlock@@XZ", Block*, BlockLegacy*)(blk);
+}
+
+unsigned short Raw_GetTileData(Block* bl)
+{
+    // 等待大佬改进
+    auto tileData = dAccess<unsigned short, 8>(bl);
+    auto blk = offBlock::getLegacyBlock(bl);
+    if (Raw_GetBlockFromBlockLegacy(blk, tileData) == bl)
+        return tileData;
+    for (unsigned short i = 0; i < 16; ++i) {
+        if (i == tileData)
+            continue;
+        if (Raw_GetBlockFromBlockLegacy(blk, i) == bl)
+            return i;
+    }
+    ERROR("Error in Raw_GetTileData");
+}
+
 struct BlockPalette;
-Block* Raw_NewBlockFromName(string name)
+Block* Raw_NewBlockFromNameAndTileData(string name, unsigned short tileData)
 {
     BlockPalette* generator = SymCall("?getBlockPalette@Level@@UEBAAEBVBlockPalette@@XZ", BlockPalette*, Level*)(mc->getLevel());
     BlockLegacy* blk = SymCall("?getBlockLegacy@BlockPalette@@QEBAPEBVBlockLegacy@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
         BlockLegacy*, void*, string*)(generator, &name);
-    return SymCall("?getRenderBlock@BlockLegacy@@UEBAAEBVBlock@@XZ", Block*, BlockLegacy*)(blk);    //SetBlockCommand::execute
+    if (!blk)
+        return nullptr;
+    return Raw_GetBlockFromBlockLegacy(blk, tileData);    //SetBlockCommand::execute
+}
+
+Block* Raw_NewBlockFromNbt(Tag* tag)
+{
+    pair<int, Block*> result; // pair<enum BlockSerializationUtils::NBTState, Block*>
+    SymCall("?tryGetBlockFromNBT@BlockSerializationUtils@@YA?AU?$pair@W4NBTState@BlockSerializationUtils@@PEBVBlock@@@std@@AEBVCompoundTag@@PEAUNbtToBlockCache@1@@Z",
+        void*, void*, Tag*, int64_t)(&result, tag, 0);
+    return result.second;
 }
 
 bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
@@ -48,9 +82,17 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
     return true;
 }
 
-bool Raw_SetBlockByName(IntVec4 pos, const string& name)
+bool Raw_SetBlockByNameAndTileData(IntVec4 pos, const string& name, unsigned short tileData)
 {
-    Block* newBlock = Raw_NewBlockFromName(name);
+    Block* newBlock = Raw_NewBlockFromNameAndTileData(name, tileData);
+    if (!newBlock)
+        return false;
+    return Raw_SetBlockByBlock(pos, newBlock);
+}
+
+bool Raw_SetBlockByNbt(IntVec4 pos, Tag* nbt)
+{
+    Block* newBlock = Raw_NewBlockFromNbt(nbt);
     if (!newBlock)
         return false;
     return Raw_SetBlockByBlock(pos, newBlock);
