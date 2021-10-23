@@ -156,6 +156,15 @@ Container* Raw_GetEnderChest(Player* pl)
     return dAccess<Container*>(pl, 4208);       //IDA Player::Player() 782 
 }
 
+IntVec4 Raw_GetPlayerRespawnPosition(Player* pl)
+{
+    auto bp = SymCall("?getSpawnPosition@Player@@QEBAAEBVBlockPos@@XZ", BlockPos*,
+        Player*)(pl);
+    auto dimid = *(DWORD*)(pl + 7440);  // IDA: Player::getSpawnDimension
+    
+    return { bp->x,bp->y,bp->z,(int)dimid };
+}
+
 bool Raw_RefreshItems(Player* pl)
 {
     SymCall("?sendInventory@ServerPlayer@@UEAAX_N@Z",void,ServerPlayer*,bool)((ServerPlayer*)pl, true);

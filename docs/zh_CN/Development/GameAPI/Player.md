@@ -362,6 +362,17 @@ pl.rename("newname");
 
 <br>
 
+#### 获取玩家床坐标或重生锚坐标  
+
+`pl.getRespawnPosition()`
+
+- 返回值：重生点坐标
+- 返回值类型：`IntPos`
+
+**注意** 如果返回的坐标 `dimid` 为 `3`，则此玩家不存在有效的重生坐标。
+
+<br>
+
 #### 给予玩家一个物品
 
 `pl.giveItem(item)`
