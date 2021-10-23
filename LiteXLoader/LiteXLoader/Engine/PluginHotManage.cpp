@@ -81,6 +81,14 @@ bool ProcessHotManageCmd(const std::string& cmd)
         }).detach();
         return false;
     }
+    else if (cmd == "lxl update force")
+    {
+        std::thread([]
+        {
+            CheckAutoUpdate(true,true);
+        }).detach();
+        return false;
+    }
     
     ModuleMessage msg(ModuleMessage::MessageType::LxlCommand, cmd);
     ModuleMessage::broadcastAll(msg);

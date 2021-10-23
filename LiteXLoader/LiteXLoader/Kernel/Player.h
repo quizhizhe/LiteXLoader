@@ -41,6 +41,7 @@ ItemStack* Raw_GetOffHand(Player* player);
 Container* Raw_GetInventory(Player* pl);
 Container* Raw_GetArmor(Player* pl);
 Container* Raw_GetEnderChest(Player* pl);
+IntVec4 Raw_GetPlayerRespawnPosition(Player* pl);
 bool Raw_RefreshItems(Player* pl);
 
 bool Raw_SetSidebar(Player *player, std::string title, const std::vector<std::pair<std::string,int>> &data, int sortOrder);
