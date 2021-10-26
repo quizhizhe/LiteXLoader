@@ -73,14 +73,13 @@ bool Raw_SetBlockByBlock(IntVec4 pos, Block* block)
 {
     BlockSource* bs = Raw_GetBlockSourceByDim(pos.dim);
 
-    if (!SymCall("?setBlock@BlockSource@@QEAA_NAEBVBlockPos@@AEBVBlock@@HPEBUActorBlockSyncMessage@@@Z", 
-        bool, BlockSource*, BlockPos, Block*, int, void*) (bs, { pos.x, pos.y, pos.z }, block, 0, nullptr))
-        return false;
+    return SymCall("?setBlock@BlockSource@@QEAA_NAEBVBlockPos@@AEBVBlock@@HPEBUActorBlockSyncMessage@@@Z",
+        bool, BlockSource*, BlockPos, Block*, int, void*) (bs, { pos.x, pos.y, pos.z }, block, 3, nullptr); // updateFlag = 3 from IDA SetBlockCommand::execute()
 
-    auto pls = Raw_GetOnlinePlayers();
-    for (auto& pl : pls)
-        Raw_ResendBlocksAroundPlayer(pl,pos);
-    return true;
+    //auto pls = Raw_GetOnlinePlayers();
+    //for (auto& pl : pls)
+    //    Raw_ResendBlocksAroundPlayer(pl,pos);
+    //return true;
 }
 
 bool Raw_SetBlockByNameAndTileData(IntVec4 pos, const string& name, unsigned short tileData)
