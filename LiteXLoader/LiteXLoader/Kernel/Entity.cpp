@@ -181,6 +181,16 @@ Player* Raw_ToPlayer(Actor* actor)
     return Raw_IsPlayer(actor) ? (Player*)actor : nullptr;
 }
 
+bool Raw_IsItemEntity(Actor* actor)
+{
+    return SymCall("?hasCategory@Actor@@QEBA_NW4ActorCategory@@@Z", bool, Actor*, int)(actor, 1024);    //IDA Player::take
+}
+
+ItemStack* Raw_ToItem(Actor* actor)
+{
+    return Raw_IsItemEntity(actor) ? (ItemStack*)((uintptr_t)actor + 1864) : nullptr;      //IDA Player::take
+}
+
 Container* Raw_GetArmor(Actor* ac)
 {
     return SymCall("?getArmorContainer@Actor@@QEBAAEBVSimpleContainer@@XZ", Container*, Actor*)(ac);

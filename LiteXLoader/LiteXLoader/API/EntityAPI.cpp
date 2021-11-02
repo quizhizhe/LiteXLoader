@@ -2,6 +2,7 @@
 #include "BaseAPI.h"
 #include "BlockAPI.h"
 #include "EntityAPI.h"
+#include "ItemAPI.h"
 #include "PlayerAPI.h"
 #include "McAPI.h"
 #include "ContainerAPI.h"
@@ -36,6 +37,8 @@ ClassDefine<EntityClass> EntityClassBuilder =
         .instanceFunction("setOnFire", &EntityClass::setOnFire)
         .instanceFunction("isPlayer", &EntityClass::isPlayer)
         .instanceFunction("toPlayer", &EntityClass::toPlayer)
+        .instanceFunction("isItemEntity", &EntityClass::isItemEntity)
+        .instanceFunction("toItem", &EntityClass::toItem)
         .instanceFunction("getBlockStandingOn", &EntityClass::getBlockStandingOn)
         .instanceFunction("getArmor", &EntityClass::getArmor)
         .instanceFunction("hasContainer", &EntityClass::hasContainer)
@@ -364,6 +367,34 @@ Local<Value> EntityClass::toPlayer(const Arguments& args)
             return PlayerClass::newPlayer(pl);
     }
     CATCH("Fail in toPlayer!");
+}
+
+Local<Value> EntityClass::isItemEntity(const Arguments& args)
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+
+        return Boolean::newBoolean(Raw_IsItemEntity(entity));
+    }
+    CATCH("Fail in isPlayer!")
+}
+
+Local<Value> EntityClass::toItem(const Arguments& args)
+{
+    try {
+        Actor* entity = get();
+        if (!entity)
+            return Local<Value>();
+
+        auto it = Raw_ToItem(entity);
+        if (!it)
+            return Local<Value>();
+        else
+            return ItemClass::newItem(it);
+    }
+    CATCH("Fail in toItem!");
 }
 
 Local<Value> EntityClass::getBlockStandingOn(const Arguments& args)

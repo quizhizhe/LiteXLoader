@@ -5,6 +5,7 @@
 class FloatVec4;
 class Actor;
 class Container;
+class ItemStack;
 Actor* Raw_SpawnMob(std::string name, const FloatVec4& pos);
 
 std::string Raw_GetEntityName(Actor* actor);
@@ -26,6 +27,8 @@ bool Raw_HurtEntity(Actor* actor, int damage);
 
 bool Raw_IsPlayer(Actor* actor);
 Player* Raw_ToPlayer(Actor* actor);
+bool Raw_IsItemEntity(Actor* actor);
+ItemStack* Raw_ToItem(Actor* actor);
 Container* Raw_GetArmor(Actor* ac);
 
 int Raw_GetEntityDimId(Actor* actor);
