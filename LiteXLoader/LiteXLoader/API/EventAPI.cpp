@@ -742,8 +742,10 @@ THook(bool, "?take@Player@@QEAA_NAEAVActor@@HH@Z",
 {
     IF_LISTENED(EVENT_TYPES::onTakeItem)
     {
-        ItemStack* it = (ItemStack*)((uintptr_t)actor + 1864);      //IDA Player::take
-        CallEventRtnBool(EVENT_TYPES::onTakeItem, PlayerClass::newPlayer(_this), EntityClass::newEntity(actor), ItemClass::newItem(it));
+        ItemStack* it = nullptr;
+        if (Raw_IsItemEntity(actor))
+            it = Raw_ToItem(actor);
+        CallEventRtnBool(EVENT_TYPES::onTakeItem, PlayerClass::newPlayer(_this), EntityClass::newEntity(actor), it ? ItemClass::newItem(it) : Local<Value>());
     }
     IF_LISTENED_END(EVENT_TYPES::onTakeItem);
     return original(_this, actor, a2, a3);

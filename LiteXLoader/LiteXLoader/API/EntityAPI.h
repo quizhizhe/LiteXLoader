@@ -45,6 +45,8 @@ public:
 
     Local<Value> isPlayer(const Arguments& args);
     Local<Value> toPlayer(const Arguments& args);
+    Local<Value> isItemEntity(const Arguments& args);
+    Local<Value> toItem(const Arguments& args);
     Local<Value> getBlockStandingOn(const Arguments& args);
     Local<Value> getArmor(const Arguments& args);
     Local<Value> hasContainer(const Arguments& args);
