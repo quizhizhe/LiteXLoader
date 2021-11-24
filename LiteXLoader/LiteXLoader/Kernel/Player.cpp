@@ -35,7 +35,7 @@ std::string Raw_GetUuid(Player *player)
 {
     string uuid;
     SymCall("?asString@UUID@mce@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
-        string *, void*, string *)((unsigned*)((uintptr_t)player+3000), &uuid);
+        string *, void*, string *)((unsigned*)((uintptr_t)player+2832), &uuid);
     return uuid;
 }
 
